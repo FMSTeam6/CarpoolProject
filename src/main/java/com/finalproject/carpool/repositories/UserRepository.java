@@ -21,4 +21,14 @@ public interface UserRepository {
     void unBanUser(User user);
 
     void deleteUser(int id);
+
+    //TODO have to move these to the service
+
+//    void applyForCandidatesPool(User user);
+//
+//    void removeFromCandidatesPool(User user);
+//
+//    void addPassenger(User user);
+//
+//    void removeFromPassengers(User user);
 }
