@@ -18,11 +18,11 @@ public class Feedback {
     private int rating;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     private User authorId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "recipient_id")
     private User recipientId;
 
     public Feedback() {
