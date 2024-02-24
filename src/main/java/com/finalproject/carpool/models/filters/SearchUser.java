@@ -5,21 +5,18 @@ import java.util.Optional;
 public class SearchUser {
     private Optional<String> username;
     private Optional<String> email;
-    private Optional<String> firstName;
-    private Optional<String> lastName;
+    private Optional<String> phoneNumber;
     private Optional<String> sortBy;
     private Optional<String> sortOrder;
 
     public SearchUser(String username,
                       String email,
-                      String firstName,
-                      String lastName,
+                      String phoneNumber,
                       String sortBy,
                       String sortOrder) {
         this.username = Optional.ofNullable(username);
         this.email = Optional.ofNullable(email);
-        this.firstName = Optional.ofNullable(firstName);
-        this.lastName = Optional.ofNullable(lastName);
+        this.phoneNumber = Optional.ofNullable(phoneNumber);
         this.sortBy = Optional.ofNullable(sortBy);
         this.sortOrder = Optional.ofNullable(sortOrder);
     }
@@ -27,8 +24,7 @@ public class SearchUser {
     public SearchUser() {
         this.username = Optional.empty();
         this.email = Optional.empty();
-        this.firstName = Optional.empty();
-        this.lastName = Optional.empty();
+        this.phoneNumber = Optional.empty();
         this.sortBy = Optional.empty();
         this.sortOrder = Optional.empty();
     }
@@ -41,12 +37,8 @@ public class SearchUser {
         return email;
     }
 
-    public Optional<String> getFirstName() {
-        return firstName;
-    }
-
-    public Optional<String> getLastName() {
-        return lastName;
+    public Optional<String> getPhoneNumber() {
+        return phoneNumber;
     }
 
     public Optional<String> getSortBy() {

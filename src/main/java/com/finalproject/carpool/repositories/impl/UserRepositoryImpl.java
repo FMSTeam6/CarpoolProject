@@ -137,13 +137,9 @@ public class UserRepositoryImpl implements UserRepository {
                 filters.add(" email like: email ");
                 params.put("email", String.format("%%%s%%", value));
             });
-            searchUser.getFirstName().ifPresent(value -> {
-                filters.add("firstName like: first_name");
-                params.put("first_name", String.format("%%%s%%", value));
-            });
-            searchUser.getLastName().ifPresent(value -> {
-                filters.add("lastName like: last_name");
-                params.put("last_name", String.format("%%%s%%", value));
+            searchUser.getPhoneNumber().ifPresent(value -> {
+                filters.add("phoneNumber like: phone_number");
+                params.put("phone_number", String.format("%%%s%%", value));
             });
             if (!filters.isEmpty()) {
                 queryString.append(" where ")
@@ -168,11 +164,8 @@ public class UserRepositoryImpl implements UserRepository {
             case "email":
                 orderBy = "email";
                 break;
-            case "first_name":
-                orderBy = "firstName";
-                break;
-            case "last_name":
-                orderBy = "lastName";
+            case "phone_number":
+                orderBy = "phoneNumber";
                 break;
             default:
                 return "";

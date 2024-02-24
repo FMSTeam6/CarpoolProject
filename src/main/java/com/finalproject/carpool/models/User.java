@@ -1,10 +1,12 @@
 package com.finalproject.carpool.models;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -41,12 +43,19 @@ public class User {
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
+    @Column(name = "raiting")
+    private double raiting;
+
     @Column(name = "pictures")
     private String picture;
 
     @OneToMany()
     @JoinColumn(name = "travel_id")
-    private List<Travel> travels;
+    private List<Travel> createdTravels;
+
+    @OneToMany()
+    @JoinColumn(name = "travel_id")
+    private List<Travel> participatedInTravels;
 
     @OneToMany
     @JoinColumn(name = "feedback_id")
@@ -127,6 +136,14 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public double getRaiting() {
+        return raiting;
+    }
+
+    public void setRaiting(double raiting) {
+        this.raiting = raiting;
+    }
+
     public String getPicture() {
         return picture;
     }
@@ -135,12 +152,20 @@ public class User {
         this.picture = picture;
     }
 
-    public List<Travel> getTravels() {
-        return travels;
+    public List<Travel> getCreatedTravels() {
+        return createdTravels;
     }
 
-    public void setTravels(List<Travel> travels) {
-        this.travels = travels;
+    public void setCreatedTravels(List<Travel> createdTravels) {
+        this.createdTravels = createdTravels;
+    }
+
+    public List<Travel> getParticipatedInTravels() {
+        return participatedInTravels;
+    }
+
+    public void setParticipatedInTravels(List<Travel> participatedInTravels) {
+        this.participatedInTravels = participatedInTravels;
     }
 
     public List<Feedback> getFeedbacks() {
@@ -149,5 +174,18 @@ public class User {
 
     public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(email, user.email) && Objects.equals(username, user.username) && Objects.equals(phoneNumber, user.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, username, phoneNumber);
     }
 }

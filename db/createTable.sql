@@ -9,6 +9,7 @@ create table users
     password     varchar(50)  not null,
     username     varchar(50)  not null UNIQUE,
     phone_number varchar(10)  not null,
+    rating       double       null,
     pictures     BLOB,
     is_admin     BOOLEAN      not null,
     is_banned    BOOLEAN      not null
@@ -34,7 +35,7 @@ create table travels
     end_location      varchar(50) not null,
     empty_seats       int         not null,
     date_of_departure datetime(6) null,
-    price_per_person double not null,
+    price_per_person  double      not null,
     is_completed      BOOLEAN     not null,
     is_canceled       BOOLEAN     not null,
     driver_id         int         not null,
@@ -45,11 +46,11 @@ create table travels
 
 create table feedbacks
 (
-    feedback_id int auto_increment primary key,
-    text        TEXT null,
-    rating      int not null,
-    author_id   int not null,
-    recipient_id     int not null,
+    feedback_id  int auto_increment primary key,
+    text         TEXT null,
+    rating       int  not null,
+    author_id    int  not null,
+    recipient_id int  not null,
     foreign key (author_id) references users (user_id),
     foreign key (recipient_id) references users (user_id)
 
