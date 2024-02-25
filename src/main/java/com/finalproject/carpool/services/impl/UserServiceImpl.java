@@ -116,12 +116,10 @@ public class UserServiceImpl implements UserService {
     public double averageRating(int id) {
         User user = userRepository.getById(id);
 
-        double averageRating = user.getFeedbacks().stream()
+        return user.getFeedbacks().stream()
                 .mapToDouble(Feedback::getRating)
                 .average()
                 .orElse(0);
-
-        return averageRating;
     }
 
 
