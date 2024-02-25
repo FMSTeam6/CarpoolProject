@@ -1,11 +1,12 @@
-package com.finalproject.carpool.repositories;
+package com.finalproject.carpool.services;
 
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.SearchUser;
 
 import java.util.List;
 
-public interface UserRepository {
+public interface UserService {
+
     List<User> getAll(SearchUser searchUser);
 
     User getById(int id);
@@ -21,5 +22,13 @@ public interface UserRepository {
     void unBanUser(User user);
 
     void deleteUser(int id);
+
+    void applyForCandidatesPool(User user, int travelId);
+
+    void removeFromCandidatesPool(User user, int travelId);
+
+    void addPassenger(User user, int travelId);
+
+    void removeFromPassengers(User user, int travelId);
 
 }
