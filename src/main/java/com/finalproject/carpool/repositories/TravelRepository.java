@@ -11,7 +11,7 @@ public interface TravelRepository {
 
     Travel getTravelById(int id);
 
-
+    int getDriverId(int travelId);//return driverId
 
     void completeTravel(int id);
 

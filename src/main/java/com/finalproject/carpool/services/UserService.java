@@ -31,4 +31,6 @@ public interface UserService {
 
     void removeFromPassengers(User user, int travelId);
 
+    double averageRating(int id);
+
 }
