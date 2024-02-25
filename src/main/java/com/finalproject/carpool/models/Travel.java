@@ -14,19 +14,19 @@ public class Travel {
     @Column(name = "travel_id")
     private int id;
 
-    @Column(name = "starting_location",nullable = false)
+    @Column(name = "starting_location", nullable = false)
     private String startingLocation;
 
-    @Column(name = "end_location",nullable = false)
+    @Column(name = "end_location", nullable = false)
     private String endLocation;
 
-    @Column(name = "empty_seats",nullable = false)
+    @Column(name = "empty_seats", nullable = false)
     private int emptySeats;
 
-    @Column(name = "date_of_departure",nullable = false)
+    @Column(name = "date_of_departure", nullable = false)
     private LocalDateTime dateOfDeparture;
 
-    @Column(name = "price_per_person",nullable = false)
+    @Column(name = "price_per_person", nullable = false)
     private double pricePerPerson;
 
     @Column(name = "is_completed")
@@ -50,6 +50,9 @@ public class Travel {
     @OneToMany
     @JoinColumn(name = "user_id")
     private List<User> candidatesPool;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "travel_id")
+    private List<Feedback> feedbacks;
 
     public Travel() {
     }
@@ -149,5 +152,12 @@ public class Travel {
     public void setCandidatesPool(List<User> candidatesPool) {
         this.candidatesPool = candidatesPool;
     }
+
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
 }
-;

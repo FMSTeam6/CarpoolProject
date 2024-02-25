@@ -43,8 +43,8 @@ public class User {
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @Column(name = "raiting")
-    private double raiting;
+    @Column(name = "rating")
+    private double rating;
 
     @Column(name = "pictures")
     private String picture;
@@ -137,11 +137,11 @@ public class User {
     }
 
     public double getRaiting() {
-        return raiting;
+        return rating;
     }
 
     public void setRaiting(double raiting) {
-        this.raiting = raiting;
+        this.rating = raiting;
     }
 
     public String getPicture() {

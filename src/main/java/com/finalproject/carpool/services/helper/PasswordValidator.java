@@ -1,4 +1,4 @@
-package com.finalproject.carpool.services;
+package com.finalproject.carpool.services.helper;
 
 public class PasswordValidator {
     public static boolean isValidPassword(String password) {

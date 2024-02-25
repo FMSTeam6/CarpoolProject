@@ -14,7 +14,7 @@ public class Feedback {
     @Column(name = "text")
     private String text;
 
-    @Column(name = "rating",nullable = false)
+    @Column(name = "rating")
     private int rating;
 
     @ManyToOne

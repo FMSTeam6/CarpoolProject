@@ -51,7 +51,9 @@ create table feedbacks
     rating       int  not null,
     author_id    int  not null,
     recipient_id int  not null,
+    travel_id int not null,
     foreign key (author_id) references users (user_id),
-    foreign key (recipient_id) references users (user_id)
-
+    foreign key (recipient_id) references users (user_id),
+    constraint fk_feedbacks_travels
+        foreign key (travel_id) references travels (travel_id)
 );
