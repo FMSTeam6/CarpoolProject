@@ -18,13 +18,13 @@ create table users
 create table additional_options
 (
     options_id      int auto_increment primary key,
-    luggage         BOOLEAN null,
-    smoking         BOOLEAN null,
-    eating          BOOLEAN null,
-    pets            BOOLEAN null,
-    air_condition   BOOLEAN null,
-    power_outlet    BOOLEAN null,
-    reclining_seats BOOLEAN null
+    luggage         BOOLEAN not null ,
+    smoking         BOOLEAN not null ,
+    eating          BOOLEAN not null ,
+    pets            BOOLEAN not null ,
+    air_condition   BOOLEAN not null ,
+    power_outlet    BOOLEAN not null ,
+    reclining_seats BOOLEAN not null
 );
 
 

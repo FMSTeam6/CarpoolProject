@@ -7,10 +7,11 @@ import com.finalproject.carpool.models.Feedback;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.repositories.FeedbackRepository;
-import com.finalproject.carpool.repositories.TravelRepository;
 import com.finalproject.carpool.services.FeedbackService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class FeedbackServiceImpl implements FeedbackService {
     public static final String ONLY_AUTHOR_CAN_MODIFY_CONTENT =
             "Only feedback author can modify the content of the feedback!";
@@ -19,11 +20,10 @@ public class FeedbackServiceImpl implements FeedbackService {
     public static final String BLOCKED_USER = "Your account is blocked!";
 
     private final FeedbackRepository feedbackRepository;
-    private final TravelRepository travelRepository;
 
-    public FeedbackServiceImpl(FeedbackRepository feedbackRepository, TravelRepository travelRepository) {
+    @Autowired
+    public FeedbackServiceImpl(FeedbackRepository feedbackRepository) {
         this.feedbackRepository = feedbackRepository;
-        this.travelRepository = travelRepository;
     }
 
     @Override
