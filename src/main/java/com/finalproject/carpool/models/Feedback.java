@@ -1,5 +1,6 @@
 package com.finalproject.carpool.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,14 +17,18 @@ public class Feedback {
 
     @Column(name = "rating")
     private int rating;
-
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private User authorId;
-
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipient_id")
     private User recipientId;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "travel_id")
+    private Travel travelId;
 
     public Feedback() {
     }
@@ -66,5 +71,13 @@ public class Feedback {
 
     public void setRecipientId(User recipientId) {
         this.recipientId = recipientId;
+    }
+
+    public Travel getTravelId() {
+        return travelId;
+    }
+
+    public void setTravelId(Travel travelId) {
+        this.travelId = travelId;
     }
 }

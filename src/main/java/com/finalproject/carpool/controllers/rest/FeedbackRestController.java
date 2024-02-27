@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -37,6 +38,10 @@ public class FeedbackRestController {
         this.feedbackMapper = feedbackMapper;
         this.feedbackService = feedbackService;
         this.travelService = travelService;
+    }
+    @GetMapping
+    public List<Feedback> get(){
+        return feedbackService.getAllFeedbacks();
     }
 
     @GetMapping("/travels/{travelId}")
@@ -68,7 +73,7 @@ public class FeedbackRestController {
 
     @PostMapping("/{travelId}")
     public void createFeedback(@RequestHeader HttpHeaders headers, @PathVariable int travelId,
-                               @Valid @RequestBody FeedbackRequest request) {
+                                         @Valid @RequestBody FeedbackRequest request) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             if (user.isBanned()) {
@@ -79,6 +84,7 @@ public class FeedbackRestController {
             if (feedback.getRating() < 0 || feedback.getRating() > 5){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, INVALID_RATING);
             }
+           // return new ResponseEntity<>(feedbackService.create(feedback, user, travel), HttpStatus.CREATED)
             feedbackService.create(feedback, user, travel);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

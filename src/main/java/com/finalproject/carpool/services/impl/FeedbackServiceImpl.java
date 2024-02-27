@@ -56,6 +56,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         checkIfBlocked(user);
         feedback.setRecipientId(travel.getDriverId());
         feedback.setAuthorId(user);
+        feedback.setTravelId(travel);
         travel.getFeedbacks().add(feedback);
         feedbackRepository.createFeedback(feedback);
     }

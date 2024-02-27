@@ -57,8 +57,8 @@ public class User {
     @JoinColumn(name = "travel_id")
     private List<Travel> participatedInTravels;
 
-    @OneToMany
-    @JoinColumn(name = "feedback_id")
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    // @JoinColumn(name = "feedback_id")
     private List<Feedback> feedbacks;
 
     public User() {
