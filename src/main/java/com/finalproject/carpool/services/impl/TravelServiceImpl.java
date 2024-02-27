@@ -4,7 +4,6 @@ import com.finalproject.carpool.models.AdditionalOptions;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
-import com.finalproject.carpool.repositories.AdditionalOptionsRepository;
 import com.finalproject.carpool.repositories.TravelRepository;
 import com.finalproject.carpool.services.TravelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,11 @@ public class TravelServiceImpl implements TravelService {
     private static final String BLOCKED_USER = "Your account is blocked!";
     private static final String USER_ALREADY_PASSENGER = "User already passenger.";
     private final TravelRepository travelRepository;
-    private final AdditionalOptionsRepository additionalOptionsRepository;
+
 
     @Autowired
-    public TravelServiceImpl(TravelRepository travelRepository, AdditionalOptionsRepository additionalOptionsRepository) {
+    public TravelServiceImpl(TravelRepository travelRepository) {
         this.travelRepository = travelRepository;
-        this.additionalOptionsRepository = additionalOptionsRepository;
     }
 
     @Override
@@ -59,9 +57,9 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public void choiceDriverUser(User user, Travel travel, int raitingDriver) {
+    public void choiceDriverUser(User user, Travel travel, int ratingDriver) {
         for (int i = 0; i < travel.getCandidatesPool().size(); i++) {
-            if (user.getRaiting() >= raitingDriver && travel.getEmptySeats() > 0) {
+            if (user.getRaiting() >= ratingDriver && travel.getEmptySeats() > 0) {
                 travel.getPassengers().add(user);
             }
         }
@@ -69,7 +67,7 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public void checkUserAlreadyPassenger(User user, Travel travel) {
-        if (travel.getPassengers().contains(user)){
+        if (travel.getPassengers().contains(user)) {
             throw new UnsupportedOperationException(USER_ALREADY_PASSENGER);
         }
     }
