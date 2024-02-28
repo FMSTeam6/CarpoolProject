@@ -46,9 +46,6 @@ public class User {
     @Column(name = "rating")
     private double rating;
 
-    @Column(name = "pictures")
-    private String picture;
-
     @OneToMany()
     @JoinColumn(name = "travel_id")
     private List<Travel> createdTravels;
@@ -144,13 +141,6 @@ public class User {
         this.rating = raiting;
     }
 
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
 
     public List<Travel> getCreatedTravels() {
         return createdTravels;

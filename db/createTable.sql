@@ -1,5 +1,13 @@
 use carpool;
 
+create table images
+(
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    file_name VARCHAR(255) NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    file_size INT          NOT NULL
+);
+
 create table users
 (
     user_id      int auto_increment primary key,
@@ -10,23 +18,19 @@ create table users
     username     varchar(50)  not null UNIQUE,
     phone_number varchar(10)  not null,
     rating       double       null,
-    pictures     BLOB,
     is_admin     BOOLEAN      not null,
-    is_banned    BOOLEAN      not null
+    is_banned    BOOLEAN      not null,
+    image_id     int          not null,
+    foreign key (image_id) references images (image_id)
 );
+
 
 create table additional_options
 (
-    options_id      int auto_increment primary key,
-    luggage         BOOLEAN not null ,
-    smoking         BOOLEAN not null ,
-    eating          BOOLEAN not null ,
-    pets            BOOLEAN not null ,
-    air_condition   BOOLEAN not null ,
-    power_outlet    BOOLEAN not null ,
-    reclining_seats BOOLEAN not null
-);
+    options_id         int auto_increment primary key,
+    additional_options TEXT null
 
+);
 
 create table travels
 (
@@ -51,7 +55,7 @@ create table feedbacks
     rating       int  not null,
     author_id    int  not null,
     recipient_id int  not null,
-    travel_id int not null,
+    travel_id    int  not null,
     foreign key (author_id) references users (user_id),
     foreign key (recipient_id) references users (user_id),
     constraint fk_feedbacks_travels

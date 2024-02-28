@@ -2,29 +2,25 @@ use carpool;
 
 -- data additional_options
 
-INSERT INTO additional_options(options_id, luggage, smoking, eating, pets, air_condition, power_outlet, reclining_seats)
-VALUES (1,true, false,true,false,true,true,false);
-INSERT INTO additional_options(options_id, luggage, smoking, eating, pets, air_condition, power_outlet, reclining_seats)
-VALUES (2,false,true,true,false,true,true,true);
-INSERT INTO additional_options(options_id, luggage, smoking, eating, pets, air_condition, power_outlet, reclining_seats)
-VALUES (3,true, false,false,true,true,true,false);
-INSERT INTO additional_options(options_id, luggage, smoking, eating, pets, air_condition, power_outlet, reclining_seats)
-VALUES (4,false, false,false,false,false,false,false);
-INSERT INTO additional_options(options_id, luggage, smoking, eating, pets, air_condition, power_outlet, reclining_seats)
-VALUES (5,true,false,false,false,true,true,true);
+INSERT INTO additional_options(options_id)
+VALUES (1);
+
+
+INSERT INTO images(image_id, file_name,file_path,file_size)
+values (1,'name','name',10);
 
 -- data users
 
-INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned)
-VALUES (1,'ivan@abv.bg','Ivan','Ivanov','ivan123','siteAdmin',0888777666,5,true,false);
-INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned)
-VALUES (2,'p.petrunov@gmail.com','Petar','Petrunov','pesho123','peshoOne',0885233242,2.4,false,false);
-INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned)
-VALUES (3,'nadya@gmail.com','Nadya','Naidenova','nadya123','princess',0898446238,4,false,false);
-INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned)
-VALUES (4,'geri@gmail.com','Gergana','Nikolova','geri123','mermaid',0876264593,0,false,true);
-INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned)
-VALUES (5,'mery@mail.bg','Maria','Atanasova','mery123','travelFan',0898994523,0,false,false);
+INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned,image_id)
+VALUES (1,'ivan@abv.bg','Ivan','Ivanov','ivan123','siteAdmin',0888777666,5,true,false,1);
+INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned, image_id)
+VALUES (2,'p.petrunov@gmail.com','Petar','Petrunov','pesho123','peshoOne',0885233242,2.4,false,false,1);
+INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned, image_id)
+VALUES (3,'nadya@gmail.com','Nadya','Naidenova','nadya123','princess',0898446238,4,false,false,1);
+INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned, image_id)
+VALUES (4,'geri@gmail.com','Gergana','Nikolova','geri123','mermaid',0876264593,0,false,true,1);
+INSERT INTO users(user_id, email, first_name, last_name, password, username, phone_number, rating, is_admin, is_banned, image_id)
+VALUES (5,'mery@mail.bg','Maria','Atanasova','mery123','travelFan',0898994523,0,false,false,1);
 
 -- data travels
 

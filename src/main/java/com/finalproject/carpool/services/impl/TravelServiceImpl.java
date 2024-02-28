@@ -5,6 +5,7 @@ import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
 import com.finalproject.carpool.repositories.TravelRepository;
+import com.finalproject.carpool.services.AdditionalOptionsService;
 import com.finalproject.carpool.services.TravelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,17 @@ public class TravelServiceImpl implements TravelService {
     private static final String BLOCKED_USER = "Your account is blocked!";
     private static final String USER_ALREADY_PASSENGER = "User already passenger.";
     private final TravelRepository travelRepository;
+    private final AdditionalOptionsService additionalOptionsService;
 
 
     @Autowired
-    public TravelServiceImpl(TravelRepository travelRepository) {
+    public TravelServiceImpl(TravelRepository travelRepository, AdditionalOptionsService additionalOptionsService) {
         this.travelRepository = travelRepository;
+        this.additionalOptionsService = additionalOptionsService;
     }
 
     @Override
-    public List<Travel> getLAll(TravelFilterOptions travelFilterOptions) {
+    public List<Travel> getAll(TravelFilterOptions travelFilterOptions) {
         return travelRepository.getAll(travelFilterOptions);
     }
 
@@ -37,7 +40,7 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public void create(Travel travel, User user, AdditionalOptions additionalOptions) {
         isBan(user);
-        travel.setOptionsId(additionalOptions);
+        travel.setOptionsId(additionalOptions.getOptionsId());
         travel.setDriverId(user);
         travelRepository.create(travel);
     }

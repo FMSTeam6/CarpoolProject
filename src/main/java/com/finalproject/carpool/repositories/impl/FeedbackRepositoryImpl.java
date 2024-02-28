@@ -102,7 +102,7 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
     public void deleteFeedback(int id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.remove(get(id));
+            session.remove(id);
             session.getTransaction().commit();
         }
     }

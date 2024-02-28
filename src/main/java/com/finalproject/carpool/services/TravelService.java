@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TravelService {
 
-    List<Travel> getLAll(TravelFilterOptions travelFilterOptions);
+    List<Travel> getAll(TravelFilterOptions travelFilterOptions);
 
     Travel getById(int id);
 
