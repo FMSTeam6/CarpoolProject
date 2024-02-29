@@ -2,12 +2,18 @@ package com.finalproject.carpool.repositories;
 
 import com.finalproject.carpool.models.AdditionalOptions;
 
+
+import java.util.List;
+
 public interface AdditionalOptionsRepository {
 
-    void create(AdditionalOptions additionalOptions);
+    AdditionalOptions create(AdditionalOptions additionalOptions);
 
-    void update(AdditionalOptions additionalOptions);
+    AdditionalOptions update(AdditionalOptions additionalOptions);
 
     void delete(int id);
 
+    AdditionalOptions get(int id);
+
+    List<AdditionalOptions> getAll();
 }

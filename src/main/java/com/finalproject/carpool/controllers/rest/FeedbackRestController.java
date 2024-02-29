@@ -96,16 +96,17 @@ public class FeedbackRestController {
         }
     }
 
-    @PutMapping("/{feedbackId}")
+    @PutMapping("/{travelId}/{feedbackId}")
     public ResponseEntity<Feedback> updateFeedback(@RequestHeader HttpHeaders headers, @PathVariable int feedbackId,
-                               @Valid @RequestBody FeedbackRequest request) {
+                                                   @PathVariable int travelId, @Valid @RequestBody FeedbackRequest request) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             if (user.isBanned()) {
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
             }
+            Travel travel = travelService.getById(travelId);
             Feedback feedback = feedbackMapper.fromRequest(feedbackId, request);
-            return new ResponseEntity<>(feedbackService.update(feedback, user), HttpStatus.CREATED);
+            return new ResponseEntity<>(feedbackService.update(feedback, user, travel), HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {
@@ -113,15 +114,16 @@ public class FeedbackRestController {
         }
     }
 
-    @DeleteMapping("/{feedbackId}")
-    public void delete(@RequestHeader HttpHeaders headers,
+    @DeleteMapping("/{travelId}/{feedbackId}")
+    public void delete(@RequestHeader HttpHeaders headers, @PathVariable int travelId,
                        @PathVariable int feedbackId) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             if (user.isBanned()) {
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
             }
-            feedbackService.delete(feedbackId, user);
+            Travel travel = travelService.getById(travelId);
+            feedbackService.delete(feedbackId, user, travel);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {

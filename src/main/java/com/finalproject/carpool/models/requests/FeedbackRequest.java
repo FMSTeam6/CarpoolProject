@@ -6,10 +6,9 @@ import org.hibernate.validator.constraints.Range;
 
 public class FeedbackRequest {
     @NotNull(message = "Feedback can't be empty")
-    @Size(min = 4, max = 32, message = "Feedback must be between 4 and 32 symbols.")
+    @Size(min = 4, max = 32, message = "Feedback must be between 4 and 48 symbols.")
     private String text;
     @NotNull(message = "Rating can't be empty")
-    @Range(min = 0, max = 5, message = "Value must be between 0.0 and 5.0")
     private int rating;
 
     public FeedbackRequest() {

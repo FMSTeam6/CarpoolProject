@@ -102,9 +102,10 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 
     @Override
     public void deleteFeedback(int id) {
+        Feedback feedbackToDelete = get(id);
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.remove(id);
+            session.remove(feedbackToDelete);
             session.getTransaction().commit();
         }
     }
