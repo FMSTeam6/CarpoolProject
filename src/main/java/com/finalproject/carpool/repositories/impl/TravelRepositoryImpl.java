@@ -103,9 +103,10 @@ public class TravelRepositoryImpl implements TravelRepository {
 
     @Override
     public void delete(int travelId) {
+        Travel travelToDelete = getTravelById(travelId);
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.remove(travelId);
+            session.remove(travelToDelete);
             session.getTransaction().commit();
         }
     }
