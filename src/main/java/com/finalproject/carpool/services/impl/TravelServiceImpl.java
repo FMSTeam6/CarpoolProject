@@ -40,7 +40,7 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public void create(Travel travel, User user, AdditionalOptions additionalOptions) {
         isBan(user);
-        travel.setOptionsId(additionalOptions.getOptionsId());
+        travel.setOptionsId(additionalOptions);
         travel.setDriverId(user);
         travelRepository.create(travel);
     }
@@ -62,7 +62,7 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public void choiceDriverUser(User user, Travel travel, int ratingDriver) {
         for (int i = 0; i < travel.getCandidatesPool().size(); i++) {
-            if (user.getRaiting() >= ratingDriver && travel.getEmptySeats() > 0) {
+            if (user.getRating() >= ratingDriver && travel.getEmptySeats() > 0) {
                 travel.getPassengers().add(user);
             }
         }
