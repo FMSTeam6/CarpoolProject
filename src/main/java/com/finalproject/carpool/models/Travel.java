@@ -1,5 +1,6 @@
 package com.finalproject.carpool.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.finalproject.carpool.services.AdditionalOptionsService;
 import jakarta.persistence.*;
 
@@ -35,24 +36,22 @@ public class Travel {
 
     @Column(name = "is_canceled")
     private boolean isCanceled;
-
-    @OneToOne()
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "driver_id")
     private User driverId;
-
-    @OneToOne()
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "options_id")
     private AdditionalOptions optionsId;
-
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @OneToMany(mappedBy = "id",fetch = FetchType.EAGER)
     private List<User> passengers;
-
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @OneToMany(mappedBy = "id",fetch = FetchType.EAGER)
     private List<User> candidatesPool;
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "travel_id")
+    @JsonIgnore
+    @OneToMany(mappedBy = "id",fetch = FetchType.EAGER)
     private List<Feedback> feedbacks;
 
     public Travel() {
