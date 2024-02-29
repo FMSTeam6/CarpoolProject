@@ -13,9 +13,9 @@ public interface TravelService {
 
     Travel getById(int id);
 
-    void create(Travel travel, User user, AdditionalOptions additionalOptions);
+    Travel create(Travel travel, User user, AdditionalOptions additionalOptions);
 
-    void modify(Travel travel, User user);
+    Travel modify(Travel travel, User user,AdditionalOptions additionalOptions);
 
     void delete(int travelId, User user);
 

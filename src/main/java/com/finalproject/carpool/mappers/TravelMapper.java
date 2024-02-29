@@ -15,6 +15,14 @@ public class TravelMapper {
         this.travelService = travelService;
     }
 
+
+
+    public Travel fromTravelRequest(int id, TravelRequest travelRequest){
+        Travel travel = fromTravelRequest(travelRequest);
+        travel.setId(id);
+        return travel;
+    }
+
     public Travel fromTravelRequest(TravelRequest travelRequest){
         Travel travel = new Travel();
         travel.setStartingLocation(travelRequest.getStartingLocation());

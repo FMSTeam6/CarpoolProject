@@ -46,7 +46,7 @@ public class TravelRestController {
         }
     }
     @PostMapping("/{optionId}")
-    public void createTravel(@RequestHeader HttpHeaders headers, @PathVariable int optionId,
+    public ResponseEntity<Travel> createTravel(@RequestHeader HttpHeaders headers, @PathVariable int optionId,
                              @Valid @RequestBody TravelRequest travelRequest){
         try{
             User user = authenticationHelper.tryGetUser(headers);
@@ -55,9 +55,40 @@ public class TravelRestController {
             }
             Travel travel = travelMapper.fromTravelRequest(travelRequest);
             AdditionalOptions additionalOptions = additionalOptionsService.get(optionId);
-            travelService.create(travel,user,additionalOptions);
+            return new ResponseEntity<>(travelService.create(travel,user,additionalOptions),HttpStatus.CREATED);
         }catch (EntityNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage());
+        }catch (UnauthorizedOperationException e){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,e.getMessage());
+        }
+    }
+    @PutMapping("/{travelId}/{optionId}")
+    public ResponseEntity<Travel> updateTravel(@RequestHeader HttpHeaders headers, @PathVariable int travelId, @PathVariable int optionId,
+                                               @Valid @RequestBody TravelRequest travelRequest){
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            if (user.isBanned()) {
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
+            }
+            Travel travel = travelMapper.fromTravelRequest(travelId,travelRequest);
+            AdditionalOptions additionalOptions = additionalOptionsService.get(optionId);
+            return new ResponseEntity<>(travelService.modify(travel,user,additionalOptions),HttpStatus.CREATED);
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage());
+        }catch (UnauthorizedOperationException e){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,e.getMessage());
+        }
+    }
+    //TODO DON't work
+
+    @DeleteMapping("/{travelId}")
+    public void deleteTravel(@RequestHeader HttpHeaders headers, @PathVariable int travelId){
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            if (user.isBanned()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
+            }
+            travelService.delete(travelId,user);
         }catch (UnauthorizedOperationException e){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,e.getMessage());
         }

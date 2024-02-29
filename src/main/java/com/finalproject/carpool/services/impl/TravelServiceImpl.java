@@ -38,18 +38,22 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public void create(Travel travel, User user, AdditionalOptions additionalOptions) {
+    public Travel create(Travel travel, User user, AdditionalOptions additionalOptions) {
         isBan(user);
         travel.setOptionsId(additionalOptions);
         travel.setDriverId(user);
         travelRepository.create(travel);
+        return travelRepository.getTravelById(travel.getId());
     }
 
     @Override
-    public void modify(Travel travel, User user) {
+    public Travel modify(Travel travel, User user,AdditionalOptions additionalOptions) {
         isBan(user);
         isCreatorTravel(user);
+        travel.setDriverId(user);
+        travel.setOptionsId(additionalOptions);
         travelRepository.modify(travel);
+        return travelRepository.getTravelById(travel.getId());
     }
 
     @Override
