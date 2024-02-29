@@ -22,8 +22,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private TravelRepository travelRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, TravelRepository travelRepository) {
         this.userRepository = userRepository;
+        this.travelRepository = travelRepository;
     }
 
     @Override
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(User user) {
+    public User create(User user) {
         boolean duplicateExists = true;
         try {
             userRepository.getByUsername(user.getUsername());
@@ -54,6 +55,7 @@ public class UserServiceImpl implements UserService {
             throw new EntityDuplicateException("User", "email", user.getEmail());
         }
         userRepository.create(user);
+        return userRepository.getById(user.getId());
     }
 
     @Override

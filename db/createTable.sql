@@ -18,9 +18,9 @@ create table users
     username     varchar(50)  not null UNIQUE,
     phone_number varchar(10)  not null,
     rating       double       null,
-    is_admin     BOOLEAN      not null,
-    is_banned    BOOLEAN      not null,
-    image_id     int          not null,
+    is_admin     BOOLEAN      null,
+    is_banned    BOOLEAN      null,
+    image_id     int          null,
     foreign key (image_id) references images (image_id)
 );
 

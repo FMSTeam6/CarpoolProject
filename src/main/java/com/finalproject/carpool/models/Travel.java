@@ -1,5 +1,6 @@
 package com.finalproject.carpool.models;
 
+import com.finalproject.carpool.services.AdditionalOptionsService;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -39,9 +40,9 @@ public class Travel {
     @JoinColumn(name = "driver_id")
     private User driverId;
 
-    @OneToMany()
+    @OneToOne()
     @JoinColumn(name = "options_id")
-    private List<AdditionalOptions> optionsId;
+    private AdditionalOptions optionsId;
 
     @OneToMany
     @JoinColumn(name = "user_id")
@@ -129,11 +130,11 @@ public class Travel {
         this.driverId = driverId;
     }
 
-    public List<AdditionalOptions> getOptionsId() {
+    public AdditionalOptions getOptionsId() {
         return optionsId;
     }
 
-    public void setOptionsId(List<AdditionalOptions> optionsId) {
+    public void setOptionsId(AdditionalOptions optionsId) {
         this.optionsId = optionsId;
     }
 

@@ -46,15 +46,18 @@ public class User {
     @Column(name = "rating")
     private double rating;
 
-    @OneToMany()
-    @JoinColumn(name = "travel_id")
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image imageId;
+
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Travel> createdTravels;
 
-    @OneToMany()
-    @JoinColumn(name = "travel_id")
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Travel> participatedInTravels;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     // @JoinColumn(name = "feedback_id")
     private List<Feedback> feedbacks;
 
@@ -133,15 +136,6 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public double getRaiting() {
-        return rating;
-    }
-
-    public void setRaiting(double raiting) {
-        this.rating = raiting;
-    }
-
-
     public List<Travel> getCreatedTravels() {
         return createdTravels;
     }
@@ -164,6 +158,22 @@ public class User {
 
     public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public Image getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Image imageId) {
+        this.imageId = imageId;
     }
 
     @Override
