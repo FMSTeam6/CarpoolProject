@@ -18,7 +18,7 @@ public class Feedback {
     @Column(name = "rating")
     private int rating;
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     private User authorId;
     @JsonIgnore

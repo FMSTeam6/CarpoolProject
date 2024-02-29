@@ -39,9 +39,9 @@ public class Travel {
     @JoinColumn(name = "driver_id")
     private User driverId;
 
-    @OneToOne()
+    @OneToMany()
     @JoinColumn(name = "options_id")
-    private int optionsId;
+    private List<AdditionalOptions> optionsId;
 
     @OneToMany
     @JoinColumn(name = "user_id")
@@ -129,11 +129,11 @@ public class Travel {
         this.driverId = driverId;
     }
 
-    public int getOptionsId() {
+    public List<AdditionalOptions> getOptionsId() {
         return optionsId;
     }
 
-    public void setOptionsId(int optionsId) {
+    public void setOptionsId(List<AdditionalOptions> optionsId) {
         this.optionsId = optionsId;
     }
 

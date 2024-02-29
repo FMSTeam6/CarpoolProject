@@ -17,9 +17,9 @@ public interface FeedbackService {
 
     Feedback get(int id);
 
-    void create(Feedback feedback, User user, Travel travel);
+    Feedback create(Feedback feedback, User user, Travel travel);
 
-    void update(Feedback feedback, User user);
+    Feedback update(Feedback feedback, User user);
 
     void delete(int id, User user);
 

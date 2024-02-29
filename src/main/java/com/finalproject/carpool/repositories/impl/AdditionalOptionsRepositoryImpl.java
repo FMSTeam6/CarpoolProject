@@ -4,12 +4,14 @@ import com.finalproject.carpool.models.AdditionalOptions;
 import com.finalproject.carpool.repositories.AdditionalOptionsRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class AdditionalOptionsRepositoryImpl implements AdditionalOptionsRepository {
     private final SessionFactory sessionFactory;
 
+    @Autowired
     public AdditionalOptionsRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

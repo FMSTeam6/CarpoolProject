@@ -40,7 +40,7 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public void create(Travel travel, User user, AdditionalOptions additionalOptions) {
         isBan(user);
-        travel.setOptionsId(additionalOptions.getOptionsId());
+     //   travel.setOptionsId(additionalOptions.getAdditionalOptions());
         travel.setDriverId(user);
         travelRepository.create(travel);
     }

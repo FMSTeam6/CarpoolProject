@@ -81,21 +81,23 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
     }
 
     @Override
-    public void createFeedback(Feedback feedback) {
+    public Feedback createFeedback(Feedback feedback) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(feedback);
             session.getTransaction().commit();
         }
+        return feedback;
     }
 
     @Override
-    public void updateFeedback(Feedback feedback) {
+    public Feedback updateFeedback(Feedback feedback) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(feedback);
             session.getTransaction().commit();
         }
+        return feedback;
     }
 
     @Override

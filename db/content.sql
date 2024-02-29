@@ -2,8 +2,16 @@ use carpool;
 
 -- data additional_options
 
-INSERT INTO additional_options(options_id)
-VALUES (1);
+INSERT INTO additional_options(options_id, additional_options)
+VALUES (1, 'smoking');
+INSERT INTO additional_options(options_id, additional_options)
+VALUES (2, 'air conditioner');
+INSERT INTO additional_options(options_id, additional_options)
+VALUES (3, 'luggage');
+INSERT INTO additional_options(options_id, additional_options)
+VALUES (4, 'small pets allowed');
+INSERT INTO additional_options(options_id, additional_options)
+VALUES (5, 'power outlet');
 
 
 INSERT INTO images(image_id, file_name,file_path,file_size)

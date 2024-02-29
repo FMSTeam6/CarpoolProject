@@ -9,7 +9,7 @@ public class AdditionalOptions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "options_id")
-    private int optionsId;
+    private int id;
 
     @Column(name = "additional_options")
     private String additionalOptions;
@@ -18,11 +18,11 @@ public class AdditionalOptions {
     }
 
     public int getOptionsId() {
-        return optionsId;
+        return id;
     }
 
     public void setOptionsId(int optionsId) {
-        this.optionsId = optionsId;
+        this.id = optionsId;
     }
 
     public String getAdditionalOptions() {

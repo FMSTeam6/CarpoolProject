@@ -52,20 +52,20 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public void create(Feedback feedback, User user, Travel travel) {
+    public Feedback create(Feedback feedback, User user, Travel travel) {
         checkIfBlocked(user);
         feedback.setRecipientId(travel.getDriverId());
         feedback.setAuthorId(user);
         feedback.setTravelId(travel);
         travel.getFeedbacks().add(feedback);
-        feedbackRepository.createFeedback(feedback);
+        return feedbackRepository.createFeedback(feedback);
     }
 
     @Override
-    public void update(Feedback feedback, User user) {
+    public Feedback update(Feedback feedback, User user) {
         checkIfBlocked(user);
         checkUpdatePermissions(feedback, user);
-        feedbackRepository.updateFeedback(feedback);
+        return feedbackRepository.updateFeedback(feedback);
     }
 
     @Override

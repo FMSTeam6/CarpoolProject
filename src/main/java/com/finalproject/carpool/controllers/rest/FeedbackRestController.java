@@ -27,6 +27,7 @@ public class FeedbackRestController {
             "Sorry you are blocked and you can not create content. " +
                     "For more info please contact one of the admins!";
     public static final String INVALID_RATING = "Invalid rating. Must be between 0 and 5.";
+    public static final String YOU_CAN_NOT_GIVE_YOURSELF_RATING = "You can't give yourself rating and feedback!";
     private final AuthenticationHelper authenticationHelper;
     private final FeedbackMapper feedbackMapper;
     private final FeedbackService feedbackService;
@@ -72,7 +73,7 @@ public class FeedbackRestController {
     }
 
     @PostMapping("/{travelId}")
-    public void createFeedback(@RequestHeader HttpHeaders headers, @PathVariable int travelId,
+    public ResponseEntity<Feedback> createFeedback(@RequestHeader HttpHeaders headers, @PathVariable int travelId,
                                          @Valid @RequestBody FeedbackRequest request) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
@@ -80,12 +81,14 @@ public class FeedbackRestController {
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
             }
             Travel travel = travelService.getById(travelId);
+            if (user.getId() == travel.getDriverId().getId()){
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, YOU_CAN_NOT_GIVE_YOURSELF_RATING);
+            }
             Feedback feedback = feedbackMapper.fromRequest(request);
             if (feedback.getRating() < 0 || feedback.getRating() > 5){
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, INVALID_RATING);
             }
-           // return new ResponseEntity<>(feedbackService.create(feedback, user, travel), HttpStatus.CREATED)
-            feedbackService.create(feedback, user, travel);
+            return new ResponseEntity<>(feedbackService.create(feedback, user, travel), HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {
@@ -94,7 +97,7 @@ public class FeedbackRestController {
     }
 
     @PutMapping("/{feedbackId}")
-    public void updateFeedback(@RequestHeader HttpHeaders headers, @PathVariable int feedbackId,
+    public ResponseEntity<Feedback> updateFeedback(@RequestHeader HttpHeaders headers, @PathVariable int feedbackId,
                                @Valid @RequestBody FeedbackRequest request) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
@@ -102,7 +105,7 @@ public class FeedbackRestController {
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
             }
             Feedback feedback = feedbackMapper.fromRequest(feedbackId, request);
-            feedbackService.update(feedback, user);
+            return new ResponseEntity<>(feedbackService.update(feedback, user), HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {

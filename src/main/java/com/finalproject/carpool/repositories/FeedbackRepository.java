@@ -15,9 +15,9 @@ public interface FeedbackRepository {
 
     Feedback get(int id);
 
-    void createFeedback(Feedback feedback);
+    Feedback createFeedback(Feedback feedback);
 
-    void updateFeedback(Feedback feedback);
+    Feedback updateFeedback(Feedback feedback);
 
     void deleteFeedback(int id);
 
