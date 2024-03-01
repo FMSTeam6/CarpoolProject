@@ -52,15 +52,12 @@ create table feedbacks
     text         TEXT null,
     rating       int  not null,
     author_id    int  not null,
-    recipient_id int  not null,
     travel_id    int  not null,
     foreign key (author_id) references users (user_id),
-    foreign key (recipient_id) references users (user_id),
-    constraint fk_feedbacks_travels
-        foreign key (travel_id) references travels (travel_id)
+    foreign key (travel_id) references travels (travel_id)
 );
 
-create table travel_additional_options
+create table travels_additional_options
 (
 
     travel_id int,
@@ -70,12 +67,30 @@ create table travel_additional_options
     foreign key (option_id) references additional_options (options_id)
 );
 
-create table user_travel
+create table users_travels
 (
     user_id int,
     travel_id int,
     primary key (user_id, travel_id),
     foreign key (user_id) references users (user_id),
     foreign key (travel_id) references travels (travel_id)
-)
+);
+
+create table passengers
+(
+    travel_id int,
+    user_id int,
+    primary key (user_id, travel_id),
+    foreign key (user_id) references users (user_id),
+    foreign key (travel_id) references travels (travel_id)
+);
+
+create table feedbacks_users
+(
+    feedback_id int,
+    recipient_id int,
+    primary key (recipient_id, feedback_id),
+    foreign key (recipient_id) references users (user_id),
+    foreign key (feedback_id) references feedbacks (feedback_id)
+);
 

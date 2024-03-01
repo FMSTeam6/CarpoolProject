@@ -44,6 +44,15 @@ public class UserRestController {
         this.userMapper = userMapper;
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getById(@PathVariable int userId){
+        try{
+            return new ResponseEntity<>(userService.getById(userId), HttpStatus.FOUND);
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping()
     public ResponseEntity<User> createUser(@Valid @RequestBody UserRequest request) {
         try {

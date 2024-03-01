@@ -43,13 +43,17 @@ public class Travel {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "travel_additional_options",
+            name = "travels_additional_options",
             joinColumns = @JoinColumn(name = "travel_id"),
             inverseJoinColumns = @JoinColumn(name = "option_id")
     )
     private List<AdditionalOptions> additionalOptions;
-    @JsonIgnore
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+   @ManyToMany(fetch = FetchType.EAGER)
+   @JoinTable(
+           name = "passengers",
+           joinColumns = @JoinColumn(name = "travel_id"),
+           inverseJoinColumns = @JoinColumn(name = "user_id")
+   )
     private List<User> passengers;
     @JsonIgnore
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)

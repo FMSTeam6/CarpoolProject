@@ -2,6 +2,7 @@ package com.finalproject.carpool.controllers.rest;
 
 import com.finalproject.carpool.controllers.AuthenticationHelper;
 import com.finalproject.carpool.exceptions.EntityNotFoundException;
+import com.finalproject.carpool.exceptions.NotAValidRatingException;
 import com.finalproject.carpool.exceptions.UnauthorizedOperationException;
 import com.finalproject.carpool.mappers.FeedbackMapper;
 import com.finalproject.carpool.models.Feedback;
@@ -80,6 +81,8 @@ public class FeedbackRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        } catch (NotAValidRatingException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 

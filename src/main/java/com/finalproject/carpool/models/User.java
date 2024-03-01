@@ -51,12 +51,13 @@ public class User {
     @JoinColumn(name = "image_id")
     private Image imageId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Travel> createdTravels;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_travel",
+            name = "users_travels",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "travel_id")
     )

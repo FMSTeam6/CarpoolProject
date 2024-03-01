@@ -22,8 +22,12 @@ public class Feedback {
     @JoinColumn(name = "author_id")
     private User authorId;
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recipient_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "feedbacks_users",
+            joinColumns = @JoinColumn(name = "feedback_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipient_id")
+    )
     private User recipientId;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

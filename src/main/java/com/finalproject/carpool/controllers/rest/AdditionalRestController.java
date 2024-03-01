@@ -49,7 +49,7 @@ public class AdditionalRestController {
         }
     }
 
-    @PutMapping("/additional-options/{addOptionsId}")
+    @PutMapping("/{addOptionsId}")
     public ResponseEntity<AdditionalOptions> update(@RequestHeader HttpHeaders headers,
                                                     @PathVariable int addOptionsId,
                                                     @Valid @RequestBody AdditionalOptionRequest request) {
