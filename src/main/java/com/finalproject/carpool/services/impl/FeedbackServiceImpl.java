@@ -2,6 +2,7 @@ package com.finalproject.carpool.services.impl;
 
 import java.util.List;
 
+import com.finalproject.carpool.exceptions.NotAValidRatingException;
 import com.finalproject.carpool.exceptions.UnauthorizedOperationException;
 import com.finalproject.carpool.models.Feedback;
 import com.finalproject.carpool.models.Travel;
@@ -18,6 +19,10 @@ public class FeedbackServiceImpl implements FeedbackService {
     public static final String ONLY_ADMIN_OR_AUTHOR_CAN_DELETE =
             "Only admin or author can delete a feedback!";
     public static final String BLOCKED_USER = "Your account is blocked!";
+
+    public static final String CAN_NOT_RATE_YOURSELF = "You can't give yourself feedback and rating";
+
+    public static final String INVALID_RATING = "Invalid rating. Must be between 0 and 5.";
 
     private final FeedbackRepository feedbackRepository;
 
@@ -54,6 +59,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public Feedback create(Feedback feedback, User user, Travel travel) {
         checkIfBlocked(user);
+        checkAuthorOrDriver(user, travel);
+        checkValidRating(feedback);
         feedback.setRecipientId(travel.getDriverId());
         feedback.setAuthorId(user);
         feedback.setTravelId(travel);
@@ -64,6 +71,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public Feedback update(Feedback feedback, User user, Travel travel) {
         checkIfBlocked(user);
+        checkValidRating(feedback);
         checkUpdatePermissions(feedback, user);
         feedback.setRecipientId(travel.getDriverId());
         feedback.setAuthorId(user);
@@ -102,6 +110,16 @@ public class FeedbackServiceImpl implements FeedbackService {
             if (!feedback.getAuthorId().equals(user)) {
                 throw new UnauthorizedOperationException(ONLY_ADMIN_OR_AUTHOR_CAN_DELETE);
             }
+        }
+    }
+    private void checkAuthorOrDriver(User user, Travel travel){
+        if (user.getId() == travel.getDriverId().getId()){
+            throw new UnauthorizedOperationException(CAN_NOT_RATE_YOURSELF);
+        }
+    }
+    private void checkValidRating(Feedback feedback){
+        if (feedback.getRating() < 0 || feedback.getRating() > 5){
+            throw new NotAValidRatingException(INVALID_RATING);
         }
     }
 }

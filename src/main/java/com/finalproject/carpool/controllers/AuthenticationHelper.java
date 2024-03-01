@@ -67,7 +67,6 @@ public class AuthenticationHelper {
             if (!user.getPassword().equals(loginRequest.getPassword())) {
                 throw new AuthenticationFailureException(INVALID_AUTHENTICATION);
             }
-
             return user;
         } catch (EntityNotFoundException e) {
             throw new AuthenticationFailureException(INVALID_AUTHENTICATION);

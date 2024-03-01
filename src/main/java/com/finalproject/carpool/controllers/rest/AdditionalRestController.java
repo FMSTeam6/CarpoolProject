@@ -1,40 +1,79 @@
 package com.finalproject.carpool.controllers.rest;
 
 import com.finalproject.carpool.controllers.AuthenticationHelper;
+import com.finalproject.carpool.exceptions.EntityNotFoundException;
+import com.finalproject.carpool.exceptions.UnauthorizedOperationException;
 import com.finalproject.carpool.mappers.AdditionalOptionMapper;
 import com.finalproject.carpool.models.AdditionalOptions;
-import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
+import com.finalproject.carpool.models.requests.AdditionalOptionRequest;
 import com.finalproject.carpool.services.AdditionalOptionsService;
-import com.finalproject.carpool.services.TravelService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/additional-options")
 public class AdditionalRestController {
     private final AdditionalOptionsService additionalOptionsService;
-    private final TravelService travelService;
     private final AuthenticationHelper authenticationHelper;
     private final AdditionalOptionMapper additionalOptionMapper;
 
     @Autowired
-    public AdditionalRestController(AdditionalOptionsService additionalOptionsService, TravelService travelService, AuthenticationHelper authenticationHelper, AdditionalOptionMapper additionalOptionMapper) {
+    public AdditionalRestController(AdditionalOptionsService additionalOptionsService, AuthenticationHelper authenticationHelper, AdditionalOptionMapper additionalOptionMapper) {
         this.additionalOptionsService = additionalOptionsService;
-        this.travelService = travelService;
         this.authenticationHelper = authenticationHelper;
         this.additionalOptionMapper = additionalOptionMapper;
     }
-//    @PostMapping()
-//    public ResponseEntity<AdditionalOptions> create(@RequestHeader HttpHeaders headers,
-//                                                    @PathVariable int travelId,@PathVariable int optionsId){
-//        User user = authenticationHelper.tryGetUser(headers);
-//        Travel travel = travelService.getById(travelId);
-//        AdditionalOptions additionalOptions = additionalOptionsService.get(optionsId);
-//        travel.getAdditionalOptions().add(additionalOptions);
-//        return new ResponseEntity<>(additionalOptionsService.create(additionalOptions, user), HttpStatus.CREATED);
-//    }
+
+    @GetMapping
+    public List<AdditionalOptions> get() {
+        return additionalOptionsService.getAll();
+    }
+
+    @PostMapping()
+    public ResponseEntity<AdditionalOptions> create(@RequestHeader HttpHeaders headers,
+                                                    @Valid @RequestBody AdditionalOptionRequest request) {
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            AdditionalOptions additionalOptions = additionalOptionMapper.fromRequest(request);
+            return new ResponseEntity<>(additionalOptionsService.create(additionalOptions, user), HttpStatus.CREATED);
+        } catch (UnauthorizedOperationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
+    @PutMapping("/additional-options/{addOptionsId}")
+    public ResponseEntity<AdditionalOptions> update(@RequestHeader HttpHeaders headers,
+                                                    @PathVariable int addOptionsId,
+                                                    @Valid @RequestBody AdditionalOptionRequest request) {
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            AdditionalOptions additionalOptions = additionalOptionMapper.fromRequest(addOptionsId, request);
+            return new ResponseEntity<>(additionalOptionsService.update(additionalOptions, user), HttpStatus.CREATED);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (UnauthorizedOperationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{addOptionsId}")
+    public void delete(@RequestHeader HttpHeaders headers,
+                       @PathVariable int addOptionsId) {
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            additionalOptionsService.delete(addOptionsId, user);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (UnauthorizedOperationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
 }

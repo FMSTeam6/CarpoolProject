@@ -23,11 +23,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/feedbacks")
 public class FeedbackRestController {
-    public static final String BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK =
-            "Sorry you are blocked and you can not create content. " +
-                    "For more info please contact one of the admins!";
-    public static final String INVALID_RATING = "Invalid rating. Must be between 0 and 5.";
-    public static final String YOU_CAN_NOT_GIVE_YOURSELF_RATING = "You can't give yourself rating and feedback!";
     private final AuthenticationHelper authenticationHelper;
     private final FeedbackMapper feedbackMapper;
     private final FeedbackService feedbackService;
@@ -40,8 +35,9 @@ public class FeedbackRestController {
         this.feedbackService = feedbackService;
         this.travelService = travelService;
     }
+
     @GetMapping
-    public List<Feedback> get(){
+    public List<Feedback> get() {
         return feedbackService.getAllFeedbacks();
     }
 
@@ -74,20 +70,11 @@ public class FeedbackRestController {
 
     @PostMapping("/{travelId}")
     public ResponseEntity<Feedback> createFeedback(@RequestHeader HttpHeaders headers, @PathVariable int travelId,
-                                         @Valid @RequestBody FeedbackRequest request) {
+                                                   @Valid @RequestBody FeedbackRequest request) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
-            if (user.isBanned()) {
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
-            }
             Travel travel = travelService.getById(travelId);
-            if (user.getId() == travel.getDriverId().getId()){
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, YOU_CAN_NOT_GIVE_YOURSELF_RATING);
-            }
             Feedback feedback = feedbackMapper.fromRequest(request);
-            if (feedback.getRating() < 0 || feedback.getRating() > 5){
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, INVALID_RATING);
-            }
             return new ResponseEntity<>(feedbackService.create(feedback, user, travel), HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -101,9 +88,6 @@ public class FeedbackRestController {
                                                    @PathVariable int travelId, @Valid @RequestBody FeedbackRequest request) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
-            if (user.isBanned()) {
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
-            }
             Travel travel = travelService.getById(travelId);
             Feedback feedback = feedbackMapper.fromRequest(feedbackId, request);
             return new ResponseEntity<>(feedbackService.update(feedback, user, travel), HttpStatus.CREATED);
@@ -119,9 +103,6 @@ public class FeedbackRestController {
                        @PathVariable int feedbackId) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
-            if (user.isBanned()) {
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
-            }
             Travel travel = travelService.getById(travelId);
             feedbackService.delete(feedbackId, user, travel);
         } catch (EntityNotFoundException e) {
