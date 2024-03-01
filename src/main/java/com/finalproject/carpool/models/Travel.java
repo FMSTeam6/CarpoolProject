@@ -40,18 +40,22 @@ public class Travel {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "driver_id")
     private User driverId;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "travel_additional_options",
+            joinColumns = @JoinColumn(name = "travel_id"),
+            inverseJoinColumns = @JoinColumn(name = "option_id")
+    )
+    private List<AdditionalOptions> additionalOptions;
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "options_id")
-    private AdditionalOptions optionsId;
-    @JsonIgnore
-    @OneToMany(mappedBy = "id",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<User> passengers;
     @JsonIgnore
-    @OneToMany(mappedBy = "id",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<User> candidatesPool;
     @JsonIgnore
-    @OneToMany(mappedBy = "id",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Feedback> feedbacks;
 
     public Travel() {
@@ -129,12 +133,12 @@ public class Travel {
         this.driverId = driverId;
     }
 
-    public AdditionalOptions getOptionsId() {
-        return optionsId;
+    public List<AdditionalOptions> getAdditionalOptions() {
+        return additionalOptions;
     }
 
-    public void setOptionsId(AdditionalOptions optionsId) {
-        this.optionsId = optionsId;
+    public void setAdditionalOptions(List<AdditionalOptions> additionalOptions) {
+        this.additionalOptions = additionalOptions;
     }
 
     public List<User> getPassengers() {

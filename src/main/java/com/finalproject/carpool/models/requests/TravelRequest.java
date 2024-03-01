@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TravelRequest {
     @NotNull(message = "Starting Location can't be empty.")
@@ -16,6 +17,8 @@ public class TravelRequest {
     private LocalDateTime DateOfDeparture;
     @Positive(message = "Price must be positive")
     private Double PricePerPerson;
+
+    private List<Integer> additionalOptions;
 
     public TravelRequest() {
     }
@@ -58,5 +61,13 @@ public class TravelRequest {
 
     public void setPricePerPerson(Double pricePerPerson) {
         PricePerPerson = pricePerPerson;
+    }
+
+    public List<Integer> getAdditionalOptions() {
+        return additionalOptions;
+    }
+
+    public void setAdditionalOptions(List<Integer> additionalOptions) {
+        this.additionalOptions = additionalOptions;
     }
 }

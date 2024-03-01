@@ -54,7 +54,12 @@ public class User {
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Travel> createdTravels;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_travel",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "travel_id")
+    )
     private List<Travel> participatedInTravels;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)

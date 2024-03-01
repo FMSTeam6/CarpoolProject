@@ -45,8 +45,8 @@ public class TravelRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping("/{optionId}")
-    public ResponseEntity<Travel> createTravel(@RequestHeader HttpHeaders headers, @PathVariable int optionId,
+    @PostMapping()
+    public ResponseEntity<Travel> createTravel(@RequestHeader HttpHeaders headers,
                              @Valid @RequestBody TravelRequest travelRequest){
         try{
             User user = authenticationHelper.tryGetUser(headers);
@@ -54,8 +54,8 @@ public class TravelRestController {
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK);
             }
             Travel travel = travelMapper.fromTravelRequest(travelRequest);
-            AdditionalOptions additionalOptions = additionalOptionsService.get(optionId);
-            return new ResponseEntity<>(travelService.create(travel,user,additionalOptions),HttpStatus.CREATED);
+           // AdditionalOptions additionalOptions = additionalOptionsService.get(optionId);
+            return new ResponseEntity<>(travelService.create(travel,user),HttpStatus.CREATED);
         }catch (EntityNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage());
         }catch (UnauthorizedOperationException e){

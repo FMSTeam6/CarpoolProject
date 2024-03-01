@@ -2,6 +2,7 @@ package com.finalproject.carpool.models;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "additional_options")
 public class AdditionalOptions {
@@ -13,6 +14,8 @@ public class AdditionalOptions {
 
     @Column(name = "additional_options")
     private String additionalOptions;
+
+
 
     public AdditionalOptions() {
     }

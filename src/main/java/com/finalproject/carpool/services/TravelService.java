@@ -13,7 +13,7 @@ public interface TravelService {
 
     Travel getById(int id);
 
-    Travel create(Travel travel, User user, AdditionalOptions additionalOptions);
+    Travel create(Travel travel, User user);
 
     Travel modify(Travel travel, User user,AdditionalOptions additionalOptions);
 
