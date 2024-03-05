@@ -35,6 +35,8 @@ public interface TravelService {
     void choiceDriverUser(User user, Travel travel);
 
     void checkUserAlreadyCandidatePassenger(User user, Travel travel);
+    Travel addPassengerToTravel(User user, Travel travel);
 
     List<User> getCandidateTravel(int travelId);
+
 }

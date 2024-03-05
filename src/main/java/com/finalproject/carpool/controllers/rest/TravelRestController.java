@@ -133,7 +133,7 @@ public class TravelRestController {
         Apply for a trip
      */
 
-    @GetMapping("/{travelId}/{userId}")
+    @GetMapping("/candidate/{travelId}/{userId}")
     public ResponseEntity<Travel> addUserCandidatesPull(@PathVariable int travelId, @PathVariable int userId) {
         try {
             Travel travel = travelService.getById(travelId);
@@ -144,13 +144,25 @@ public class TravelRestController {
         }
     }
 
+    @GetMapping("/passenger/{travelId}/{userId}")
+    public ResponseEntity<Travel> addPassenger(@PathVariable int travelId, @PathVariable int userId) {
+        try {
+            Travel travel = travelService.getById(travelId);
+            User user = userService.getById(userId);
+            return new ResponseEntity<>(travelService.addPassengerToTravel(user,travel),HttpStatus.ACCEPTED);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
     /*
       Refer candidates for a given trip
    */
-    @GetMapping("/candidatе/{travelId}")
+    @GetMapping("/candidat/{travelId}")
     public List<User> getAllCandidatePool(@PathVariable int travelId) {
       return travelService.getCandidateTravel(travelId);
     }
+
 
     /*
      Create a trip

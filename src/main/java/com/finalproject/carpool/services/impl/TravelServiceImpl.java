@@ -104,11 +104,22 @@ public class TravelServiceImpl implements TravelService {
             checkUserAlreadyCandidatePassenger(user, travel);
             checkCanceledTravel(travel);
             checkCompletedTravel(travel);
-            travel.setCandidatesPool(List.of(user));
-            travelRepository.modify(travel);
+            travel.getCandidatesPool().add(user);
+            travelRepository.addUserCandidate(travel);
         }
         return travel;
     }
+
+    @Override
+    public Travel addPassengerToTravel(User user, Travel travel) {
+        checkUserAlreadyCandidatePassenger(user, travel);
+        checkCanceledTravel(travel);
+        checkCompletedTravel(travel);
+        travel.getPassengers().add(user);
+        travelRepository.addPassengerTravel(travel);
+        return travel;
+    }
+
 
 
     @Override
@@ -128,6 +139,7 @@ public class TravelServiceImpl implements TravelService {
             throw new UnsupportedOperationException(USER_ALREADY_CANDIDATE_PASSENGER);
         }
     }
+
 
     @Override
     public List<User> getCandidateTravel(int travelId) {

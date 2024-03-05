@@ -232,6 +232,25 @@ public class TravelRepositoryImpl implements TravelRepository {
         }
         return orderBy;
     }
+    @Override
+    public Travel addUserCandidate(Travel travel){
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.merge(travel);
+            session.getTransaction().commit();
+        }
+        return travel;
+    }
+
+    @Override
+    public Travel addPassengerTravel(Travel travel) {
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.merge(travel);
+            session.getTransaction().commit();
+        }
+        return travel;
+    }
 
 
 }

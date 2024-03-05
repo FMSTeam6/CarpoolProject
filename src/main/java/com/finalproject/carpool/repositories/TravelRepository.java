@@ -30,5 +30,8 @@ public interface TravelRepository {
     void modify(Travel travel);
     void delete(int travelId);
 
+    Travel addUserCandidate(Travel travel);
+    Travel addPassengerTravel(Travel travel);
+
 
 }
