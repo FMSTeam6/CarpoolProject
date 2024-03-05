@@ -2,6 +2,7 @@ package com.finalproject.carpool.repositories.impl;
 
 import com.finalproject.carpool.exceptions.EntityNotFoundException;
 import com.finalproject.carpool.models.Travel;
+import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
 import com.finalproject.carpool.repositories.TravelRepository;
 import org.hibernate.Session;
@@ -9,7 +10,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,29 +31,34 @@ public class TravelRepositoryImpl implements TravelRepository {
     @Override
     public List<Travel> getAll(TravelFilterOptions travelFilterOptions) {
         try (Session session = sessionFactory.openSession()) {
-            StringBuilder queryString = new StringBuilder(" from Travel ");
+            StringBuilder queryString = new StringBuilder(" FROM Travel ");
             ArrayList<String> filters = new ArrayList<>();
             Map<String, Object> params = new HashMap<>();
+
             travelFilterOptions.getStartLocation().ifPresent(value -> {
-                filters.add(" starting_location like: starting_location ");
-                params.put("starting_location", String.format("%%%s%%", value));
+                filters.add(" startingLocation LIKE: starting_location ");
+                params.put("startingLocation", String.format("%%%s%%", value));
             });
-            travelFilterOptions.getStartLocation().ifPresent(value -> {
+            travelFilterOptions.getEndLocation().ifPresent(value -> {
                 filters.add(" endLocation like: end_location ");
                 params.put("end_location", String.format("%%%s%%", value));
             });
-            travelFilterOptions.getStartLocation().ifPresent(value -> {
+            travelFilterOptions.getDateOfDeparture().ifPresent(value -> {
                 filters.add(" dateOfDeparture like: date_of_departure ");
                 params.put("date_of_departure", String.format("%%%s%%", value));
             });
-            travelFilterOptions.getStartLocation().ifPresent(value -> {
+            travelFilterOptions.getPricePerPerson().ifPresent(value -> {
                 filters.add(" pricePerPerson >=: price_per_person ");
                 params.put("price_per_person", value);
             });
-            travelFilterOptions.getStartLocation().ifPresent(value -> {
-                filters.add(" driver.id =: driver_id ");
+            travelFilterOptions.getDriver().ifPresent(value -> {
+                filters.add(" driver.username =: driver_id ");
                 params.put("driver_id", value);
             });
+            filters.add(" isCanceled =: is_canseled");
+            filters.add(" isCompleted =: is_completed");
+            params.put("is_canseled",false);
+            params.put("is_completed",false);
             if (!filters.isEmpty()) {
                 queryString.append(" where ").append(String.join(" and ", filters));
             }
@@ -60,7 +68,6 @@ public class TravelRepositoryImpl implements TravelRepository {
             return query.list();
         }
     }
-
     @Override
     public Travel getTravelById(int id) {
         try (Session session = sessionFactory.openSession()) {
@@ -71,22 +78,24 @@ public class TravelRepositoryImpl implements TravelRepository {
             return travel;
         }
     }
-
     @Override
-    public int getDriverId(int travelId) {
+    public int getDriverId(int driverId) {
         try (Session session = sessionFactory.openSession()) {
-            Travel travel = session.get(Travel.class, travelId);
-            if (travel == null) {
-                throw new EntityNotFoundException("Travel", travelId);
+            Query<Travel> query = session.createQuery("from Travel where driverId =: driver_id");
+            query.setParameter("driver_id",driverId);
+            List<Travel> drivers = query.list();
+            if (drivers.isEmpty()) {
+                throw new EntityNotFoundException("Driver", driverId);
             }
         }
-        return travelId;
+        return driverId;
     }
 
     @Override
     public void create(Travel travel) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
+            travel.setDateOfDeparture(LocalDateTime.now());
             session.persist(travel);
             session.getTransaction().commit();
         }
@@ -114,7 +123,7 @@ public class TravelRepositoryImpl implements TravelRepository {
     @Override
     public List<Travel> completeALLTravel() {
         try (Session session = sessionFactory.openSession()) {
-            Query<Travel> query = session.createQuery(" from Travel where isCompleted = : is_completed ", Travel.class);
+            Query<Travel> query = session.createQuery(" from Travel where isCompleted = :is_completed ", Travel.class);
             query.setParameter("is_completed", true);
             List<Travel> result = query.list();
             if (result.isEmpty()) {
@@ -127,7 +136,7 @@ public class TravelRepositoryImpl implements TravelRepository {
     @Override
     public List<Travel> cancelALlTravel() {
         try (Session session = sessionFactory.openSession()) {
-            Query<Travel> query = session.createQuery(" from Travel where isCanceled = : is_canceled ", Travel.class);
+            Query<Travel> query = session.createQuery(" from Travel where isCanceled = :is_canceled ", Travel.class);
             query.setParameter("is_canceled", true);
             List<Travel> result = query.list();
             if (result.isEmpty()) {
@@ -138,14 +147,15 @@ public class TravelRepositoryImpl implements TravelRepository {
     }
 
     @Override
-    public List<Travel> findAllTravelByUser(int userId) {
+    public List<Travel> findAllTravelByDriver(int userId) {
         try (Session session = sessionFactory.openSession()) {
             Query<Travel> query = session.createQuery(
-                    "from Travel where driverId =: userId", Travel.class
+                    "from Travel where driverId.id =: driver_id", Travel.class
             );
+            query.setParameter("driver_id",userId);
             List<Travel> allTravel = query.list();
             if (allTravel.isEmpty()) {
-                throw new EntityNotFoundException("Travel", userId);
+                throw new EntityNotFoundException("Driver", userId);
             }
             return allTravel;
         }
@@ -153,29 +163,43 @@ public class TravelRepositoryImpl implements TravelRepository {
     }
 
     @Override
-    public void completeTravel(Travel travel) {
+    public Travel completeTravel(Travel travel) {
         try(Session session = sessionFactory.openSession()) {
             Query<Travel> query = session.createQuery("FROM Travel where isCompleted =: is_completed",Travel.class);
             query.setParameter("is_completed",false);
-            if (query.list().contains(travel.getId())){
+            List<Travel>  result = query.list();
+
+            if (query.list().isEmpty()){
+                throw new EntityNotFoundException("Travel",travel.getId());
+            }
                 session.beginTransaction();
                 travel.setCompleted(true);
-                session.merge(travel.getId());
+                travel.setCanceled(false);
+                session.merge(travel);
                 session.getTransaction().commit();
-            }
+
+            return travel;
         }
     }
 
     @Override
-    public void cancelTravel(int id) {
+    public Travel cancelTravel(Travel travel) {
         try(Session session = sessionFactory.openSession()) {
-            Query<Travel> query = session.createQuery("FROM Travel where isCanceled =: is_canceled",Travel.class);
-            query.setParameter("is_canceled",true);
-            if (query.list().isEmpty()){
-                throw new EntityNotFoundException("CanceledTravel",id);
-            }
+           Query<Travel> query = session.createQuery(" from Travel where isCanceled = :is_canceled",Travel.class);
+           query.setParameter("is_canceled",false);
+           List<Travel> result = query.list();
+           if (result.isEmpty()){
+               throw new EntityNotFoundException("Travel",travel.getId());
+           }
+               session.beginTransaction();
+               travel.setCanceled(true);
+               travel.setCompleted(false);
+               session.merge(travel);
+               session.getTransaction().commit();
+           return travel;
         }
     }
+
 
     private String generateOrderBy(TravelFilterOptions travelFilterOptions) {
         if (travelFilterOptions.getSortBy().isEmpty()) {

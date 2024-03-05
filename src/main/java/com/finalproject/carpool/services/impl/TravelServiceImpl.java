@@ -1,30 +1,32 @@
 package com.finalproject.carpool.services.impl;
 
-import com.finalproject.carpool.models.AdditionalOptions;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
 import com.finalproject.carpool.repositories.TravelRepository;
-import com.finalproject.carpool.services.AdditionalOptionsService;
 import com.finalproject.carpool.services.TravelService;
+import com.finalproject.carpool.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TravelServiceImpl implements TravelService {
 
     private static final String BLOCKED_USER = "Your account is blocked!";
-    private static final String USER_ALREADY_PASSENGER = "User already passenger.";
+    private static final String USER_ALREADY_CANDIDATE_PASSENGER = "User already candidate passenger.";
+    private static final String CANCELED_TRAVEL = "Travel already canceled.";
+    private static final String COMPLETED_TRAVEL = "Travel already finish.";
     private final TravelRepository travelRepository;
-    private final AdditionalOptionsService additionalOptionsService;
+    private final UserService userService;
 
 
     @Autowired
-    public TravelServiceImpl(TravelRepository travelRepository, AdditionalOptionsService additionalOptionsService) {
+    public TravelServiceImpl(TravelRepository travelRepository, UserService userService) {
         this.travelRepository = travelRepository;
-        this.additionalOptionsService = additionalOptionsService;
+        this.userService = userService;
     }
 
     @Override
@@ -38,6 +40,21 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
+    public int getDriverId(int travelId) {
+        return travelRepository.getDriverId(travelId);
+    }
+
+    @Override
+    public List<Travel> completeALLTravel() {
+        return travelRepository.completeALLTravel();
+    }
+
+    @Override
+    public List<Travel> cancelALlTravel() {
+        return travelRepository.cancelALlTravel();
+    }
+
+    @Override
     public Travel create(Travel travel, User user) {
         isBan(user);
         travel.setDriverId(user);
@@ -47,10 +64,12 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public Travel modify(Travel travel, User user, AdditionalOptions additionalOptions) {
+    public Travel modify(Travel travel, User user) {
         isBan(user);
-        isCreatorTravel(user);
+        isCreatorTravel(user, travel.getId());
         travel.setDriverId(user);
+        user.getCreatedTravels().remove(travel);
+        user.getCreatedTravels().add(travel);
         travelRepository.modify(travel);
         return travelRepository.getTravelById(travel.getId());
     }
@@ -58,24 +77,65 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public void delete(int travelId, User user) {
         isBan(user);
-        isCreatorTravel(user);
+        isCreatorTravel(user, travelId);
+        Travel travel = travelRepository.getTravelById(travelId);
+        user.getCreatedTravels().remove(travel);
         travelRepository.delete(travelId);
     }
 
     @Override
-    public void choiceDriverUser(User user, Travel travel, int ratingDriver) {
-        for (int i = 0; i < travel.getCandidatesPool().size(); i++) {
-            if (user.getRating() >= ratingDriver && travel.getEmptySeats() > 0) {
-                travel.getPassengers().add(user);
-            }
+    public Travel cancelTravel(Travel travel) {
+        return travelRepository.cancelTravel(travel);
+    }
+
+    @Override
+    public Travel completedTravel(Travel travel) {
+        return travelRepository.completeTravel(travel);
+    }
+
+    @Override
+    public List<Travel> findAllTravelByDriver(int userId) {
+        return travelRepository.findAllTravelByDriver(userId);
+    }
+
+    @Override
+    public Travel candidateTravel(User user, Travel travel) {
+        if (!(user.isBanned() && user.isAdmin()) || (travel.getDriverId().getId() != user.getId())) {
+            checkUserAlreadyCandidatePassenger(user, travel);
+            checkCanceledTravel(travel);
+            checkCompletedTravel(travel);
+            travel.setCandidatesPool(List.of(user));
+            travelRepository.modify(travel);
+        }
+        return travel;
+    }
+
+
+    @Override
+    public void choiceDriverUser(User user, Travel travel) {
+        if (travel.getEmptySeats() > 0){
+            travel.getPassengers().add(user);
+
+            int seat = travel.getEmptySeats() - 1;
+            travel.setEmptySeats(seat);
+        }
+    }
+
+
+    @Override
+    public void checkUserAlreadyCandidatePassenger(User user, Travel travel) {
+        if (travel.getCandidatesPool().contains(user)) {
+            throw new UnsupportedOperationException(USER_ALREADY_CANDIDATE_PASSENGER);
         }
     }
 
     @Override
-    public void checkUserAlreadyPassenger(User user, Travel travel) {
-        if (travel.getPassengers().contains(user)) {
-            throw new UnsupportedOperationException(USER_ALREADY_PASSENGER);
+    public List<User> getCandidateTravel(int travelId) {
+        Travel travel = travelRepository.getTravelById(travelId);
+        if (travel.getCandidatesPool().isEmpty()){
+            throw new UnsupportedOperationException("This travel not yet passenger.");
         }
+        return travel.getCandidatesPool();
     }
 
 
@@ -95,8 +155,20 @@ public class TravelServiceImpl implements TravelService {
         }
     }
 
-    private boolean isCreatorTravel(User user) {
-        return user.getCreatedTravels().contains(user.getId());
+    private boolean isCreatorTravel(User user, int travelId) {
+        Travel travel = travelRepository.getTravelById(travelId);
+        return user.getCreatedTravels().contains(travel);
+    }
+
+    private void checkCanceledTravel(Travel travel){
+        if (travel.isCanceled()){
+            throw new UnsupportedOperationException(CANCELED_TRAVEL);
+        }
+    }
+    private void checkCompletedTravel(Travel travel){
+        if (travel.isCompleted()){
+            throw new UnsupportedOperationException(COMPLETED_TRAVEL);
+        }
     }
 
 }

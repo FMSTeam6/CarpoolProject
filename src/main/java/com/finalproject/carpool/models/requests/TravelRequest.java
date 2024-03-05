@@ -13,8 +13,8 @@ public class TravelRequest {
     private String EndLocation;
     @Positive(message = "Seats must be positive.")
     private int EmptySeats;
-    @NotNull(message = "Choose validate date and time")
-    private LocalDateTime DateOfDeparture;
+//    @NotNull(message = "Choose validate date and time")
+//    private LocalDateTime DateOfDeparture;
     @Positive(message = "Price must be positive")
     private Double PricePerPerson;
 
@@ -47,13 +47,13 @@ public class TravelRequest {
         EmptySeats = emptySeats;
     }
 
-    public LocalDateTime getDateOfDeparture() {
-        return DateOfDeparture;
-    }
-
-    public void setDateOfDeparture(LocalDateTime dateOfDeparture) {
-        DateOfDeparture = dateOfDeparture;
-    }
+//    public LocalDateTime getDateOfDeparture() {
+//        return DateOfDeparture;
+//    }
+//
+//    public void setDateOfDeparture(LocalDateTime dateOfDeparture) {
+//        DateOfDeparture = dateOfDeparture;
+//    }
 
     public Double getPricePerPerson() {
         return PricePerPerson;

@@ -1,6 +1,7 @@
 package com.finalproject.carpool.repositories;
 
 import com.finalproject.carpool.models.Travel;
+import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
 
 import java.util.List;
@@ -17,19 +18,17 @@ public interface TravelRepository {
 
     List<Travel> cancelALlTravel();
 
-    List<Travel> findAllTravelByUser(int userId);
+    List<Travel> findAllTravelByDriver(int userId);
 
-    void completeTravel(Travel travel);
+    Travel completeTravel(Travel travel);
 
-    void cancelTravel(int id);
+    Travel cancelTravel(Travel travel);
+
 
 
     void create(Travel travel);
     void modify(Travel travel);
     void delete(int travelId);
 
-    //TODO have to mode these to the service
-
-    // void selectPassengers();
 
 }

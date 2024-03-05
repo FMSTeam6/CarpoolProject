@@ -12,20 +12,20 @@ public class TravelFilterOptions {
     private Optional<String> sortBy;
     private Optional<String> orderBy;
 
-    public TravelFilterOptions(Optional<String> startLocation,
-                               Optional<String> endLocation,
-                               Optional<LocalDateTime> dateOfDeparture,
-                               Optional<Double> pricePerPerson,
-                               Optional<Integer> driver,
-                               Optional<String> sortBy,
-                               Optional<String> orderBy) {
-        this.startLocation = startLocation;
-        this.endLocation = endLocation;
-        this.dateOfDeparture = dateOfDeparture;
-        this.pricePerPerson = pricePerPerson;
-        this.driver = driver;
-        this.sortBy = sortBy;
-        this.orderBy = orderBy;
+    public TravelFilterOptions(String startLocation,
+                               String endLocation,
+                               LocalDateTime dateOfDeparture,
+                               Double pricePerPerson,
+                               Integer driver,
+                               String sortBy,
+                               String orderBy) {
+        this.startLocation = Optional.ofNullable(startLocation);
+        this.endLocation = Optional.ofNullable(endLocation);
+        this.dateOfDeparture = Optional.ofNullable(dateOfDeparture);
+        this.pricePerPerson = Optional.ofNullable(pricePerPerson);
+        this.driver = Optional.ofNullable(driver);
+        this.sortBy = Optional.ofNullable(sortBy);
+        this.orderBy = Optional.ofNullable(orderBy);
     }
 
     public TravelFilterOptions(){
