@@ -1,9 +1,6 @@
 package com.finalproject.carpool.services.impl;
 
-import com.finalproject.carpool.exceptions.EntityDuplicateException;
-import com.finalproject.carpool.exceptions.EntityNotFoundException;
-import com.finalproject.carpool.exceptions.UnauthorizedOperationException;
-import com.finalproject.carpool.exceptions.UserStatusCannotBeChangedException;
+import com.finalproject.carpool.exceptions.*;
 import com.finalproject.carpool.models.Feedback;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
@@ -11,6 +8,7 @@ import com.finalproject.carpool.models.filters.SearchUser;
 import com.finalproject.carpool.repositories.TravelRepository;
 import com.finalproject.carpool.repositories.UserRepository;
 import com.finalproject.carpool.services.UserService;
+import com.finalproject.carpool.services.helper.PasswordValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,10 +45,12 @@ public class UserServiceImpl implements UserService {
         boolean duplicateExists = true;
         try {
             userRepository.getByUsername(user.getUsername());
+            PasswordValidator.isValidPassword(user.getPassword());
         } catch (EntityNotFoundException e) {
             duplicateExists = false;
+        }catch (PasswordValidationException e){
+            throw new PasswordValidationException("Password must contain numbers, letters and symbols");
         }
-
         if (duplicateExists) {
             throw new EntityDuplicateException("User", "email", user.getEmail());
         }

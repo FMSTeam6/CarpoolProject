@@ -85,6 +85,15 @@ create table passengers
     foreign key (travel_id) references travels (travel_id)
 );
 
+create table candidates
+(
+    travel_id int,
+    user_id int,
+    primary key (user_id, travel_id),
+    foreign key (user_id) references users (user_id),
+    foreign key (travel_id) references travels (travel_id)
+);
+
 create table feedbacks_users
 (
     feedback_id int,

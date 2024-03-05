@@ -8,6 +8,7 @@ import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
 import com.finalproject.carpool.models.requests.TravelRequest;
+import com.finalproject.carpool.services.BingMapService;
 import com.finalproject.carpool.services.TravelService;
 import com.finalproject.carpool.services.UserService;
 import jakarta.validation.Valid;
@@ -35,7 +36,7 @@ public class TravelRestController {
     private final TravelMapper travelMapper;
 
     @Autowired
-    public TravelRestController(TravelService travelService, AuthenticationHelper authenticationHelper, UserService userService, TravelMapper travelMapper) {
+    public TravelRestController(TravelService travelService, AuthenticationHelper authenticationHelper, UserService userService, TravelMapper travelMapper, BingMapService bingMapService) {
         this.travelService = travelService;
         this.authenticationHelper = authenticationHelper;
         this.userService = userService;
@@ -158,7 +159,7 @@ public class TravelRestController {
     /*
       Refer candidates for a given trip
    */
-    @GetMapping("/candidat/{travelId}")
+    @GetMapping("/candidate/{travelId}")
     public List<User> getAllCandidatePool(@PathVariable int travelId) {
       return travelService.getCandidateTravel(travelId);
     }

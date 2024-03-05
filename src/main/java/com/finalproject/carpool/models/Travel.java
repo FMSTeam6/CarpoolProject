@@ -55,10 +55,15 @@ public class Travel {
            inverseJoinColumns = @JoinColumn(name = "user_id")
    )
     private List<User> passengers;
-    @JsonIgnore
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    //@JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "candidates",
+            joinColumns = @JoinColumn(name = "travel_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> candidatesPool;
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Feedback> feedbacks;
 
