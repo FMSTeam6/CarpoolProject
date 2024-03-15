@@ -94,7 +94,7 @@ public class TravelRestController {
         Shows trips of the respective creator
      */
 
-    @GetMapping("/driver/{driverId}")
+    @PutMapping("/driver/{driverId}")
     public List<Travel> getAllTravelByDriver(@PathVariable int driverId) {
         try {
             return travelService.findAllTravelByDriver(driverId);
@@ -108,10 +108,11 @@ public class TravelRestController {
      */
 
     @PutMapping("/canceled/{travelId}")
-    public ResponseEntity<Travel> canselTravelById(@PathVariable int travelId) {
+    public ResponseEntity<Travel> canselTravelById(@PathVariable int travelId,@RequestHeader HttpHeaders headers) {
         try {
+            User user = authenticationHelper.tryGetUser(headers);
             Travel travel = travelService.getById(travelId);
-            return new ResponseEntity<>(travelService.cancelTravel(travel), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(travelService.cancelTravel(travel,user), HttpStatus.ACCEPTED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -121,10 +122,11 @@ public class TravelRestController {
         Completion of a trip by id
      */
     @PutMapping("/completed/{travelId}")
-    public ResponseEntity<Travel> completedTravelById(@PathVariable int travelId) {
+    public ResponseEntity<Travel> completedTravelById(@PathVariable int travelId, @RequestHeader HttpHeaders headers) {
         try {
+            User user = authenticationHelper.tryGetUser(headers);
             Travel travel = travelService.getById(travelId);
-            return new ResponseEntity<>(travelService.completedTravel(travel), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(travelService.completedTravel(travel,user), HttpStatus.ACCEPTED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -134,7 +136,7 @@ public class TravelRestController {
         Apply for a trip
      */
 
-    @GetMapping("/candidate/{travelId}/{userId}")
+    @PutMapping("/candidate/{travelId}/{userId}")
     public ResponseEntity<Travel> addUserCandidatesPull(@PathVariable int travelId, @PathVariable int userId) {
         try {
             Travel travel = travelService.getById(travelId);
@@ -145,7 +147,7 @@ public class TravelRestController {
         }
     }
 
-    @GetMapping("/passenger/{travelId}/{userId}")
+    @PutMapping("/passenger/{travelId}/{userId}")
     public ResponseEntity<Travel> addPassenger(@PathVariable int travelId, @PathVariable int userId) {
         try {
             Travel travel = travelService.getById(travelId);
@@ -159,7 +161,7 @@ public class TravelRestController {
     /*
       Refer candidates for a given trip
    */
-    @GetMapping("/candidate/{travelId}")
+    @PutMapping("/candidate/{travelId}")
     public List<User> getAllCandidatePool(@PathVariable int travelId) {
       return travelService.getCandidateTravel(travelId);
     }

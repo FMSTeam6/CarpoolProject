@@ -26,8 +26,8 @@ public interface TravelRepository {
 
 
 
-    void create(Travel travel);
-    void modify(Travel travel);
+    Travel create(Travel travel);
+    Travel modify(Travel travel);
     void delete(int travelId);
 
     Travel addUserCandidate(Travel travel);

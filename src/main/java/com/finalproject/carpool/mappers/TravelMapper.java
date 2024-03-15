@@ -35,6 +35,7 @@ public class TravelMapper {
         travel.setStartingLocation(travelRequest.getStartingLocation());
         travel.setEndLocation(travelRequest.getEndLocation());
         travel.setEmptySeats(travelRequest.getEmptySeats());
+        travel.setDateOfDeparture(travelRequest.getDateOfDeparture());
         travel.setPricePerPerson(travelRequest.getPricePerPerson());
         travel.setAdditionalOptions(modify(travelRequest.getAdditionalOptions()));
 

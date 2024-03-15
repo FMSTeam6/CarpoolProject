@@ -92,22 +92,24 @@ public class TravelRepositoryImpl implements TravelRepository {
     }
 
     @Override
-    public void create(Travel travel) {
+    public Travel create(Travel travel) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             travel.setDateOfDeparture(LocalDateTime.now());
             session.persist(travel);
             session.getTransaction().commit();
         }
+        return travel;
     }
 
     @Override
-    public void modify(Travel travel) {
+    public Travel modify(Travel travel) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(travel);
             session.getTransaction().commit();
         }
+        return travel;
     }
 
     @Override
@@ -127,7 +129,7 @@ public class TravelRepositoryImpl implements TravelRepository {
             query.setParameter("is_completed", true);
             List<Travel> result = query.list();
             if (result.isEmpty()) {
-                throw new UnsupportedOperationException("Travel is not completed");
+                throw new UnsupportedOperationException("There are no completed trips!");
             }
             return result;
         }
@@ -140,7 +142,7 @@ public class TravelRepositoryImpl implements TravelRepository {
             query.setParameter("is_canceled", true);
             List<Travel> result = query.list();
             if (result.isEmpty()) {
-                throw new UnsupportedOperationException("All travel is completed");
+                throw new UnsupportedOperationException("There are no canceled trips!");
             }
             return result;
         }

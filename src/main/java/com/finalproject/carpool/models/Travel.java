@@ -67,6 +67,13 @@ public class Travel {
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Feedback> feedbacks;
 
+    @Column(name = "kilometers")
+    private String kilometers;
+    @Column(name = "time_travel")
+    private String timeTravel;
+    @Column(name = "time_arrive")
+    private String timeArrive;
+
     public Travel() {
     }
 
@@ -172,5 +179,29 @@ public class Travel {
 
     public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
+    }
+
+    public String getKilometers() {
+        return kilometers;
+    }
+
+    public void setKilometers(String kilometers) {
+        this.kilometers = kilometers;
+    }
+
+    public String getTimeTravel() {
+        return timeTravel;
+    }
+
+    public void setTimeTravel(String timeTravel) {
+        this.timeTravel = timeTravel;
+    }
+
+    public String getTimeArrive() {
+        return timeArrive;
+    }
+
+    public void setTimeArrive(String timeArrive) {
+        this.timeArrive = timeArrive;
     }
 }
