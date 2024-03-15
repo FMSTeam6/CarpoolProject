@@ -25,8 +25,8 @@ public interface TravelService {
 
     void delete(int travelId, User user);
 
-    Travel cancelTravel(Travel travel);
-    Travel completedTravel(Travel travel);
+    Travel cancelTravel(Travel travel,User user);
+    Travel completedTravel(Travel travel,User user);
 
 
     void canceledUserTravel(User user, Travel travel);

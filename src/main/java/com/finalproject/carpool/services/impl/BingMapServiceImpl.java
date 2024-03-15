@@ -67,7 +67,8 @@ public class BingMapServiceImpl implements BingMapService {
                 int hours = travelDurationInSeconds / 3600;
                 int minutes = (travelDurationInSeconds % 3600) / 60;
 
-                return "Distance: " + travelDistance + " km, ETA: " + hours + "h " + minutes + "min";
+//                return "Distance: " + travelDistance + " km, ETA: " + hours + "h " + minutes + "min";
+                return travelDistance + " " + hours + "." + minutes;
             } else {
                 throw new LocationNotFoundException("No route information found in the response.");
             }

@@ -43,6 +43,9 @@ create table travels
     is_completed      BOOLEAN     not null,
     is_canceled       BOOLEAN     not null,
     driver_id         int         not null,
+    kilometers        varchar(15) not null,
+    time_travel       varchar(10) not null,
+    time_Arrive       varchar(30) not null,
     foreign key (driver_id) references users (user_id)
 );
 
