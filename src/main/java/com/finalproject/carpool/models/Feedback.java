@@ -22,7 +22,7 @@ public class Feedback {
     @JoinColumn(name = "author_id")
     private User authorId;
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(
             name = "feedbacks_users",
             joinColumns = @JoinColumn(name = "feedback_id"),

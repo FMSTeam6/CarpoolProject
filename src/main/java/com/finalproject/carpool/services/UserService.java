@@ -15,13 +15,13 @@ public interface UserService {
 
     User create(User user);
 
-    void update(User user);
+    User update(User user, int id, int loggedUserId);
 
-    void banUser(User user);
+    void banUser(User user, int adminId);
 
-    void unBanUser(User user);
+    void unBanUser(User user, int adminId);
 
-    void deleteUser(int id);
+    void deleteUser(int id, int adminId);
 
     void applyForCandidatesPool(User user, int travelId);
 

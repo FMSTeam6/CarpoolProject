@@ -9,13 +9,24 @@ import com.finalproject.carpool.repositories.TravelRepository;
 import com.finalproject.carpool.repositories.UserRepository;
 import com.finalproject.carpool.services.UserService;
 import com.finalproject.carpool.services.helper.PasswordValidator;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
 
 @Service
 public class UserServiceImpl implements UserService {
     public static final String ONLY_DRIVES_CAN_ADD_PASSENGERS = "Only drivers can add passengers";
+
+    private static final String UPDATE_USER_ERROR_MESSAGE = "Only owner of the account can update personal info.";
+
+    public static final String ONLY_ADMINS_CAN_DELETE_USERS = "Only forum admins can delete user info. " +
+            "Please contact one of the admins!";
+
+    private static final String YOU_ARE_NOT_AUTHORIZED_TO_CHANGE_USER_STATUS =
+            "You are not authorized to change user status";
 
     private UserRepository userRepository;
     private TravelRepository travelRepository;
@@ -59,18 +70,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user) {
+    public User update(User user, int id, int loggedUserId) {
+        if (loggedUserId != id) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, UPDATE_USER_ERROR_MESSAGE);
+        }
         userRepository.update(user);
+        return userRepository.getById(user.getId());
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(int id, int adminId) {
+        if (!userRepository.getById(adminId).isAdmin()){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, ONLY_ADMINS_CAN_DELETE_USERS);
+        }
         userRepository.deleteUser(id);
     }
 
     @Override
-    public void banUser(User user) {
-        User userToBan = userRepository.getById(user.getId());
+    public void banUser(User userToBan, int adminId) {
+        if (!userRepository.getById(adminId).isAdmin()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, YOU_ARE_NOT_AUTHORIZED_TO_CHANGE_USER_STATUS);
+        }
+
         if (userToBan.isBanned()) {
             throw new UserStatusCannotBeChangedException(userToBan.getUsername(), "banned");
         }
@@ -78,8 +99,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void unBanUser(User user) {
-        User userToUnBan = userRepository.getById(user.getId());
+    public void unBanUser(User userToUnBan, int adminId) {
+        if (!userRepository.getById(adminId).isAdmin()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, YOU_ARE_NOT_AUTHORIZED_TO_CHANGE_USER_STATUS);
+        }
+
         if (!userToUnBan.isBanned()) {
             throw new UserStatusCannotBeChangedException(userToUnBan.getUsername(), "unbanned");
         }
