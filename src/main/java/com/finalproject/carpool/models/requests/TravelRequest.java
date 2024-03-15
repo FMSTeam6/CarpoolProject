@@ -13,11 +13,11 @@ public class TravelRequest {
     private String EndLocation;
     @Positive(message = "Seats must be positive.")
     private int EmptySeats;
-//    @NotNull(message = "Choose validate date and time")
+    //    @NotNull(message = "Choose validate date and time")
 //    private LocalDateTime DateOfDeparture;
     @Positive(message = "Price must be positive")
     private Double PricePerPerson;
-
+    @NotNull(message = "Please add some additional info about the travel")
     private List<Integer> additionalOptions;
 
     public TravelRequest() {

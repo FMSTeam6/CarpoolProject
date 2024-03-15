@@ -26,9 +26,6 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/travels")
 public class TravelRestController {
-    public static final String BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK =
-            "Sorry you are blocked and you can not create content. " +
-                    "For more info please contact one of the admins!";
 
     private final TravelService travelService;
     private final AuthenticationHelper authenticationHelper;
@@ -108,7 +105,7 @@ public class TravelRestController {
      */
 
     @PutMapping("/canceled/{travelId}")
-    public ResponseEntity<Travel> canselTravelById(@PathVariable int travelId) {
+    public ResponseEntity<Travel> cancelTravelById(@PathVariable int travelId) {
         try {
             Travel travel = travelService.getById(travelId);
             return new ResponseEntity<>(travelService.cancelTravel(travel), HttpStatus.ACCEPTED);

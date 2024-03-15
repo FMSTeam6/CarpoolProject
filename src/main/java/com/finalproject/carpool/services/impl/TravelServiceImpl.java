@@ -73,6 +73,13 @@ public class TravelServiceImpl implements TravelService {
         travelRepository.modify(travel);
         return travelRepository.getTravelById(travel.getId());
     }
+    public Travel update(Travel travel, User user){
+        isBan(user);
+        isCreatorTravel(user, travel.getId());
+        Travel travelToUpdate =  travelRepository.getTravelById(travel.getId());
+       // travelToUpdate.set all fields
+        return travelToUpdate;
+    }
 
     @Override
     public void delete(int travelId, User user) {
