@@ -1,5 +1,6 @@
 package com.finalproject.carpool.services.impl;
 
+import com.finalproject.carpool.exceptions.LocationNotFoundException;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
@@ -8,7 +9,9 @@ import com.finalproject.carpool.repositories.UserRepository;
 import com.finalproject.carpool.services.TravelService;
 import com.finalproject.carpool.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Set;
@@ -72,11 +75,15 @@ public class TravelServiceImpl implements TravelService {
         isBan(user);
         isCreatorTravel(user, travel.getId());
         travel.setDriverId(user);
-        getTravelKilometers(travel);
-        getTravelArrive(travel);
+        try {
+            getTravelKilometers(travel);
+            getTravelArrive(travel);
 //        user.getCreatedTravels().remove(travel);
 //        user.getCreatedTravels().add(travel);
-        return travelRepository.modify(travel);
+            return travelRepository.modify(travel);
+        } catch (LocationNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
     public Travel update(Travel travel, User user){
         isBan(user);
