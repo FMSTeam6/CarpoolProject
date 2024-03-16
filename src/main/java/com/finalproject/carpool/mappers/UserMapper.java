@@ -29,22 +29,23 @@ public class UserMapper {
         user.setPhoneNumber(request.getPhoneNumber());
         return user;
     }
-
-    /*public User fromRegisterDto(RegisterDto registerDto){
+/*
+    public User fromRegisterRequest(RegisterRequest request){
         User user = new User();
-        user.setUsername(registerDto.getUsername());
-        user.setPassword(registerDto.getPassword());
-        user.setFirstName(registerDto.getFirstName());
-        user.setLastName(registerDto.getLastName());
-        user.setEmail(registerDto.getEmail());
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.get);
         return user;
-    }*/
+    }
 
-    /*public User fromUserUpdateDto(int id, UserUpdateDto dto) {
+    public User fromUserUpdateDto(int id, UserUpdateRequest request) {
         User user = userService.getById(id);
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setPassword(dto.getPassword());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setPassword(request.getPassword());
 
         return user;
     }*/
