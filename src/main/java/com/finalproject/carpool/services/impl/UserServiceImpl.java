@@ -7,11 +7,13 @@ import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.SearchUser;
 import com.finalproject.carpool.repositories.TravelRepository;
 import com.finalproject.carpool.repositories.UserRepository;
+import com.finalproject.carpool.services.EmailVerificationService;
 import com.finalproject.carpool.services.UserService;
 import com.finalproject.carpool.services.helper.PasswordValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,10 +21,12 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private TravelRepository travelRepository;
+    private EmailVerificationService emailVerificationService;
 
-    public UserServiceImpl(UserRepository userRepository, TravelRepository travelRepository) {
+    public UserServiceImpl(UserRepository userRepository, TravelRepository travelRepository, EmailVerificationService emailVerificationService) {
         this.userRepository = userRepository;
         this.travelRepository = travelRepository;
+        this.emailVerificationService = emailVerificationService;
     }
 
     @Override
@@ -54,7 +58,10 @@ public class UserServiceImpl implements UserService {
         if (duplicateExists) {
             throw new EntityDuplicateException("User", "email", user.getEmail());
         }
+//        user.setVerificationCode(UUID.randomUUID().toString());
         userRepository.create(user);
+//        String verificationUrl = "http://localhost:8080" + "/verify-email?token=";
+//        emailVerificationService.sendVerificationEmail(user, verificationUrl);
         return userRepository.getById(user.getId());
     }
 

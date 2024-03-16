@@ -21,5 +21,6 @@ public interface UserRepository {
     void unBanUser(User user);
 
     void deleteUser(int id);
+    public User findByVerificationCode(String verificationCode);
 
 }

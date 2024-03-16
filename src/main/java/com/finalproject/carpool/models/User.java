@@ -64,8 +64,12 @@ public class User {
     private List<Travel> participatedInTravels;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
-    // @JoinColumn(name = "feedback_id")
     private List<Feedback> feedbacks;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
+    @Column(name = "verified")
+    private boolean verified;
 
     public User() {
     }
@@ -180,6 +184,22 @@ public class User {
 
     public void setImageId(Image imageId) {
         this.imageId = imageId;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationToken) {
+        this.verificationCode = verificationToken;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 
     @Override

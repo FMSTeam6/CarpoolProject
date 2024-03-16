@@ -14,10 +14,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -89,7 +86,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
             session.beginTransaction();
             userToBan.setBanned(true);
-            session.saveOrUpdate(userToBan);
+            session.merge(userToBan);
             session.getTransaction().commit();
 
         }
@@ -111,7 +108,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
             session.beginTransaction();
             userToUnBan.setBanned(false);
-            session.saveOrUpdate(userToUnBan);
+            session.merge(userToUnBan);
             session.getTransaction().commit();
         }
     }
@@ -179,6 +176,20 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return orderBy;
     }
+    @Override
+    public User findByVerificationCode(String verificationCode){
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery(
+                    "from User where verificationCode = :verificationCode", User.class);
+            query.setParameter("verificationCode", verificationCode);
+            List<User> result = query.list();
+            if (result.isEmpty()) {
+                throw new EntityNotFoundException("User", "verificationCode", verificationCode);
+            }
+            return result.get(0);
+        }
+    }
+
 
 //    private static boolean containsIgnoreCase(String value, String sequence) {
 //        return value.toLowerCase().contains(sequence.toLowerCase());
