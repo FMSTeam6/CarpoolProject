@@ -12,4 +12,8 @@ public class HomeMvcController {
     public String home(){
         return "index";
     }
+    @GetMapping("/about")
+    public String showAboutPage() {
+        return "about";
+    }
 }

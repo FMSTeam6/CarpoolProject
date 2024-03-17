@@ -64,10 +64,14 @@ public class TravelServiceImpl implements TravelService {
     public Travel create(Travel travel, User user) {
         isBan(user);
         travel.setDriverId(user);
-        getTravelKilometers(travel);
-        getTravelArrive(travel);
-        user.getCreatedTravels().add(travel);
-        return travelRepository.create(travel);
+        try {
+            getTravelKilometers(travel);
+            getTravelArrive(travel);
+            user.getCreatedTravels().add(travel);
+            return travelRepository.create(travel);
+        } catch (LocationNotFoundException e){
+            throw new LocationNotFoundException(e.getMessage());
+        }
     }
 
     @Override
@@ -78,19 +82,10 @@ public class TravelServiceImpl implements TravelService {
         try {
             getTravelKilometers(travel);
             getTravelArrive(travel);
-//        user.getCreatedTravels().remove(travel);
-//        user.getCreatedTravels().add(travel);
             return travelRepository.modify(travel);
         } catch (LocationNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new LocationNotFoundException(e.getMessage());
         }
-    }
-    public Travel update(Travel travel, User user){
-        isBan(user);
-        isCreatorTravel(user, travel.getId());
-        Travel travelToUpdate =  travelRepository.getTravelById(travel.getId());
-       // travelToUpdate.set all fields
-        return travelToUpdate;
     }
 
     @Override

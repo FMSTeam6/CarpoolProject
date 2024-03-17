@@ -2,6 +2,7 @@ package com.finalproject.carpool.controllers.rest;
 
 import com.finalproject.carpool.controllers.AuthenticationHelper;
 import com.finalproject.carpool.exceptions.EntityNotFoundException;
+import com.finalproject.carpool.exceptions.LocationNotFoundException;
 import com.finalproject.carpool.exceptions.UnauthorizedOperationException;
 import com.finalproject.carpool.mappers.TravelMapper;
 import com.finalproject.carpool.models.Travel;
@@ -26,9 +27,6 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/travels")
 public class TravelRestController {
-    public static final String BLOCKED_USERS_CAN_NOT_GIVE_FEEDBACK =
-            "Sorry you are blocked and you can not create content. " +
-                    "For more info please contact one of the admins!";
 
     private final TravelService travelService;
     private final AuthenticationHelper authenticationHelper;
@@ -86,7 +84,7 @@ public class TravelRestController {
         Shows all canceled trips
      */
     @GetMapping("/canceled")
-    public List<Travel> getCanselTravel() {
+    public List<Travel> getCancelTravel() {
         return travelService.cancelALlTravel();
     }
 
@@ -108,11 +106,11 @@ public class TravelRestController {
      */
 
     @PutMapping("/canceled/{travelId}")
-    public ResponseEntity<Travel> canselTravelById(@PathVariable int travelId,@RequestHeader HttpHeaders headers) {
+    public ResponseEntity<Travel> cancelTravelById(@PathVariable int travelId, @RequestHeader HttpHeaders headers) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             Travel travel = travelService.getById(travelId);
-            return new ResponseEntity<>(travelService.cancelTravel(travel,user), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(travelService.cancelTravel(travel, user), HttpStatus.ACCEPTED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -126,7 +124,7 @@ public class TravelRestController {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             Travel travel = travelService.getById(travelId);
-            return new ResponseEntity<>(travelService.completedTravel(travel,user), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(travelService.completedTravel(travel, user), HttpStatus.ACCEPTED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -152,7 +150,7 @@ public class TravelRestController {
         try {
             Travel travel = travelService.getById(travelId);
             User user = userService.getById(userId);
-            return new ResponseEntity<>(travelService.addPassengerToTravel(user,travel),HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(travelService.addPassengerToTravel(user, travel), HttpStatus.ACCEPTED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -163,7 +161,7 @@ public class TravelRestController {
    */
     @PutMapping("/candidate/{travelId}")
     public List<User> getAllCandidatePool(@PathVariable int travelId) {
-      return travelService.getCandidateTravel(travelId);
+        return travelService.getCandidateTravel(travelId);
     }
 
 
@@ -182,6 +180,8 @@ public class TravelRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        } catch (LocationNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
     /*
@@ -199,6 +199,8 @@ public class TravelRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        } catch (LocationNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
     /*

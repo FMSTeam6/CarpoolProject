@@ -82,11 +82,10 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public void delete(int id, User user, Travel travel) {
         checkDeletePermissions(feedbackRepository.get(id), user);
-        travel.getFeedbacks().remove(feedbackRepository.get(id));
+//            travel.getFeedbacks().remove(feedbackRepository.get(id));
         feedbackRepository.deleteFeedback(id);
     }
 
-    //TODO rating system should be tested in postman
     @Override
     public void rate(Feedback feedback, int rate, User user) {
         checkIfBlocked(user);

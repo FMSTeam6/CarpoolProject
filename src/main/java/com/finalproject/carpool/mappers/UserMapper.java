@@ -1,6 +1,7 @@
 package com.finalproject.carpool.mappers;
 
 import com.finalproject.carpool.models.User;
+import com.finalproject.carpool.models.requests.user.RegisterRequest;
 import com.finalproject.carpool.models.requests.user.UserRequest;
 import com.finalproject.carpool.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class UserMapper {
         user.setPhoneNumber(request.getPhoneNumber());
         return user;
     }
-/*
+
     public User fromRegisterRequest(RegisterRequest request){
         User user = new User();
         user.setUsername(request.getUsername());
@@ -37,16 +38,16 @@ public class UserMapper {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
-        user.setPhoneNumber(request.get);
+        user.setPhoneNumber(request.getPhoneNumber());
         return user;
     }
 
-    public User fromUserUpdateDto(int id, UserUpdateRequest request) {
-        User user = userService.getById(id);
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setPassword(request.getPassword());
-
-        return user;
-    }*/
+//    public User fromUserUpdateDto(int id, UserUpdateRequest request) {
+//        User user = userService.getById(id);
+//        user.setFirstName(request.getFirstName());
+//        user.setLastName(request.getLastName());
+//        user.setPassword(request.getPassword());
+//
+//        return user;
+//    }
 }

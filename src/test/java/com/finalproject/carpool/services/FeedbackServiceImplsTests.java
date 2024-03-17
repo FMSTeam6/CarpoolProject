@@ -2,6 +2,7 @@ package com.finalproject.carpool.services;
 
 import com.finalproject.carpool.exceptions.UnauthorizedOperationException;
 import com.finalproject.carpool.models.Feedback;
+import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.repositories.FeedbackRepository;
 import com.finalproject.carpool.services.impl.FeedbackServiceImpl;
@@ -15,8 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import static com.finalproject.carpool.TestHelpers.createMockAdmin;
-import static com.finalproject.carpool.TestHelpers.createMockFeedback;
+import java.util.List;
+
+import static com.finalproject.carpool.TestHelpers.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -62,12 +64,13 @@ public class FeedbackServiceImplsTests {
         // Arrange
         Feedback mockFeedback = createMockFeedback();
         User mockUserCreator = mockFeedback.getAuthorId();
+        Travel mockTravel = createMockTravel();
 
         Mockito.when(mockFeedbackRepository.get(Mockito.anyInt()))
                 .thenReturn(mockFeedback);
 
         // Act
-        feedbackService.update(mockFeedback, mockUserCreator);
+        feedbackService.update(mockFeedback, mockUserCreator, mockTravel);
 
         // Assert
         Mockito.verify(mockFeedbackRepository, Mockito.times(1))
@@ -79,12 +82,13 @@ public class FeedbackServiceImplsTests {
         // Arrange
         Feedback mockFeedback = createMockFeedback();
         User mockUserCreator = mockFeedback.getAuthorId();
+        Travel mockTravel = createMockTravel();
 
         Mockito.when(mockFeedbackRepository.get(Mockito.anyInt()))
                 .thenReturn(mockFeedback);
 
         // Act
-        feedbackService.update(mockFeedback, mockUserCreator);
+        feedbackService.update(mockFeedback, mockUserCreator, mockTravel);
 
         // Assert
         Mockito.verify(mockFeedbackRepository, Mockito.times(1))
@@ -102,7 +106,7 @@ public class FeedbackServiceImplsTests {
         // Act, Assert
         Assertions.assertThrows(
                 UnauthorizedOperationException.class,
-                () -> feedbackService.update(mockFeedback, Mockito.mock(User.class)));
+                () -> feedbackService.update(mockFeedback, Mockito.mock(User.class), Mockito.mock(Travel.class)));
 
     }
 
@@ -111,12 +115,13 @@ public class FeedbackServiceImplsTests {
         // Arrange
         Feedback mockFeedback = createMockFeedback();
         User mockUserCreator = mockFeedback.getAuthorId();
+        Travel mockTravel = createMockTravel();
 
         Mockito.when(mockFeedbackRepository.get(Mockito.anyInt()))
                 .thenReturn(mockFeedback);
 
         // Act
-        feedbackService.delete(1, mockUserCreator);
+        feedbackService.delete(1, mockUserCreator, mockTravel);
 
         // Assert
         Mockito.verify(mockFeedbackRepository, Mockito.times(1))
@@ -128,12 +133,15 @@ public class FeedbackServiceImplsTests {
         // Arrange
         User mockUserAdmin = createMockAdmin();
         Feedback mockFeedback = createMockFeedback();
+        mockFeedback.setId(1);
+        Travel mockTravel = createMockTravel();
+        mockTravel.getFeedbacks().add(mockFeedback);
 
-        Mockito.when(mockFeedbackRepository.get(Mockito.anyInt()))
+        Mockito.when(mockFeedbackRepository.get(1))
                 .thenReturn(mockFeedback);
 
         // Act
-        feedbackService.delete(1, mockUserAdmin);
+        feedbackService.delete(1, mockUserAdmin, mockTravel);
 
         // Assert
         Mockito.verify(mockFeedbackRepository, Mockito.times(1))
@@ -144,6 +152,7 @@ public class FeedbackServiceImplsTests {
     void delete_Should_ThrowException_When_UserIsNotAdminOrAuthor() {
         // Arrange
         Feedback mockFeedback = createMockFeedback();
+        Travel mockTravel = createMockTravel();
 
         Mockito.when(mockFeedbackRepository.get(Mockito.anyInt()))
                 .thenReturn(mockFeedback);
@@ -153,6 +162,6 @@ public class FeedbackServiceImplsTests {
         // Act, Assert
         Assertions.assertThrows(
                 UnauthorizedOperationException.class,
-                () -> feedbackService.delete(1, mockUser));
+                () -> feedbackService.delete(1, mockUser, mockTravel));
     }
 }

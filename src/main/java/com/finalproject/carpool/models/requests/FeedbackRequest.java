@@ -2,7 +2,6 @@ package com.finalproject.carpool.models.requests;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.Range;
 
 public class FeedbackRequest {
     @NotNull(message = "Feedback can't be empty")
