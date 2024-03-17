@@ -57,13 +57,13 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
     }
 
     @Override
-    public List<Feedback> getAllFeedbacksByRecipient(int recipientId) {
+    public List<Feedback> getAllFeedbacksByRecipient(int userId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Feedback> query = session.createQuery("from Feedback WHERE id =: recipientId ", Feedback.class);
-            query.setParameter("recipientId", recipientId);
+            Query<Feedback> query = session.createQuery("SELECT f FROM Feedback f JOIN f.recipientId u WHERE u.id = :userId", Feedback.class);
+            query.setParameter("userId", userId);
             List<Feedback> result = query.list();
             if (result.isEmpty()) {
-                throw new EntityNotFoundException("Feedback", recipientId);
+                throw new EntityNotFoundException("Feedback", userId);
             }
             return result;
         }

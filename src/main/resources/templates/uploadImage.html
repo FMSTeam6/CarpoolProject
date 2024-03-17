@@ -12,7 +12,7 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
 
-    <title>Carpool just 4 You</title>
+    <title>Upload image</title>
 
     <!-- slider stylesheet -->
     <link rel="stylesheet" type="text/css"
@@ -45,11 +45,6 @@
                 </a>
 
                 <div class="navbar-collapse" id="">
-                    <div class="user_option">
-                        <a href="">
-                            Login
-                        </a>
-                    </div>
                     <div class="custom_menu-btn">
                         <button onclick="openNav()">
                             <span class="s-1"> </span>
@@ -79,44 +74,33 @@
 <section class="contact_section layout_padding">
     <div class="container">
         <div class="heading_container">
-            <h2>
-                Login with username and password
-            </h2>
+            <h2>Upload Image</h2>
+            <div th:if="${message}" style="color: green;">[[${message}]]</div>
+            <div th:if="${error}" style="color: red;">[[${error}]]</div>
+
+            <form action="/api/images/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" accept="image/*" required>
+                <button type="submit">Upload</button>
+            </form>
+
+            <h2>Uploaded Images</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Image ID</th>
+                    <th>File Name</th>
+                    <th>File Path</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="image : ${images}">
+                    <td th:text="${image.id}">Image ID</td>
+                    <td th:text="${image.fileName}">File Name</td>
+                    <td th:text="${image.filePath}">File Path</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <div class="form_container">
-                    <section class="login spad">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="login__form">
-                                        <h3>Login</h3>
-                                        <form th:action="@{/auth/login}" th:object="${login}" th:method="POST">
-                                            <div class="input__item">
-                                                <input type="text" th:field="*{username}" placeholder="username">
-                                                <label class="label-error-telerik" th:errors="*{username}">Content error placeholder</label>
-                                                <span class="icon_mail"></span>
-                                            </div>
-                                            <div class="input__item">
-                                                <input type="password" th:field="*{password}" placeholder="Password">
-                                                <label class="label-error-telerik" th:errors="*{password}">Content error placeholder</label>
-                                                <span class="icon_lock"></span>
-                                            </div>
-                                            <button type="submit" class="site-btn">Login Now</button>
-                                        </form>
-                                        <a th:href="@{https://www.google.com/}" class="forget_pass">Forgot Your Password?</a>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="login__register">
-                                        <h3>Don't Have An Account?</h3>
-                                        <a th:href="@{/auth/register}" class="primary-btn">Register Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="login__social">
-                </div>
         <div class="contact_items">
             <a href="">
                 <div class="img-box">
@@ -186,6 +170,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
 </script>
 <script src="/js/custom.js"></script>
+
 </body>
 
 </html>
