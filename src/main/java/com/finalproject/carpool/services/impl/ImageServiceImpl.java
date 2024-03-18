@@ -2,8 +2,10 @@ package com.finalproject.carpool.services.impl;
 
 import com.finalproject.carpool.exceptions.EntityNotFoundException;
 import com.finalproject.carpool.models.Image;
+import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.repositories.ImageRepository;
 import com.finalproject.carpool.services.ImageService;
+import com.finalproject.carpool.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,19 +17,23 @@ import java.util.List;
 public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
 
+    private final UserService userService;
+
     @Autowired
-    public ImageServiceImpl(ImageRepository imageRepository) {
+    public ImageServiceImpl(ImageRepository imageRepository, UserService userService) {
         this.imageRepository = imageRepository;
+        this.userService = userService;
     }
     @Override
     public List<Image> getAllImages() {
         return imageRepository.getAllImages();
     }
     @Override
-    public String uploadImage(MultipartFile file) {
+    public String uploadImage(MultipartFile file, User user) {
         Image image = new Image();
         image.setFileName(file.getOriginalFilename());
         imageRepository.save(image);
+        user.setImageId(image);
         return file.getOriginalFilename();
     }
 
@@ -38,5 +44,9 @@ public class ImageServiceImpl implements ImageService {
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Image", id);
         }
+    }
+
+    public void setPicture(User user, Image image){
+        user.setImageId(image);
     }
 }

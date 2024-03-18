@@ -12,7 +12,7 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
 
-    <title>Upload image</title>
+    <title>Carpool just 4 You</title>
 
     <!-- slider stylesheet -->
     <link rel="stylesheet" type="text/css"
@@ -45,6 +45,30 @@
                 </a>
 
                 <div class="navbar-collapse" id="">
+
+
+
+
+                    <div class="user_option" style="color:white;">
+                       <h4 th:text="${session.username}"></h4>
+                        <div class="user_option">
+                            <!-- Dropdown menu -->
+                            <select th:placeholder="travel" >
+                                <option value="travel">Travel</option>
+                                <option value="banana">Create Travel</option>
+                                <option value="orange">All Travels</option>
+                            </select>
+                        </div>
+                        <br/>
+                        <div class="user_option">
+                            <!-- Dropdown menu -->
+                            <select th:placeholder="travel" >
+                                <option value="FeedBack">FeedBack</option>
+                                <option value="banana">Create Travel</option>
+                                <option value="orange">All Travels</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="custom_menu-btn">
                         <button onclick="openNav()">
                             <span class="s-1"> </span>
@@ -56,10 +80,9 @@
                         <div class="overlay-content">
                             <a href="index.html">Home</a>
                             <a th:href="@{/home/about}">About</a>
-                            <a href="car.html">Cars</a>
                             <a th:href="@{/feedback/new/createFeedbackView}">Feedback for Users</a>
-                            <a href="blog.html">Blog</a>
                             <a href="contact.html">Contact Us</a>
+                            <a href="#">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -74,85 +97,10 @@
 <section class="contact_section layout_padding">
     <div class="container">
         <div class="heading_container">
-            <h2>Upload Image</h2>
-            <div th:if="${message}" style="color: green;">[[${message}]]</div>
-            <div th:if="${error}" style="color: red;">[[${error}]]</div>
 
-            <form th:action="@{/images/{id}/upload(id=${user.id})}" action="#" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" accept="image/*" required>
-                <button type="submit">Upload</button>
-            </form>
-
-            <h2>Uploaded Images</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>Image ID</th>
-                    <th>File Name</th>
-                    <th>File Path</th>
-                </tr>
-                </thead>
-<!--                <tbody>-->
-<!--                <tr th:each="image : ${images}">-->
-<!--                    <td th:text="${image.id}">Image ID</td>-->
-<!--                    <td th:text="${image.fileName}">File Name</td>-->
-<!--                    <td th:text="${image.filePath}">File Path</td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-            </table>
-        </div>
-        <div class="contact_items">
-            <a href="">
-                <div class="img-box">
-                    <img src="/images/location.png" alt="">
-                </div>
-                <h6>
-                    We will be happy to receive your request through our email for contacts
-                </h6>
-            </a>
-            <a href="">
-                <div class="img-box">
-                    <img src="/images/call.png" alt="">
-                </div>
-                <h6>
-                    (+359 891 222 444)
-                </h6>
-            </a>
-            <a href="">
-                <div class="img-box">
-                    <img src="/images/mail.png" alt="">
-                </div>
-                <h6>
-                    carpooljust4you@gmail.com
-                </h6>
-            </a>
-
-        </div>
-        <div class="social_container">
-            <div class="social-box">
-                <div>
-                    <a href="">
-                        <img src="/images/fb.png" alt="">
-                    </a>
-                </div>
-                <div>
-                    <a href="">
-                        <img src="/images/twitter.png" alt="">
-                    </a>
-                </div>
-                <div>
-                    <a href="">
-                        <img src="/images/linkedin.png" alt="">
-                    </a>
-                </div>
-                <div>
-                    <a href="">
-                        <img src="/images/insta.png" alt="">
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
+
 </section>
 
 <!-- end contact section -->
@@ -172,5 +120,7 @@
 <script src="/js/custom.js"></script>
 
 </body>
+
+
 
 </html>

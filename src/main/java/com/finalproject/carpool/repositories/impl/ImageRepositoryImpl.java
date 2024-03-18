@@ -26,7 +26,11 @@ public class ImageRepositoryImpl implements ImageRepository {
 
     @Override
     public void save(Image image) {
-        getCurrentSession().persist(image);
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.persist(image);
+            session.getTransaction().commit();
+        }
     }
 
     @Override

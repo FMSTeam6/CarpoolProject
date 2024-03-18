@@ -44,7 +44,7 @@
 
                 <div class="navbar-collapse" id="">
                     <div class="user_option">
-                        <a href="">
+                        <a th:href="@{auth/login}">
                             Login
                         </a>
                     </div>
@@ -63,7 +63,7 @@
                             <a th:href="@{/feedback/new/createFeedbackView}">Feedback for Users</a>
                             <a href="blog.html">Blog</a>
                             <a href="contact.html">Contact Us</a>
-                            <a href="#">Login</a>
+                            <a th:href="@{auth/login}">Login</a>
                         </div>
                     </div>
                 </div>

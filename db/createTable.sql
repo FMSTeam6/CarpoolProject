@@ -3,9 +3,9 @@ use carpool;
 create table images
 (
     image_id  INT AUTO_INCREMENT PRIMARY KEY,
-    file_name VARCHAR(255) NOT NULL,
-    file_path VARCHAR(255) NOT NULL,
-    file_size INT          NOT NULL
+    file_name VARCHAR(255) NULL,
+    file_path VARCHAR(255) NULL,
+    file_size INT          NULL
 );
 
 create table users
@@ -20,10 +20,10 @@ create table users
     rating       double       null,
     is_admin     BOOLEAN      null,
     is_banned    BOOLEAN      null,
-    image_id     int          null,
+    image_id     VARCHAR(255)          null,
     verification_code varchar(250) not null,
-    verified BOOLEAN null,
-    foreign key (image_id) references images (image_id)
+    verified BOOLEAN null
+
 );
 
 
