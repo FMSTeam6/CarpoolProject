@@ -11,6 +11,12 @@ import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.requests.FeedbackRequest;
 import com.finalproject.carpool.services.FeedbackService;
 import com.finalproject.carpool.services.TravelService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 
@@ -36,14 +43,15 @@ public class FeedbackRestController {
         this.feedbackService = feedbackService;
         this.travelService = travelService;
     }
-
+    @Operation(summary = "Get all feedbacks", description = "Retrieve all the available feedbacks")
     @GetMapping
     public List<Feedback> get() {
         return feedbackService.getAllFeedbacks();
     }
-
     @GetMapping("/travels/{travelId}")
-    public List<Feedback> getFeedbacksFromTravel(@PathVariable int travelId) {
+    @Operation(summary = "Get feedback by travel ID", description = "Retrieve travel information based on the feedbacks by travel ID")
+    public List<Feedback> getFeedbacksFromTravel(@Parameter(description = "Travel ID", example = "1", required = true)
+            @PathVariable int travelId) {
         try {
             return feedbackService.getFeedbacksFromTravel(travelId);
         } catch (EntityNotFoundException e) {
@@ -52,7 +60,9 @@ public class FeedbackRestController {
     }
 
     @GetMapping("/authors/{authorId}")
-    public List<Feedback> getFeedbacksFromAuthor(@PathVariable int authorId) {
+    @Operation(summary = "Get feedback by author ID", description = "Retrieve user information based on the given feedbacks by user ID")
+    public List<Feedback> getFeedbacksFromAuthor(@Parameter(description = "User(author) ID", example = "5", required = true)
+            @PathVariable int authorId) {
         try {
             return feedbackService.getAllFeedbacksByAuthor(authorId);
         } catch (EntityNotFoundException e) {
@@ -61,14 +71,26 @@ public class FeedbackRestController {
     }
 
     @GetMapping("/recipients/{recipientId}")
-    public List<Feedback> getFeedbacksByRecipient(@PathVariable int recipientId) {
+    @Operation(summary = "Get feedback by recipient ID", description = "Retrieve user information based on the received feedbacks user ID")
+    public List<Feedback> getFeedbacksByRecipient(@Parameter(description = "User(recipient) ID", example = "1", required = true)
+            @PathVariable int recipientId) {
         try {
             return feedbackService.getAllFeedbacksByRecipient(recipientId);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-
+    @Operation(summary = "Create Feedback",
+            description = "Create a new feedback for a travel.",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Feedback created",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Feedback.class))),
+                    @ApiResponse(responseCode = "404", description = "Travel not found"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized operation"),
+                    @ApiResponse(responseCode = "409", description = "Invalid rating")
+            })
+    @SecurityRequirement(name = "Authorization")
     @PostMapping("/{travelId}")
     public ResponseEntity<Feedback> createFeedback(@RequestHeader HttpHeaders headers, @PathVariable int travelId,
                                                    @Valid @RequestBody FeedbackRequest request) {
@@ -81,14 +103,23 @@ public class FeedbackRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        } catch (NotAValidRatingException e){
+        } catch (NotAValidRatingException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
-
+    @Operation(summary = "Update Feedback",
+            description = "Update an existing feedback.",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Feedback updated",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = Feedback.class))),
+                    @ApiResponse(responseCode = "404", description = "Feedback not found"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized operation")
+            })
+    @SecurityRequirement(name = "Authorization")
     @PutMapping("/{feedbackId}")
     public ResponseEntity<Feedback> updateFeedback(@RequestHeader HttpHeaders headers, @PathVariable int feedbackId,
-                                                    @Valid @RequestBody FeedbackRequest request) {
+                                                   @Valid @RequestBody FeedbackRequest request) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             Feedback feedback = feedbackMapper.fromRequest(feedbackId, request);
@@ -99,7 +130,9 @@ public class FeedbackRestController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
-
+    @Operation(summary = "Delete Feedback",
+            description = "Delete an existing feedback.")
+    @SecurityRequirement(name = "Authorization")
     @DeleteMapping("/{feedbackId}")
     public void delete(@RequestHeader HttpHeaders headers, @PathVariable int feedbackId) {
         try {
