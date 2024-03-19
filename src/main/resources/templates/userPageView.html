@@ -2,34 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <!-- Basic -->
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <!-- Mobile Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <!-- Site Metas -->
-    <meta name="keywords" content=""/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <th:block th:include="~{/fragments/head_meta}"></th:block>
 
     <title>Carpool just 4 You</title>
 
-    <!-- slider stylesheet -->
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
-
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
-
-    <!-- fonts style -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,600,700&display=swap"
-          rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="/css/style.css" rel="stylesheet"/>
-    <!-- responsive style -->
-    <link href="/css/responsive.css" rel="stylesheet"/>
-    <link rel="icon" type="image/ico" href="/images/favicon.ico">
+    <th:block th:include="~{/fragments/head_script}"></th:block>
 </head>
 
 <body class="sub_page">
@@ -42,48 +19,43 @@
             <span>
               Carpool just 4 You
             </span>
+
                 </a>
-
-                <div class="navbar-collapse" id="">
-
-
-
-
-                    <div class="user_option" style="color:white;">
-                       <h4 th:text="${session.username}"></h4>
-                        <div class="user_option">
-                            <!-- Dropdown menu -->
-                            <select th:placeholder="travel" >
-                                <option value="travel">Travel</option>
-                                <option value="banana">Create Travel</option>
-                                <option value="orange">All Travels</option>
-                            </select>
-                        </div>
-                        <br/>
-                        <div class="user_option">
-                            <!-- Dropdown menu -->
-                            <select th:placeholder="travel" >
-                                <option value="FeedBack">FeedBack</option>
-                                <option value="banana">Create Travel</option>
-                                <option value="orange">All Travels</option>
-                            </select>
-                        </div>
+                <div class="user_option" style="color:white;">
+                    <h4 th:text="${session.username}"></h4>
+                    <div class="user_option">
+                        <!-- Dropdown menu -->
+                        <select onchange="redirectToPage(this)">
+                            <option value="">Travel</option>
+                            <option value="/travel">All Travels</option>
+                            <option value="/travel/new">Create Travel</option>
+                            <option value="/travel/user">View Travel driver</option>
+                        </select>
                     </div>
-                    <div class="custom_menu-btn">
-                        <button onclick="openNav()">
-                            <span class="s-1"> </span>
-                            <span class="s-2"> </span>
-                            <span class="s-3"> </span>
-                        </button>
+                    <br/>
+                    <div class="user_option">
+                        <!-- Dropdown menu -->
+                        <select onchange="redirectToPage(this)">
+                            <option value="FeedBack">FeedBack</option>
+                            <option value="banana">Create Travel</option>
+                            <option value="orange">All Travels</option>
+                        </select>
                     </div>
-                    <div id="myNav" class="overlay">
-                        <div class="overlay-content">
-                            <a href="index.html">Home</a>
-                            <a th:href="@{/home/about}">About</a>
-                            <a th:href="@{/feedback/new/createFeedbackView}">Feedback for Users</a>
-                            <a href="contact.html">Contact Us</a>
-                            <a href="#">Logout</a>
-                        </div>
+                </div>
+                <div class="custom_menu-btn">
+                    <button onclick="openNav()">
+                        <span class="s-1"> </span>
+                        <span class="s-2"> </span>
+                        <span class="s-3"> </span>
+                    </button>
+                </div>
+                <div id="myNav" class="overlay">
+                    <div class="overlay-content">
+                        <a href="index.html">Home</a>
+                        <a th:href="@{/home/about}">About</a>
+                        <a th:href="@{/feedback/new/createFeedbackView}">Feedback for Users</a>
+                        <a href="contact.html">Contact Us</a>
+                        <a href="#">Logout</a>
                     </div>
                 </div>
             </nav>
@@ -102,25 +74,20 @@
     </div>
 
 </section>
-
-<!-- end contact section -->
-
-<!-- footer section -->
-<footer class="container-fluid footer_section">
-    <p>
-        Copyright &copy; 2024 All Rights Reserved. Design by Aleks, Drago and Lyuci
-    </p>
-</footer>
-<!-- footer section -->
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-<script src="/js/bootstrap.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+<script>
+    function redirectToPage(select) {
+        var selectedOption = select.options[select.selectedIndex].value;
+        if (selectedOption) {
+            window.location.href = selectedOption;
+        }
+    }
 </script>
-<script src="/js/custom.js"></script>
+
+
+<th:block th:include="~{/fragments/scrips_footer}"></th:block>
 
 </body>
 
-
+<th:block th:include="~{/fragments/footer}"></th:block>
 
 </html>
