@@ -22,7 +22,7 @@
 
                 </a>
                 <div class="user_option" style="color:white;">
-                    <h4 th:text="${session.username}"></h4>
+                    <h4 th:text="'Admin - ' + ${session.username}"></h4>
                     <div class="user_option">
                         <!-- Dropdown menu -->
                         <select onchange="redirectToPage(this)">

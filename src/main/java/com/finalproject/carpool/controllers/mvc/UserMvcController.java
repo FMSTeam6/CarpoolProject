@@ -58,7 +58,7 @@ public class UserMvcController {
             User userToUpdate = userMapper.fromRequest(user.getId(), request);
             userService.update(userToUpdate, userToUpdate.getId(),user.getId());
             model.addAttribute("currentUser",user);
-            return "redirect:/auth/login";
+            return "userPageView";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());

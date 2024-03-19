@@ -1,67 +1,66 @@
     <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title th:text="${currentUser}"></title>
-    <!-- Basic -->
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <!-- Mobile Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <!-- Site Metas -->
-    <meta name="keywords" content=""/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <head>
+        <th:block th:include="~{/fragments/head_meta}"></th:block>
 
-    <title>Carpool just 4 You</title>
+        <title>Carpool just 4 You</title>
 
-    <!-- slider stylesheet -->
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
-
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
-
-    <!-- fonts style -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,600,700&display=swap"
-          rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="/css/style.css" rel="stylesheet"/>
-    <!-- responsive style -->
-    <link href="/css/responsive.css" rel="stylesheet"/>
-    <link rel="icon" type="image/ico" href="/images/favicon.ico">
-
-</head>
+        <th:block th:include="~{/fragments/head_script}"></th:block>
+    </head>
 <body>
     <div class="body-content-telerik">
         <h2 class="text-white">Update user information</h2>
         <br/>
         <form th:action="@{/user/update}" th:object="${currentUser}" th:method="POST">
-            <label th:text="First Name">First name</label>
+
+            <label th:text="#{users.label.username}">Username</label>
             <br/>
-            <input th:field="*{firstName}"/>
+            <label>
+                <input th:field="*{username}"/>
+            </label>
+            <label class="label-error-telerik" th:errors="*{username}">Username error placeholder</label>
+            <br/> <br/>
+            <label th:text="#{users.label.firstName}">First name</label>
+            <br/>
+            <label>
+                <input th:field="*{firstName}"/>
+            </label>
             <label class="label-error-telerik" th:errors="*{firstName}">First name error placeholder</label>
             <br/> <br/>
-            <label th:text="Last Name">Last name</label>
+            <label th:text="#{users.label.lastName}">Last name</label>
             <br/>
-            <input th:field="*{lastName}"/>
+            <label>
+                <input th:field="*{lastName}"/>
+            </label>
             <label class="label-error-telerik" th:errors="*{lastName}">Last name error placeholder</label>
             <br/> <br/>
-            <label th:text="password">Password</label>
+            <label th:text="#{users.label.password}">Password</label>
             <br/>
-            <input th:field="*{password}"/>
+            <label>
+                <input th:field="*{password}"/>
+            </label>
             <label class="label-error-telerik" th:errors="*{password}">Password error placeholder</label>
             <br/> <br/>
-
+            <label th:text="#{users.label.email}">Email</label>
+            <br/>
+            <label>
+                <input th:field="*{email}"/>
+            </label>
+            <label class="label-error-telerik" th:errors="*{email}">Email error placeholder</label>
+            <br/> <br/>
+            <label th:text="#{users.label.phoneNumber}">Phone Number</label>
+            <br/>
+            <label>
+                <input th:field="*{phoneNumber}"/>
+            </label>
+            <label class="label-error-telerik" th:errors="*{phoneNumber}">Phone Number error placeholder</label>
+            <br/> <br/>
             <button type="submit">Update</button>
         </form>
     </div>
+    <th:block th:include="~{/fragments/scrips_footer}"></th:block>
 
 </body>
 
-<footer class="container-fluid footer_section">
-    <p>
-        Copyright &copy; 2024 All Rights Reserved. Design by Aleks, Drago and Lyuci
-    </p>
-</footer>
+    <th:block th:include="~{/fragments/footer}"></th:block>
 </html>
