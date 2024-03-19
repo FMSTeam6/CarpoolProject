@@ -117,8 +117,8 @@ public class FeedbackMvcController {
         }
     }
 
-    @PostMapping("/update/{travelId}/{feedbackId}")
-    public String updateFeedback(@PathVariable int travelId, @PathVariable int feedbackId,
+    @PostMapping("/update/{feedbackId}")
+    public String updateFeedback(@PathVariable int feedbackId,
                              @Valid @ModelAttribute("feedback") FeedbackRequest request,
                              BindingResult bindingResult, Model model, HttpSession session) {
         User user;
@@ -133,8 +133,7 @@ public class FeedbackMvcController {
         }
         try {
             Feedback feedback = feedbackMapper.fromRequest(feedbackId, request);
-            Travel travel = travelService.getById(travelId);
-            feedbackService.update(feedback,user,travel);
+            feedbackService.update(feedback,user);
             return "redirect:/FeedbackView";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
@@ -146,8 +145,8 @@ public class FeedbackMvcController {
             return "ErrorView";
         }
     }
-    @GetMapping("/delete//{travelId}/{feedbackId}")
-    public String deleteFeedback(@PathVariable int feedbackId, @PathVariable int travelId, Model model,HttpSession session) {
+    @GetMapping("/delete/{feedbackId}")
+    public String deleteFeedback(@PathVariable int feedbackId, Model model,HttpSession session) {
 
         User user;
         try {
@@ -156,8 +155,7 @@ public class FeedbackMvcController {
             return "redirect:/auth/loginView";
         }
         try {
-            Travel travel = travelService.getById(travelId);
-            feedbackService.delete(feedbackId, user, travel);
+            feedbackService.delete(feedbackId, user);
             return "redirect:/index";
         } catch (EntityNotFoundException | AuthenticationFailureException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
