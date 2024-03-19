@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <th:block th:include="~{/fragments/head_meta}"></th:block>
     <title>Error</title>
-    <th:block th:include="~{/fragments/head}"></th:block>
-    <link rel="icon" type="image/ico" href="/images/favicon.ico">
+    <th:block th:include="~{/fragments/head_script}"></th:block>
 </head>
 <body>
-<th:block th:include="~{/fragments/navHome}"></th:block>
 <br/><br/><br/>
-<div class="body-content-telerik">
-    <h2 class="label-error-telerik" th:text="${statusCode}">HTTP status code</h2>
-    <br/>
-    <h3 class="form-error-telerik" th:text="${error}">Error message</h3>
-</div>
+<section class="contact_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <div class="body-content-telerik">
+                <h2 class="form-error" th:text="${statusCode}" style="color: red">HTTP status code</h2>
+                <br/>
+                <h3 class="form-error" th:text="${error}" style="color: red">Error message</h3>
+            </div>
+            <th:block th:include="~{/fragments/scrips_footer}"></th:block>
+        </div>
+    </div>
+
+</section>
 </body>
-<th:block th:include="~{/fragments/footer}"> </th:block>
+<th:block th:include="~{/fragments/footer}"></th:block>
 </html>
