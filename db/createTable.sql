@@ -21,7 +21,7 @@ create table users
     is_admin     BOOLEAN      null,
     is_banned    BOOLEAN      null,
     image_id     VARCHAR(255)          null,
-    verification_code varchar(250) not null,
+    verification_code varchar(250) null,
     verified BOOLEAN null
 
 );
