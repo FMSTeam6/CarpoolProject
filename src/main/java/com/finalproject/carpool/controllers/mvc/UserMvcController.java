@@ -6,6 +6,8 @@ import com.finalproject.carpool.exceptions.EntityDuplicateException;
 import com.finalproject.carpool.exceptions.EntityNotFoundException;
 import com.finalproject.carpool.mappers.UserMapper;
 import com.finalproject.carpool.models.User;
+import com.finalproject.carpool.models.filters.SearchUser;
+import com.finalproject.carpool.models.requests.user.SearchUserRequest;
 import com.finalproject.carpool.models.requests.user.UserRequest;
 import com.finalproject.carpool.services.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +30,17 @@ public class UserMvcController {
         this.authenticationHelper = authenticationHelper;
         this.userService = userService;
         this.userMapper = userMapper;
+    }
+
+    @GetMapping
+    public String showUser(@ModelAttribute("searchUser") SearchUserRequest searchUserRequest, Model model) {
+        SearchUser searchUser = new SearchUser(searchUserRequest.getUsername(),
+                searchUserRequest.getEmail(),
+                searchUserRequest.getPhoneNumber(),
+                searchUserRequest.getSortBy(),
+                searchUserRequest.getSortOrder());
+        model.addAttribute("users", userService.getAll(searchUser));
+        return "UsersView";
     }
 
     @GetMapping("/update")
