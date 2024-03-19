@@ -1028,15 +1028,18 @@ a:focus {
   background: var(--bs-dark) !important;
   position:fixed;
   margin: auto;
-  left:0px;
-  bottom:0px;
+  left:0;
+  bottom:0;
   height:30px;
-  width:100%;
+  width:200%;
+  padding: 10px;
 }
 
 .footer_section {
   background-color: $primary1;
   padding: 20px;
+  position: absolute;
+  bottom: 0;
 }
 
 .footer_section p {
@@ -1051,6 +1054,11 @@ a:focus {
   }
 }
 .form-error {
-  color: #dc3545;
+  color: red;
+}
+
+.body-content-telerik {
+  text-align: center;
+  padding: 10px 50px 50px 50px;
 }
 // end footer section

@@ -35,25 +35,17 @@ public class TravelRepositoryImpl implements TravelRepository {
             ArrayList<String> filters = new ArrayList<>();
             Map<String, Object> params = new HashMap<>();
 
-            travelFilterOptions.getStartLocation().ifPresent(value -> {
-                filters.add(" startingLocation LIKE: starting_location ");
-                params.put("startingLocation", String.format("%%%s%%", value));
+            travelFilterOptions.getStartingLocation().ifPresent(value -> {
+                filters.add(" startingLocation like: starting_location ");
+                params.put("starting_location", String.format("%%%s%%", value));
             });
             travelFilterOptions.getEndLocation().ifPresent(value -> {
                 filters.add(" endLocation like: end_location ");
                 params.put("end_location", String.format("%%%s%%", value));
             });
-            travelFilterOptions.getDateOfDeparture().ifPresent(value -> {
-                filters.add(" dateOfDeparture like: date_of_departure ");
-                params.put("date_of_departure", String.format("%%%s%%", value));
-            });
             travelFilterOptions.getPricePerPerson().ifPresent(value -> {
                 filters.add(" pricePerPerson >=: price_per_person ");
                 params.put("price_per_person", value);
-            });
-            travelFilterOptions.getDriver().ifPresent(value -> {
-                filters.add(" driver.username =: driver_id ");
-                params.put("driver_id", value);
             });
             filters.add(" isCanceled =: is_canseled");
             filters.add(" isCompleted =: is_completed");

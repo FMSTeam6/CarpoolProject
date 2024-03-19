@@ -16,6 +16,7 @@ public class TravelMapper {
 
     private final TravelService travelService;
     private final AdditionalOptionsService additionalOptionsService;
+
     @Autowired
     public TravelMapper(TravelService travelService, AdditionalOptionsService additionalOptionsService) {
         this.travelService = travelService;
@@ -23,14 +24,24 @@ public class TravelMapper {
     }
 
 
-
-    public Travel fromTravelRequest(int id, TravelRequest travelRequest){
+    public Travel fromTravelRequest(int id, TravelRequest travelRequest) {
         Travel travel = fromTravelRequest(travelRequest);
         travel.setId(id);
         return travel;
     }
 
-    public Travel fromTravelRequest(TravelRequest travelRequest){
+    public TravelRequest fromTravel(Travel travel) {
+        TravelRequest travelRequest = new TravelRequest();
+        travelRequest.setStartingLocation(travel.getStartingLocation());
+        travelRequest.setEndLocation(travel.getEndLocation());
+        travelRequest.setEmptySeats(travel.getEmptySeats());
+        travelRequest.setDateOfDeparture(travel.getDateOfDeparture());
+        travelRequest.setPricePerPerson(travel.getPricePerPerson());
+
+        return travelRequest;
+    }
+
+    public Travel fromTravelRequest(TravelRequest travelRequest) {
         Travel travel = new Travel();
         travel.setStartingLocation(travelRequest.getStartingLocation());
         travel.setEndLocation(travelRequest.getEndLocation());
@@ -41,7 +52,8 @@ public class TravelMapper {
 
         return travel;
     }
-    private List<AdditionalOptions> modify(List<Integer> addOptions){
+
+    private List<AdditionalOptions> modify(List<Integer> addOptions) {
         List<AdditionalOptions> additionalOptionsList = new ArrayList<>();
         for (int i = 0; i < addOptions.size(); i++) {
             additionalOptionsList.add(additionalOptionsService.get(addOptions.get(i)));

@@ -73,7 +73,7 @@ public class AuthenticationMvcController {
     @GetMapping("/logout")
     public String handleLogout(HttpSession session) {
         session.removeAttribute("currentUser");
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @GetMapping("/register")
