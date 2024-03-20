@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <!-- Basic -->
     <meta charset="utf-8"/>
@@ -43,12 +46,26 @@
               Carpool just 4 You
             </span>
                 </a>
-                <div id="myNav" class="overlay">
-                    <div class="overlay-content">
-                        <a th:href="@{/home/about}">About</a>
-                        <a th:href="@{/travel/new}">Create Travel</a>
-                        <a th:href="@{/travel}">Search Travel</a>
-                        <a th:href="@{/auth/login}">Login</a>
+
+                <div class="navbar-collapse" id="">
+                    <div class="user_option">
+                        <a href="">
+                            Login
+                        </a>
+                    </div>
+                    <div class="custom_menu-btn">
+                        <button onclick="openNav()">
+                            <span class="s-1"> </span>
+                            <span class="s-2"> </span>
+                            <span class="s-3"> </span>
+                        </button>
+                    </div>
+                    <div id="myNav" class="overlay">
+                        <div class="overlay-content">
+                            <a th:href="@{/home/about}">About</a>
+                            <a th:href="@{/travel}">Search Travel</a>
+                            <a th:href="@{/auth/login}">Login</a>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -63,31 +80,54 @@
     <div class="container">
         <div class="heading_container">
             <h2>
-                Leave your feedback and give a rating
+                Please register
             </h2>
         </div>
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <div class="form_container">
-                    <h2>Feedback Form</h2>
-                    <form th:action="@{/feedback/create}" method="post" th:object="${feedback}">
-                        <label for="text">Feedback Text:</label><br>
-                        <textarea id="text" name="text" rows="4" cols="50" th:field="*{text}" required></textarea><br>
-
-                        <label for="rating">Rating:</label><br>
-                        <input type="number" id="rating" name="rating" min="1" max="5" th:field="*{rating}" required><br>
-
-                        <label for="travelId">Choose Travel:</label><br>
-                        <select id="travelId" name="travelId" th:field="*{travelId}">
-                            <option value="" disabled selected>Select Travel</option>
-                            <option th:each="travel : ${travels}" th:value="${travel}" th:text="${travel.driverId.username}"></option>
-                        </select>
-
-                        <!-- Error messages for text -->
-                        <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}" style="color: red"></div><br>
-
-                        <input type="submit" value="Submit">
-                    </form>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="login__form">
+                        <h3>Register</h3>
+                        <form th:action="@{/auth/register}" th:object="${register}" th:method="POST">
+                            <div class="input__item">
+                                <input th:field="*{firstName}" type="text" placeholder="First name">
+                                <label class="label-error-telerik" th:errors="*{firstName}">Content error placeholder</label>
+                                <span class="icon_profile"></span>
+                            </div>
+                            <div class="input__item">
+                                <input th:field="*{lastName}" type="text" placeholder="Last name">
+                                <label class="label-error-telerik" th:errors="*{lastName}">Content error placeholder</label>
+                                <span class="icon_profile"></span>
+                            </div>
+                            <div class="input__item">
+                                <input th:field="*{username}" type="text" placeholder="username">
+                                <label class="label-error-telerik" th:errors="*{username}">Content error placeholder</label>
+                                <span class="icon_mail"></span>
+                            </div>
+                            <div class="input__item">
+                                <input th:field="*{password}" type="password" placeholder="Password">
+                                <label class="label-error-telerik" th:errors="*{password}">Content error placeholder</label>
+                                <span class="icon_lock"></span>
+                            </div>
+                            <div class="input__item">
+                                <input th:field="*{passwordConfirm}" type="password" placeholder="Password Confirm">
+                                <label class="label-error-telerik" th:errors="*{passwordConfirm}">Content error placeholder</label>
+                                <span class="icon_lock"></span>
+                            </div>
+                            <div class="input__item">
+                                <input th:field="*{phoneNumber}" type="text" placeholder="Phone number">
+                                <label class="label-error-telerik" th:errors="*{phoneNumber}">Content error placeholder</label>
+                                <span class="icon_profile"></span>
+                            </div>
+                            <div class="input__item">
+                                <input th:field="*{email}" type="text" placeholder="Email">
+                                <label class="label-error-telerik" th:errors="*{email}">Content error placeholder</label>
+                                <span class="icon_profile"></span>
+                            </div>
+                            <button type="submit" class="site-btn">Register</button>
+                        </form>
+                        <h5>Already have an account? <a th:href="@{/auth/login}">Log In!</a></h5>
+                    </div>
                 </div>
             </div>
         </div>
