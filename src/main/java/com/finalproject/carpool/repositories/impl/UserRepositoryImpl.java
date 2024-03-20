@@ -3,6 +3,8 @@ package com.finalproject.carpool.repositories.impl;
 
 import com.finalproject.carpool.exceptions.EntityNotFoundException;
 import com.finalproject.carpool.exceptions.UserStatusCannotBeChangedException;
+import com.finalproject.carpool.models.Feedback;
+import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.SearchUser;
 import com.finalproject.carpool.repositories.UserRepository;
@@ -189,7 +191,41 @@ public class UserRepositoryImpl implements UserRepository {
             return result.get(0);
         }
     }
+    @Override
+    public List<Travel> findTravelsByUserId(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Travel> query = session.createQuery(
+                    "SELECT t FROM User u JOIN u.participatedInTravels t WHERE u.id = :userId", Travel.class);
+            query.setParameter("userId", userId);
+            return query.getResultList();
+        }
+    }
 
+//    @Override
+//    public List<Travel> partisipatedInTravels(){
+//        try (Session session = sessionFactory.openSession()) {
+//            Query<Travel> query = session.createQuery(
+//                    "SELECT t From Travel t JOIN t.id WHERE t.id = :travel_id", Travel.class);
+//            query.setParameter("verificationCode", verificationCode);
+//            List<User> result = query.list();
+//            if (result.isEmpty()) {
+//                throw new EntityNotFoundException("User", "verificationCode", verificationCode);
+//            }
+//            return result.get(0);
+//        }
+//    }
+//    @Override
+//    public List<Feedback> getAllFeedbacksByRecipient(int userId) {
+//        try (Session session = sessionFactory.openSession()) {
+//            Query<Feedback> query = session.createQuery("SELECT f FROM Feedback f JOIN f.recipientId u WHERE u.id = :userId", Feedback.class);
+//            query.setParameter("userId", userId);
+//            List<Feedback> result = query.list();
+//            if (result.isEmpty()) {
+//                throw new EntityNotFoundException("Feedback", userId);
+//            }
+//            return result;
+//        }
+//    }
 
 //    private static boolean containsIgnoreCase(String value, String sequence) {
 //        return value.toLowerCase().contains(sequence.toLowerCase());

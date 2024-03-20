@@ -56,3 +56,18 @@ VALUES (4,'For the second time, I’m traveling with him, and he’s always poli
 INSERT INTO feedbacks(feedback_id, text, rating, author_id, travel_id)
 VALUES (5,'Very punctual, and there was space for my huge suitcase.',5,2,5);
 
+INSERT INTO feedbacks_users(feedback_id, recipient_id)
+VALUES (5,1);
+INSERT INTO feedbacks_users(feedback_id, recipient_id)
+VALUES (4,2);
+INSERT INTO feedbacks_users(feedback_id, recipient_id)
+VALUES (3,1);
+
+INSERT INTO users_travels(user_id, travel_id)
+VALUES (1,2);
+INSERT INTO users_travels(user_id, travel_id)
+VALUES (1,3);
+INSERT INTO users_travels(user_id, travel_id)
+VALUES (2,2);
+INSERT INTO users_travels(user_id, travel_id)
+VALUES (2,3);
