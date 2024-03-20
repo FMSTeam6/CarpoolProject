@@ -4,6 +4,7 @@ import com.finalproject.carpool.controllers.AuthenticationHelper;
 import com.finalproject.carpool.exceptions.AuthenticationFailureException;
 import com.finalproject.carpool.exceptions.EntityDuplicateException;
 import com.finalproject.carpool.exceptions.EntityNotFoundException;
+import com.finalproject.carpool.exceptions.UnauthorizedOperationException;
 import com.finalproject.carpool.mappers.UserMapper;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.SearchUser;
@@ -100,17 +101,42 @@ public class UserMvcController {
         }
     }
 
-//    @GetMapping("/{userId}")
-//    public String showSingleUser(@PathVariable int userId, Model model) {
-//        try {
-//            model.addAttribute("user", userService.getById(userId));
-//            return "UserView";
-//        } catch (EntityNotFoundException e) {
-//            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
-//            model.addAttribute("error", e.getMessage());
-//        }
-//        return "ErrorView";
-//    }
+    @GetMapping("/{userId}")
+    public String showSingleUser(@PathVariable int userId, Model model) {
+        try {
+            model.addAttribute("user", userService.getById(userId));
+            return "UserView";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+        }
+        return "ErrorView";
+    }
 
+
+    @GetMapping("/banOrUnban/{id}")
+    public String banOrUnbanUser(@PathVariable int id, Model model,HttpSession session) {
+        try {
+            User user = authenticationHelper.tryGetUserFromSession(session);
+            User userToBanOrUnban = userService.getById(id);
+            model.addAttribute("banAdmin", userService.getById(id));
+            if (userToBanOrUnban.isBanned()){
+                userService.unBanUser(userToBanOrUnban, user.getId());
+            }
+            if (!userToBanOrUnban.isBanned()){
+                userService.banUser(userToBanOrUnban, user.getId());
+            }
+
+            return "action-done";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "ErrorView";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "ErrorView";
+        }
+    }
 
 }

@@ -52,30 +52,44 @@
             <br/>
         </div>
 
-
-        <div class="table">
-            <div class="header-telerik">
-                <div class="header-cell">
-                    <div class="header-cell" th:text="#{users.label.username}">Username</div>
-                    <div class="header-cell" th:text="#{users.label.firstName}">First Name</div>
-                    <div class="header-cell" th:text="#{users.label.lastName}">Last Name</div>
-                    <div class="header-cell" th:text="#{users.label.email}">Email</div>
-                    <div class="header-cell" th:text="#{users.label.isAdmin}">Is Admin</div>
-                    <div class="header-cell" th:text="#{users.label.isBlocked}">Is Blocked</div>
-
-                    <div class="row-label" th:each="user : ${users}">
+        <div th:each="user : ${users}">
+            <table class="table" style="color:white;">
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Is Admin</th>
+                    <th>Is Blocked</th>
+                </tr>
+                <tr>
+                    <td scope="row">
                         <div class="cell-label">
                             <a href="#" th:href="@{/user/{id}(id=${user.id})}" th:text="${user.username}"></a>
                         </div>
-                        <div class="cell-label" th:text="${user.firstName}">First Name</div>
-                        <div class="cell-label" th:text="${user.lastName}">Last Name</div>
-                        <div class="cell-label" th:text="${user.email}">Email</div>
-                        <div class="cell-label" th:text="${user.isAdmin()}">Is Admin</div>
-                        <div class="cell-label" th:text="${user.isBanned()}">Is Blocked</div>
-                    </div>
-                </div>
-            </div>
+                    </td>
+                    <td>
+                        <div th:text="${user.firstName}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${user.lastName}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${user.email}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${user.isAdmin()}"></div>
+                    </td>
+                    <td>
+                        <div th:text="${user.isBanned()}"></div>
+                    </td>
+                </tr>
+            </table>
         </div>
+
+
+
+
     </div>
 </div>
 

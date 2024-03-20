@@ -41,15 +41,7 @@
                             <option value="/feedback/update">Update Feedback</option>
                         </select>
                     </div>
-                    <br/>
-                    <div class="user_option">
-                        <!-- Dropdown menu -->
-                        <select onchange="redirectToPage(this)">
-                            <option value="FeedBack">User</option>
-                            <option value="banana">View trips applied</option>
-                            <option value="orange">View trips approved</option>
-                        </select>
-                    </div>
+
                 </div>
                 <div class="custom_menu-btn">
                     <button onclick="openNav()">
@@ -60,7 +52,7 @@
                 </div>
                 <div id="myNav" class="overlay">
                     <div class="overlay-content">
-                        <a href="index.html">Home</a>
+                        <a th:href="@{/home}">Home</a>
                         <a th:href="@{/home/about}">About</a>
                         <a th:href="@{/feedback/new/createFeedbackView}">Feedback for Users</a>
                         <a th:href="@{/user/update}">Update</a>

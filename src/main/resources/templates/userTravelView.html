@@ -69,14 +69,9 @@
                 </form>
             </center>
             <br/>
-            <div th:each="travel : ${travels}">
-                    <div th:if="${travels.isEmpty() and travel.driverId.username.equals(session.username)}">
-                        <h2 th:text="#{travels.title.emptyDriver}">No Travel by Driver</h2>
-                    </div>
-                    <div th:unless="${travels.isEmpty() and travel.driverId.equals(session.username)}">
-                        <h2 th:text="#{travels.title.notEmptyDriver}">All Travel by Driver</h2>
-                    </div>
-                </div>
+            <div>
+                <h2 th:text="#{travels.title.notEmptyDriver}">All Travels by Driver</h2>
+            </div>
             <div th:each="travel : ${travels}">
                 <div th:unless="${!travel.driverId.username.equals(session.username)}">
                     <div class="container-fluid">

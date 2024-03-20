@@ -139,7 +139,6 @@ public class TravelServiceImpl implements TravelService {
         checkCanceledTravel(travel);
         checkCompletedTravel(travel);
         choiceDriverUser(user,travel);
-        travel.getPassengers().add(user);
         travel.getCandidatesPool().remove(user);
         travelRepository.addPassengerTravel(travel);
         return travel;
