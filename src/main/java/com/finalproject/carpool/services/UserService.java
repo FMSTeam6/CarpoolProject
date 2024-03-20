@@ -1,5 +1,6 @@
 package com.finalproject.carpool.services;
 
+import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.SearchUser;
 
@@ -27,10 +28,11 @@ public interface UserService {
 
     void removeFromCandidatesPool(User user, int travelId);
 
-    void addPassenger(User user, int travelId);
+    void addPassenger(int creatorId ,User user, int travelId);
 
     void removeFromPassengers(User user, int travelId);
 
     double averageRating(int id);
 
+    List<Travel> findTravelsByUserId(int userId);
 }

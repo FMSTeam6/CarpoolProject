@@ -1,5 +1,6 @@
 package com.finalproject.carpool.repositories;
 
+import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.SearchUser;
 
@@ -22,5 +23,5 @@ public interface UserRepository {
 
     void deleteUser(int id);
     public User findByVerificationCode(String verificationCode);
-
+    List<Travel> findTravelsByUserId(int userId);
 }

@@ -131,9 +131,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addPassenger(User user, int travelId) {
+    public void addPassenger(int creatorId, User user, int travelId) {
         Travel travel = travelRepository.getTravelById(travelId);
-        checkCreatorOfTravel(user.getId(), travelId);
+        checkCreatorOfTravel(creatorId, travelId);
         travel.getPassengers().add(user);
         travel.getCandidatesPool().remove(user);
     }
@@ -153,6 +153,11 @@ public class UserServiceImpl implements UserService {
                 .mapToDouble(Feedback::getRating)
                 .average()
                 .orElse(0);
+    }
+
+    @Override
+    public List<Travel> findTravelsByUserId(int userId){
+        return userRepository.findTravelsByUserId(userId);
     }
 
 

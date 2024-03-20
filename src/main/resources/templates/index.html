@@ -3,30 +3,32 @@
 
 <head>
     <!-- Basic -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <!-- Mobile Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <!-- Site Metas -->
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
 
     <title>Carpool just 4 You</title>
 
     <!-- slider stylesheet -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
 
     <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
 
     <!-- fonts style -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,600,700&display=swap"
+          rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet"/>
     <!-- responsive style -->
-    <link href="/css/responsive.css" rel="stylesheet" />
+    <link href="/css/responsive.css" rel="stylesheet"/>
     <link rel="icon" type="image/ico" href="/images/favicon.ico">
 </head>
 
@@ -57,13 +59,11 @@
                     </div>
                     <div id="myNav" class="overlay">
                         <div class="overlay-content">
-                            <a href="index.html">Home</a>
                             <a th:href="@{/home/about}">About</a>
-                            <a href="car.html">Cars</a>
-                            <a th:href="@{/feedback/new/createFeedbackView}">Feedback for Users</a>
-                            <a href="blog.html">Blog</a>
-                            <a href="contact.html">Contact Us</a>
-                            <a th:href="@{auth/login}">Login</a>
+                            <a th:href="@{/travel/new}">Create Travel</a>
+                            <a th:href="@{/travel}">Search Travel</a>
+                            <a th:href="@{/feedback/create}">Leave Feedback</a>
+                            <a th:href="@{/auth/login}">Login</a>
                         </div>
                     </div>
                 </div>
@@ -83,37 +83,29 @@
                         <div class="carousel-item active">
                             <div class="detail-box">
                                 <h1>
-                                    Rent Car <br>
-                                    Experts <br>
-                                    Service
+                                    Find Travel <br>
+                                    Rate Drivers <br>
+                                    Save Money
                                 </h1>
-                                <a href="">
-                                    Contact Us
-                                </a>
+                                <a th:href="@{/api/register}">Register</a>
                             </div>
                         </div>
                         <div class="carousel-item">
                             <div class="detail-box">
                                 <h1>
-                                    Rent Car <br>
-                                    Experts <br>
-                                    Service
+                                    Leave Feedback <br>
+                                    Tell us what you think <br>
                                 </h1>
-                                <a href="">
-                                    Contact Us
-                                </a>
+                                <a th:href="@{/feedback/create}">Leave Feedback</a>
                             </div>
                         </div>
                         <div class="carousel-item">
                             <div class="detail-box">
                                 <h1>
-                                    Rent Car <br>
-                                    Experts <br>
-                                    Service
+                                    Find Travel <br>
+                                    Be the driver <br>
                                 </h1>
-                                <a href="">
-                                    Contact Us
-                                </a>
+                                <a th:href="@{/travel/new}">Create Travel</a>
                             </div>
                         </div>
                     </div>
@@ -124,58 +116,13 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-
             </div>
         </div>
     </section>
     <!-- end slider section -->
 </div>
-<!-- book section -->
-<section class="book_section">
-    <div class="form_container">
-        <form action="">
-            <div class="form-row">
-                <div class="col-lg-8">
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="parkingName">Pick Up Locaion</label>
-                            <input type="text" class="form-control" placeholder="acb ">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="parkingNumber">Drop Location</label>
-                            <input type="text" class="form-control" placeholder="acb ">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="parkingName">Pick Up Date</label>
-                            <input type="text" class="form-control" placeholder="07/09/2020">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="parkingNumber">Return Date</label>
-                            <input type="text" class="form-control" placeholder="07/09/2020">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="btn-container">
-                        <button type="submit" class="">
-                            Search
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-        </form>
-    </div>
-    <div class="img-box">
-        <img src="/images/book-car.png" alt="">
-    </div>
-</section>
-
-<!-- end book section -->
-
-<!-- car section -->
+<!-- driver section -->
 
 <section class="car_section layout_padding2-top layout_padding-bottom">
     <div class="container">
@@ -184,63 +131,87 @@
                 Better Way To Find Cheaper and Safe Travel for Your Destination
             </h2>
             <p>
-                Thank you for using Carpool Just 4 You
+                Choose your driver and see below one of the best
             </p>
         </div>
         <div class="car_container">
             <div class="box">
                 <div class="img-box">
-                    <img src="/images/c-1.png" alt="">
+                    <img src="/images/02A_Swift_Taylor_TIME_092914_4_FR12_F_WEB.jpg" alt="">
                 </div>
                 <div class="detail-box">
                     <h5>
-                        Choose Your Car
+                        Highest rated driver
                     </h5>
-                    <p>
-                        It is a long established fact that a reader will be distracted by the readable content of a page when
-                    </p>
-                    <a href="">
-                        Read More
-                    </a>
+                    <div th:if="${topUsers.size() > 0}">
+                        <span th:text="${topUsers[0].username}"></span> - <span th:text="${topUsers[0].rating}"></span>
+                        <div th:if="${feedbackTop.size() > 0}">
+                            <h5>What people say about me</h5>
+                            <span th:text="${feedbackTop[0].text}"></span>
+                        </div>
+                        <div th:if="${feedbackTop.size() == 0}">
+                            No feedbacks available for this user.
+                        </div>
+                    </div>
+                    <div th:if="${topUsers.size() == 0}">
+                        No users found.
+                    </div>
+                    <a th:href="@{/user/profile/1}">Contact user</a>
                 </div>
             </div>
             <div class="box">
                 <div class="img-box">
-                    <img src="/images/c-2.png" alt="">
+                    <img src="/images/OIP1.jpg" alt="">
                 </div>
                 <div class="detail-box">
                     <h5>
-                        Get Your Car
+                        Top-rated driver
                     </h5>
-                    <p>
-                        It is a long established fact that a reader will be distracted by the readable content of a page when
-                    </p>
-                    <a href="">
-                        Read More
-                    </a>
+                    <div th:if="${topUsers.size() > 0}">
+                        <span th:text="${topUsers[1].username}"></span> - <span th:text="${topUsers[1].rating}"></span>
+                        <div th:if="${feedbackSecond.size() > 0}">
+                            <h5>What people say about me</h5>
+                            <span th:text="${feedbackSecond[0].text}"></span>
+                        </div>
+                        <div th:if="${feedbackSecond.size() == 0}">
+                            No feedbacks available for this user.
+                        </div>
+                    </div>
+                    <div th:if="${topUsers.size() == 0}">
+                        No users found.
+                    </div>
+                    <a th:href="@{/user/profile/2}">Contact user</a>
                 </div>
             </div>
             <div class="box">
                 <div class="img-box">
-                    <img src="/images/c-3.png" alt="">
+                    <img src="/images/oip3.jpg" alt="">
                 </div>
                 <div class="detail-box">
                     <h5>
-                        Contact Your Dealer
+                        Top-rated driver
                     </h5>
-                    <p>
-                        It is a long established fact that a reader will be distracted by the readable content of a page when
-                    </p>
-                    <a href="">
-                        Read More
-                    </a>
+                    <div th:if="${topUsers.size() > 0}">
+                        <span th:text="${topUsers[2].username}"></span> - <span th:text="${topUsers[2].rating}"></span>
+                        <div th:if="${feedbackThree.size() > 0}">
+                            <h5>What people say about me</h5>
+                            <span th:text="${feedbackThree[0].text}"></span>
+                        </div>
+                        <div th:if="${feedbackThree.size() == 0}">
+                            No feedbacks available for this user.
+                        </div>
+                    </div>
+                    <div th:if="${topUsers.size() == 0}">
+                        No users found.
+                    </div>
+                    <a th:href="@{/user/profile/3}">Contact user</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- end car section -->
+<!-- end driver section -->
 
 <!-- about section -->
 
@@ -249,20 +220,18 @@
         <div class="row">
             <div class="col-md-7 px-0">
                 <div class="img-box">
-                    <img src="/images/about-img.png" alt="">
+                    <img src="/images/lugares-02-132157.jpg" alt="">
                 </div>
             </div>
             <div class="col-md-4 col-lg-3">
                 <div class="detail-box">
                     <h2>
-                        About Our Cars
+                        About Our Passion for Trip sharing
                     </h2>
                     <p>
-                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem
+                        Our team has created this website with passion for travels and with experience in carpooling
                     </p>
-                    <a href="">
-                        Read More
-                    </a>
+                    <a th:href="@{/travel}">Search Travel</a>
                 </div>
             </div>
         </div>
@@ -272,197 +241,154 @@
 <!-- end about section -->
 
 
-<!-- best section -->
+<!-- best travels section -->
 
 <section class="best_section">
     <div class="container">
         <div class="book_now">
             <div class="detail-box">
                 <h2>
-                    Our Best Cars
+                    Our Latest Travels
                 </h2>
                 <p>
-                    It is a long established fact that a reader will be distracted by the
+                    See some of our latest completed travels posted on the website
                 </p>
             </div>
             <div class="btn-box">
-                <a href="">
-                    Book Now
-                </a>
+                <a th:href="@{/travel}">Book now</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- end best section -->
+<!-- end best travels section -->
 
-<!-- rent section -->
+<!-- latest travels section -->
 
 <section class="rent_section layout_padding">
     <div class="container">
         <div class="rent_container">
-            <div class="box">
-                <div class="img-box">
-                    <img src="/images/r-1.png" alt="">
-                </div>
-                <div class="price">
-                    <a href="">
-                        Rent $200
-                    </a>
-                </div>
-            </div>
-            <div class="box">
-                <div class="img-box">
-                    <img src="/images/r-2.png" alt="">
-                </div>
-                <div class="price">
-                    <a href="">
-                        Rent $200
-                    </a>
-                </div>
-            </div>
-            <div class="box">
-                <div class="img-box">
-                    <img src="/images/r-3.png" alt="">
-                </div>
-                <div class="price">
-                    <a href="">
-                        Rent $200
-                    </a>
-                </div>
-            </div>
-            <div class="box">
-                <div class="img-box">
-                    <img src="/images/r-4.png" alt="">
-                </div>
-                <div class="price">
-                    <a href="">
-                        Rent $200
-                    </a>
-                </div>
-            </div>
-            <div class="box">
-                <div class="img-box">
-                    <img src="/images/r-5.png" alt="">
-                </div>
-                <div class="price">
-                    <a href="">
-                        Rent $200
-                    </a>
-                </div>
-            </div>
-            <div class="box">
-                <div class="img-box">
-                    <img src="/images/r-6.png" alt="">
-                </div>
-                <div class="price">
-                    <a href="">
-                        Rent $200
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="btn-box">
-            <a href="">
-                See More
-            </a>
-        </div>
-    </div>
-</section>
-
-
-<!-- end rent section -->
-
-<!-- blog section -->
-
-<section class="blog_section layout_padding">
-    <div class="container">
-        <div class="heading_container">
-            <h2>
-                Our Latest Blog
-            </h2>
-            <p>
-                It is a long established fact that a reader will be distracted by the
-            </p>
-        </div>
-    </div>
-    <div class="blog_container">
-        <div class="layout_padding2-top">
-            <div class="carousel-wrap ">
-                <div class="owl-carousel">
-                    <div class="item">
-                        <div class="box">
-                            <div class="date-box">
-                                <h6>
-                                    04 Nov 2019
-                                </h6>
+            <div class="item">
+                <div class="box">
+                    <div class="detail-box">
+                        <div class="info-box">
+                            <div class="info-item">
+                                <div class="label">Start - End Location</div>
+                                <span th:text="${travels[travels.size()-1].startingLocation}"></span> - <span
+                                    th:text="${travels[travels.size()-1].endLocation}"></span>
                             </div>
-                            <div class="img-box">
-                                <img src="/images/b-1.jpg" alt="">
+                            <div class="info-item">
+                                <div class="label">Date of departure</div>
+                                <span th:text="${travels[travels.size()-1].dateOfDeparture}"></span>
                             </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Vintage
-                                </h5>
-                                <p>
-                                    It is a long established fact that a reader will be distracted by the readable The point of using Lorem </p>
+                            <div class="info-item">
+                                <div class="label">Price in Euro:</div>
+                                <span th:text="${travels[travels.size()-1].pricePerPerson}"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="box">
-                            <div class="date-box">
-                                <h6>
-                                    04 Nov 2019
-                                </h6>
+                </div>
+            </div>
+            <div class="item">
+                <div class="box">
+                    <div class="detail-box">
+                        <div class="info-box">
+                            <div class="info-item">
+                                <div class="label">Start - End Location</div>
+                                <span th:text="${travels[travels.size()-2].startingLocation}"></span> - <span
+                                    th:text="${travels[travels.size()-2].endLocation}"></span>
                             </div>
-                            <div class="img-box">
-                                <img src="/images/b-2.jpg" alt="">
+                            <div class="info-item">
+                                <div class="label">Date of departure</div>
+                                <span th:text="${travels[travels.size()-2].dateOfDeparture}"></span>
                             </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Steering wheels
-                                </h5>
-                                <p>
-                                    It is a long established fact that a reader will be distracted by the readable The point of using Lorem </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="box">
-                            <div class="date-box">
-                                <h6>
-                                    04 Nov 2019
-                                </h6>
-                            </div>
-                            <div class="img-box">
-                                <img src="/images/b-3.jpg" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Buick Car
-                                </h5>
-                                <p>
-                                    It is a long established fact that a reader will be distracted by the readable The point of using Lorem </p>
+                            <div class="info-item">
+                                <div class="label">Price in Euro:</div>
+                                <span th:text="${travels[travels.size()-2].pricePerPerson}"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="box">
-                            <div class="date-box">
-                                <h6>
-                                    04 Nov 2019
-                                </h6>
+                </div>
+            </div>
+            <div class="item">
+                <div class="box">
+                    <div class="detail-box">
+                        <div class="info-box">
+                            <div class="info-item">
+                                <div class="label">Start - End Location</div>
+                                <span th:text="${travels[travels.size()-3].startingLocation}"></span> - <span
+                                    th:text="${travels[travels.size()-3].endLocation}"></span>
                             </div>
-                            <div class="img-box">
-                                <img src="/images/b-2.jpg" alt="">
+                            <div class="info-item">
+                                <div class="label">Date of departure</div>
+                                <span th:text="${travels[travels.size()-3].dateOfDeparture}"></span>
                             </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Steering wheels
-                                </h5>
-                                <p>
-                                    It is a long established fact that a reader will be distracted by the readable The point of using Lorem </p>
+                            <div class="info-item">
+                                <div class="label">Price in Euro:</div>
+                                <span th:text="${travels[travels.size()-3].pricePerPerson}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="box">
+                    <div class="detail-box">
+                        <div class="info-box">
+                            <div class="info-item">
+                                <div class="label">Start - End Location</div>
+                                <span th:text="${travels[travels.size()-4].startingLocation}"></span> - <span
+                                    th:text="${travels[travels.size()-4].endLocation}"></span>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Date of departure</div>
+                                <span th:text="${travels[travels.size()-4].dateOfDeparture}"></span>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Price in Euro:</div>
+                                <span th:text="${travels[travels.size()-4].pricePerPerson}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="box">
+                    <div class="detail-box">
+                        <div class="info-box">
+                            <div class="info-item">
+                                <div class="label">Start - End Location</div>
+                                <span th:text="${travels[travels.size()-1].startingLocation}"></span> - <span
+                                    th:text="${travels[travels.size()-1].endLocation}"></span>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Date of departure</div>
+                                <span th:text="${travels[travels.size()-1].dateOfDeparture}"></span>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Price in Euro:</div>
+                                <span th:text="${travels[travels.size()-1].pricePerPerson}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="box">
+                    <div class="detail-box">
+                        <div class="info-box">
+                            <div class="info-item">
+                                <div class="label">Start - End Location</div>
+                                <span th:text="${travels[travels.size()-2].startingLocation}"></span> - <span
+                                    th:text="${travels[travels.size()-2].endLocation}"></span>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Date of departure</div>
+                                <span th:text="${travels[travels.size()-2].dateOfDeparture}"></span>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Price in Euro:</div>
+                                <span th:text="${travels[travels.size()-2].pricePerPerson}"></span>
                             </div>
                         </div>
                     </div>
@@ -472,7 +398,9 @@
     </div>
 </section>
 
-<!-- end blog section -->
+
+<!-- end latest travel section -->
+
 
 <!-- us section -->
 
@@ -483,7 +411,7 @@
                 Why choose Us
             </h2>
             <p>
-                It is a long established fact that a reader will be distracted by the
+                We know all about travels and carpooling and we want You to feel great
             </p>
         </div>
     </div>
@@ -495,7 +423,7 @@
                 </div>
                 <div class="detail-box">
                     <h5>
-                        Low Rent
+                        Save money
                     </h5>
                 </div>
             </div>
@@ -505,7 +433,7 @@
                 </div>
                 <div class="detail-box">
                     <h5>
-                        Fast Car
+                        See driver details
                     </h5>
                 </div>
             </div>
@@ -515,7 +443,7 @@
                 </div>
                 <div class="detail-box">
                     <h5>
-                        Safe Car
+                        Feel safe
                     </h5>
                 </div>
             </div>
@@ -531,25 +459,23 @@
             </div>
         </div>
         <div class="btn-box">
-            <a href="">
-                Read More
-            </a>
+            <a th:href="@{/home/about}">Read more</a>
         </div>
     </div>
 </section>
 
 <!-- end us section -->
 
-<!-- client section -->
+<!-- passengers feedback section -->
 
 <section class="client_section layout_padding">
     <div class="container">
         <div class="heading_container">
             <h2>
-                What Is say Customer
+                What the passengers think about the drivers and the service
             </h2>
             <p>
-                It is a long established fact that a reader will be distracted by the
+                Read some of the latest feedback on the website
             </p>
         </div>
         <div class="layout_padding2-top">
@@ -558,22 +484,23 @@
                     <div class="item">
                         <div class="box">
                             <div class="detail-box">
-                                <p>
-                                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem
-                                </p>
+                                <div class="info-box">
+                                    <div class="info-item">
+                                        <h5>Feedback for this driver :</h5>
+                                        <span th:text="${feedbacks[feedbacks.size()-1].getTravelId().driverId.username}"></span>
+                                        <br>
+                                        <span th:text="${feedbacks[feedbacks.size()-1].text}"></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="client_id">
                                 <div class="img-box">
-                                    <img src="/images/client-1.png" alt="" class="img-1">
-                                    <img src="/images/client-1-white.png" alt="" class="img-2">
+                                    <img src="/images/Professional-Portrait-Photography-171.jpg" alt="" class="img-1">
                                 </div>
                                 <div class="name">
-                                    <h6>
-                                        Established
+                                    <h5>Author of the feedback :</h5>
+                                    <h6 th:text="${feedbacks[feedbacks.size()-1].getAuthorId().username}">
                                     </h6>
-                                    <p>
-                                        by the readable
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -581,22 +508,23 @@
                     <div class="item">
                         <div class="box">
                             <div class="detail-box">
-                                <p>
-                                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem
-                                </p>
+                                <div class="info-box">
+                                    <div class="info-item">
+                                        <h5>Feedback for this driver :</h5>
+                                        <span th:text="${feedbacks[feedbacks.size()-4].getTravelId().driverId.username}"></span>
+                                        <br>
+                                        <span th:text="${feedbacks[feedbacks.size()-4].text}"></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="client_id">
                                 <div class="img-box">
-                                    <img src="/images/client-2.png" alt="" class="img-1">
-                                    <img src="/images/client-2-white.png" alt="" class="img-2">
+                                    <img src="/images/Professional-Portrait-Photography-171.jpg" alt="" class="img-1">
                                 </div>
                                 <div class="name">
-                                    <h6>
-                                        Blished
+                                    <h5>Author of the feedback :</h5>
+                                    <h6 th:text="${feedbacks[feedbacks.size()-4].getAuthorId().username}">
                                     </h6>
-                                    <p>
-                                        by the readable
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -604,22 +532,23 @@
                     <div class="item">
                         <div class="box">
                             <div class="detail-box">
-                                <p>
-                                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem
-                                </p>
+                                <div class="info-box">
+                                    <div class="info-item">
+                                        <h5>Feedback for this driver :</h5>
+                                        <span th:text="${feedbacks[feedbacks.size()-5].getTravelId().driverId.username}"></span>
+                                        <br>
+                                        <span th:text="${feedbacks[feedbacks.size()-5].text}"></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="client_id">
                                 <div class="img-box">
-                                    <img src="/images/client-1.png" alt="" class="img-1">
-                                    <img src="/images/client-1-white.png" alt="" class="img-2">
+                                    <img src="/images/Professional-Portrait-Photography-171.jpg" alt="" class="img-1">
                                 </div>
                                 <div class="name">
-                                    <h6>
-                                        Establi
+                                    <h5>Author of the feedback :</h5>
+                                    <h6 th:text="${feedbacks[feedbacks.size()-5].getAuthorId().username}">
                                     </h6>
-                                    <p>
-                                        by the readable
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -627,22 +556,23 @@
                     <div class="item">
                         <div class="box">
                             <div class="detail-box">
-                                <p>
-                                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem
-                                </p>
+                                <div class="info-box">
+                                    <div class="info-item">
+                                        <h5>Feedback for this driver :</h5>
+                                        <span th:text="${feedbacks[feedbacks.size()-6].getTravelId().driverId.username}"></span>
+                                        <br>
+                                        <span th:text="${feedbacks[feedbacks.size()-6].text}"></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="client_id">
                                 <div class="img-box">
-                                    <img src="/images/client-1.png" alt="" class="img-1">
-                                    <img src="/images/client-1-white.png" alt="" class="img-2">
+                                    <img src="/images/Professional-Portrait-Photography-171.jpg" alt="" class="img-1">
                                 </div>
                                 <div class="name">
-                                    <h6>
-                                        Establi
+                                    <h5>Author of the feedback :</h5>
+                                    <h6 th:text="${feedbacks[feedbacks.size()-6].getAuthorId().username}">
                                     </h6>
-                                    <p>
-                                        by the readable
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -650,11 +580,10 @@
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 
-<!-- end client section -->
+<!-- end passengers feedback section -->
 
 <!-- contact section -->
 
@@ -662,35 +591,8 @@
     <div class="container">
         <div class="heading_container">
             <h2>
-                Request A call back
+                Request A contact
             </h2>
-        </div>
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <div class="form_container">
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <input type="text" class="form-control" id="inputName4" placeholder="Name ">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <input type="text" class="form-control" id="inputSubject4" placeholder="Phone">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <input type="email" class="form-control" id="inputEmail4" placeholder="Email id">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="inputMessage" placeholder="Message">
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="">Send</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
         <div class="contact_items">
 
@@ -699,8 +601,7 @@
                     <img src="/images/location.png" alt="">
                 </div>
                 <h6>
-                    Loram Ipusum ari
-                    lo elisant na
+                    We will be happy to receive your request through our email for contacts
                 </h6>
             </a>
             <a href="">
@@ -708,7 +609,7 @@
                     <img src="/images/call.png" alt="">
                 </div>
                 <h6>
-                    (+12 1234456789)
+                    (+359 891 222 444)
                 </h6>
             </a>
             <a href="">
@@ -716,7 +617,7 @@
                     <img src="/images/mail.png" alt="">
                 </div>
                 <h6>
-                    demo@gmail.com
+                    carpooljust4you@gmail.com
                 </h6>
             </a>
 
@@ -749,21 +650,6 @@
 </section>
 
 <!-- end contact section -->
-
-<!-- map section -->
-
-<section class="map_section">
-    <!-- map section -->
-    <div class="map_container">
-        <div class="map-responsive">
-            <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=Eiffel+Tower+Paris+France" width="600" height="300" frameborder="0" style="border:0; width: 100%; height:100%" allowfullscreen></iframe>
-        </div>
-    </div>
-    <!-- end map section -->
-</section>
-
-
-<!-- end map section -->
 
 <!-- footer section -->
 <footer class="container-fluid footer_section">

@@ -43,31 +43,14 @@
               Carpool just 4 You
             </span>
                 </a>
-
-                <div class="navbar-collapse" id="">
-                    <div class="user_option">
-                        <a href="">
-                            Login
-                        </a>
-                    </div>
-                    <div class="custom_menu-btn">
-                        <button onclick="openNav()">
-                            <span class="s-1"> </span>
-                            <span class="s-2"> </span>
-                            <span class="s-3"> </span>
-                        </button>
-                    </div>
                     <div id="myNav" class="overlay">
                         <div class="overlay-content">
-                            <a href="index.html">Home</a>
-                            <a href="about.html">About</a>
-                            <a href="car.html">Cars</a>
-                            <a href="blog.html">Blog</a>
-                            <a href="contact.html">Contact Us</a>
-                            <a href="#">Login</a>
+                            <a th:href="@{/home/about}">About</a>
+                            <a th:href="@{/travel/new}">Create Travel</a>
+                            <a th:href="@{/travel}">Search Travel</a>
+                            <a th:href="@{/auth/login}">Login</a>
                         </div>
                     </div>
-                </div>
             </nav>
         </div>
     </header>
@@ -87,15 +70,17 @@
             <div class="col-md-8 mx-auto">
                 <div class="form_container">
                     <h2>Feedback Form</h2>
-                    <form action="/submit-feedback" method="post" th:object="${feedback}">
-                        <label for="text">Feedback:</label><br>
-                        <textarea id="text" name="text" rows="4" cols="50" required></textarea><br>
-                        <span style="color: red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="form-error"></span><br>
+                    <form th:action="@{/feedback/create/{travelId}(travelId = ${travel.id})}" method="post" th:object="${feedback}">
+                        <label for="text">Feedback Text:</label><br>
+                        <textarea id="text" name="text" rows="4" cols="50" th:field="*{text}" required></textarea><br>
+
                         <label for="rating">Rating:</label><br>
-                        <input type="number" id="rating" name="rating" min="1" max="5" required>
-                        <span style="color: red" th:if="${#fields.hasErrors('rating')}"
-                              th:errors="*{rating}" class="form-error"></span><br>
-                        <button type="submit">Submit</button>
+                        <input type="number" id="rating" name="rating" min="1" max="5" th:field="*{rating}" required><br>
+
+                        <!-- Error messages for text -->
+                        <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}" style="color: red"></div><br>
+
+                        <input type="submit" value="Submit">
                     </form>
                 </div>
             </div>
@@ -155,14 +140,14 @@
 </section>
 
 <!-- end contact section -->
-
-<!-- footer section -->
-<footer class="container-fluid footer_section">
-    <p>
-        Copyright &copy; 2024 All Rights Reserved. Design by Aleks, Drago and Lyuci
-    </p>
-</footer>
-<!-- footer section -->
+<script>
+    function redirectToPage(select) {
+        var selectedOption = select.options[select.selectedIndex].value;
+        if (selectedOption) {
+            window.location.href = selectedOption;
+        }
+    }
+</script>
 
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="/js/bootstrap.js"></script>
@@ -171,5 +156,6 @@
 <script src="/js/custom.js"></script>
 
 </body>
-
+<th:block th:include="~{/fragments/footer}">
+</th:block>
 </html>

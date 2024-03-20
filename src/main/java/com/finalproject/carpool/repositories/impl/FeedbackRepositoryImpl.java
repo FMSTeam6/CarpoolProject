@@ -110,7 +110,6 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
         }
     }
 
-    //TODO rate should be tested in the postman if it works correctly
     @Override
     public void rate(int id, int rate) {
         try (Session session = sessionFactory.openSession()) {

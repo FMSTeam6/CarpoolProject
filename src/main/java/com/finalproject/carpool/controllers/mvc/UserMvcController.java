@@ -9,6 +9,7 @@ import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.SearchUser;
 import com.finalproject.carpool.models.requests.user.SearchUserRequest;
 import com.finalproject.carpool.models.requests.user.UserRequest;
+import com.finalproject.carpool.services.TravelService;
 import com.finalproject.carpool.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -26,10 +27,13 @@ public class UserMvcController {
     private final UserService userService;
 
     private final UserMapper userMapper;
-    public UserMvcController(AuthenticationHelper authenticationHelper, UserService userService, UserMapper userMapper) {
+
+    private final TravelService travelService;
+    public UserMvcController(AuthenticationHelper authenticationHelper, UserService userService, UserMapper userMapper, TravelService travelService) {
         this.authenticationHelper = authenticationHelper;
         this.userService = userService;
         this.userMapper = userMapper;
+        this.travelService = travelService;
     }
 
     @GetMapping
@@ -42,6 +46,7 @@ public class UserMvcController {
         model.addAttribute("users", userService.getAll(searchUser));
         return "UsersView";
     }
+
 
     @GetMapping("/update")
     public String updatePost(Model model, HttpSession session) {
@@ -79,6 +84,19 @@ public class UserMvcController {
         } catch (EntityDuplicateException e) {
             bindingResult.rejectValue("name", "duplicate_beer", e.getMessage());
             return "userUpdateView";
+        }
+    }
+
+    @GetMapping("/driver/{driverId}")
+    public String getTravelByDriver(@PathVariable int driverId, Model model) {
+
+        try {
+            model.addAttribute("travel", travelService.findAllTravelByDriver(driverId));
+            return "driverTravel";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "errorView";
         }
     }
 

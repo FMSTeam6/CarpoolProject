@@ -5,9 +5,11 @@ import com.finalproject.carpool.exceptions.AuthenticationFailureException;
 import com.finalproject.carpool.exceptions.EntityDuplicateException;
 import com.finalproject.carpool.mappers.UserMapper;
 import com.finalproject.carpool.models.User;
+import com.finalproject.carpool.models.filters.TravelFilterOptions;
 import com.finalproject.carpool.models.requests.LoginRequest;
 import com.finalproject.carpool.models.requests.user.RegisterRequest;
 import com.finalproject.carpool.models.requests.user.UserRequest;
+import com.finalproject.carpool.services.TravelService;
 import com.finalproject.carpool.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -25,13 +27,15 @@ public class AuthenticationMvcController {
 
     private static final String PASSWORD_CONFIRM_NOT_MATCH = "Password confirm must be match password";
     private final UserService userService;
+    private final TravelService travelService;
     private final AuthenticationHelper authenticationHelper;
     private final UserMapper userMapper;
 
-    public AuthenticationMvcController(UserService userService,
+    public AuthenticationMvcController(UserService userService, TravelService travelService,
                                        AuthenticationHelper authenticationHelper,
                                        UserMapper userMapper) {
         this.userService = userService;
+        this.travelService = travelService;
         this.authenticationHelper = authenticationHelper;
         this.userMapper = userMapper;
     }
@@ -108,6 +112,7 @@ public class AuthenticationMvcController {
     @GetMapping("/page")
     public String userViewPage(Model model) {
         model.addAttribute("user", new UserRequest());
+        model.addAttribute("travels", travelService.getAll(new TravelFilterOptions()));
         return "userPageView";
     }
 }

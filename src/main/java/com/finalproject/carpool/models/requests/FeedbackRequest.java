@@ -10,6 +10,7 @@ public class FeedbackRequest {
     @NotNull(message = "Rating can't be empty")
     private int rating;
 
+
     public FeedbackRequest() {
     }
 
@@ -28,4 +29,5 @@ public class FeedbackRequest {
     public void setRating(int rating) {
         this.rating = rating;
     }
+
 }

@@ -9,6 +9,7 @@ import com.finalproject.carpool.mappers.FeedbackMapper;
 import com.finalproject.carpool.models.Feedback;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
+import com.finalproject.carpool.models.filters.TravelFilterOptions;
 import com.finalproject.carpool.models.requests.FeedbackRequest;
 import com.finalproject.carpool.services.FeedbackService;
 import com.finalproject.carpool.services.TravelService;
@@ -59,17 +60,19 @@ public class FeedbackMvcController {
         model.addAttribute("feedbacks", feedbackService.getAllFeedbacksByRecipient(recipientId));
         return "feedbackView";
     }
-    @GetMapping("/new")
-    public String showFeedbackForm(Model model) {
-        model.addAttribute("feedback", new FeedbackRequest());
+    @GetMapping("/create/{travelId}")
+    public String showFeedbackForm(Model model, @PathVariable int travelId) {
+        model.addAttribute("travel", travelService.getById(travelId));
+        model.addAttribute("travels", travelService.completeALLTravel());
         return "createFeedbackView";
     }
 
-    @PostMapping("/new/{travelId}")
-    public String submitFeedback(@PathVariable int travelId, @Valid @ModelAttribute("feedback") FeedbackRequest request,
+    @PostMapping("/create/{travelId}")
+    public String submitFeedback(@Valid @ModelAttribute("feedback") FeedbackRequest request,
                                  BindingResult errors,
                                  Model model,
-                                 HttpSession session) {
+                                 HttpSession session,
+                                 @PathVariable int travelId) {
         User user;
         try {
             user = authenticationHelper.tryGetUserFromSession(session);
