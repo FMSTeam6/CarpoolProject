@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <th:block th:include="~{/fragments/head_meta}"></th:block>
+
+    <title>Carpool just 4 You</title>
+
+    <th:block th:include="~{/fragments/head_script}"></th:block>
+</head>
+
+<body class="sub_page">
+<div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <h6 class="navbar-brand" href="index.html">
+            <span>
+              Carpool just 4 You
+             </span>
+                </h6>
+                <div class="user_option" style="color:white;">
+                    <h4 th:text="${session.username}"></h4>
+                </div>
+                <div class="custom_menu-btn">
+                    <button onclick="openNav()">
+                        <span class="s-1"> </span>
+                        <span class="s-2"> </span>
+                        <span class="s-3"> </span>
+                    </button>
+                </div>
+                <div id="myNav" class="overlay">
+                    <div class="overlay-content">
+                        <a th:href="@{/travel}">Back</a></a>
+                        <a th:href="@{/auth/logout}">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+</div>
+
+<section class="contact_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <div class="container">
+                <p th:text="#{travel.label.create} + ' : '  + ${travel.driverId.username}">Start Location</p>
+                <p th:text="#{travel.label.startingLocation} + ' : '  + ${travel.startingLocation}">Start Location</p>
+                <p th:text="#{travel.label.endLocation} +' : ' + ${travel.endLocation}">End Location</p>
+                <p th:text="#{travel.label.emptySeats} + ' : ' + ${travel.emptySeats}">Empty seats</p>
+                <p th:text="#{travel.label.pricePerPerson} + ' : ' + ${travel.pricePerPerson} + ' lv.'">Price per person</p>
+                <p th:text="#{travel.label.dateOfDeparture} + ' : ' + ${travel.dateOfDeparture.dayOfMonth} + '-'
+                 + ${travel.dateOfDeparture.month} + '-' + ${travel.dateOfDeparture.year} + ' Time '
+                  + ${travel.dateOfDeparture.hour} + ' : ' + ${travel.dateOfDeparture.minute} + ' hour.'">Date of department</p>
+                <p th:text="#{travel.label.timeTravel} + ': ' +  ${travel.timeTravel} + ' hour.'"></p>
+                <p th:text="#{travel.label.timeArrive}  + ': ' + ${travel.timeArrive}"></p>
+                <p th:text="#{travel.label.kilometers}  + ': ' + ${travel.kilometers}"></p>
+                <h2 th:text="#{travel.label.additionalOptions}"></h2>
+                <div th:each="option : ${travel.additionalOptions}">
+                    <span th:text="${option.additionalOptions}"></span>
+                </div>
+                <br/>
+                <div th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}">
+                    <div th:if="${travel.getCandidatesPool().isEmpty()}">
+                        <h2 th:text="#{travels.title.notCandidate} + ':'">No candidate Travel</h2>
+                    </div>
+                    <div th:unless="${travel.getCandidatesPool().isEmpty()}">
+                        <h2 th:text="#{travels.title.candidate}">All Candidate Travel</h2>
+                    </div>
+                    <div th:each="candidate : ${travel.getCandidatesPool()}">
+                        <span th:text="${candidate.username}"></span>
+                    </div>
+                </div>
+                <div th:if="${session.currentUser}">
+
+                </div>
+                <div th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}">
+                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                        <a href="#" th:href="@{/travel/canceled/{id}(id=${travel.getId()})}">Cancel</a>
+                    </button>
+                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                        <a href="#" th:href="@{/travel/completed/{id}(id=${travel.getId()})}">Completed</a>
+                    </button>
+                </div>
+                <div>
+                    <button th:if="${!travel.driverId.username.equals(session.username)}" class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                        <a href="#" th:href="@{/travel/candidateUser/{id}(id=${travel.getId()})}">Candidate</a>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<script>
+    function redirectToPage(select) {
+        var selectedOption = select.options[select.selectedIndex].value;
+        if (selectedOption) {
+            window.location.href = selectedOption;
+        }
+    }
+</script>
+
+<th:block th:include="~{/fragments/scrips_footer}"></th:block>
+
+</body>
+
+<th:block th:include="~{/fragments/footer}"></th:block>
+
+</html>

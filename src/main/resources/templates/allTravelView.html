@@ -9,34 +9,41 @@
 
 <body class="sub_page">
 <div class="hero_area">
-    <!-- header section strats -->
     <header class="header_section">
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg custom_nav-container">
-                <a class="navbar-brand" href="index.html">
+                <h2 class="navbar-brand" href="index.html">
             <span>
               Carpool just 4 You
             </span>
-                </a>
+                </h2>
                 <div class="user_option" style="color:white;">
                     <div class="user_option">
-                        <!-- Dropdown menu -->
-                        <select onchange="redirectToPage(this)">
-                            <option value="">Action</option>
-                            <option value="/auth/page">Back</option>
-                            <option value="/travel/new">Create Travel</option>
-                        </select>
+                        <h4 th:text="${session.username}"></h4>
                     </div>
-                    <br/>
+                </div>
+                <div class="custom_menu-btn">
+                    <button onclick="openNav()">
+                        <span class="s-1"> </span>
+                        <span class="s-2"> </span>
+                        <span class="s-3"> </span>
+                    </button>
+                </div>
+                <div id="myNav" class="overlay">
+                    <div class="overlay-content">
+                        <a th:href="@{/auth/page}">Back</a>
+                        <a th:href="@{/travel/new}">Create Travel</a>
+                        <a th:href="@{/auth/logout}">Logout</a>
+                    </div>
                 </div>
             </nav>
         </div>
     </header>
     <!-- end header section -->
 </div>
-<section class="contact_section layout_padding">
+<section class="contact_section layout_paddig">
     <div class="container">
-        <div class="heading_container">
+        <div>
             <center>
                 <form th:object="${travelOptionDto}" th:action="@{/travel}" action="#" method="get">
                     <label th:text="#{travel.label.filter}">Travel Option</label>
@@ -60,74 +67,72 @@
                 </form>
             </center>
             <br/>
-            <div th:if="${travels.isEmpty()}">
-                <h2 th:text="#{travels.title.empty}">No Travels</h2>
-            </div>
-            <div th:unless="${travels.isEmpty()}">
-                <h2 th:text="#{travels.title.notEmpty}">All Travels</h2>
-            </div>
-            <div th:each="travel : ${travels}">
-                <div class="container-fluid">
-                    <table class="table detail-box item layout_padding2-top" style="color:white;">
-                        <thead>
-                        <tr>
-                            <th>Start Location</th>
-                            <th>End Location</th>
-                            <th>Empty Seats</th>
-                            <th>Date of Department</th>
-                            <th>Price per Person</th>
-                            <th>Addition option</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">
-
-                                <div class="d-flex align-items-center">
-                                    <div th:text="${travel.startingLocation}"></div>
-                                </div>
-                            </th>
-                            <td>
-                                <div th:text="${travel.endLocation}"></div>
-                            </td>
-                            <td>
-                                <div th:text="${travel.emptySeats}"></div>
-                            </td>
-                            <td>
-                                <div th:text="${travel.dateOfDeparture}"></div>
-                            </td>
-                            <td>
-                                <div th:text="${travel.pricePerPerson}"></div>
-                            </td>
-                            <td>
-                                <div th:each="option : ${travel.additionalOptions}">
-                                    <span th:text="${option.additionalOptions}"></span>
-                                </div>
-                            </td>
-                            <td>
-                                <button th:if="${session.username.equals(travel.getDriverId().username)}"
-                                        class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
-                                    <a href="#" th:href="@{/travel/candidate/{travelId}(travelId=${travel.id})}">Choice
-                                        passenger</a>
-                                </button>
-
-                                <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
-                                        class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
-                                    <a href="#" th:href="@{/travel/update/{id}(id=${travel.getId()})}">Update</a>
-                                </button>
-                                <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
-                                        class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
-                                    <a href="#" th:href="@{/travel/delete/{id}(id=${travel.getId()})}">Delete</a>
-                                </button>
-                                <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
-                                    <a href="#" th:href="@{/travel/{id}(id=${travel.getId()})}">Information</a>
-                                </button>
-                            </td>
-
-                        </tr>
-                        </tbody>
-                    </table>
+            <center>
+                <div th:if="${travels.isEmpty()}">
+                    <h2 th:text="#{travels.title.empty}">No Travels</h2>
                 </div>
+                <div th:unless="${travels.isEmpty()}">
+                    <h2 th:text="#{travels.title.notEmpty}">All Travels</h2>
+                </div>
+            </center>
+            <div th:each="travel : ${travels}">
+                <table class="table" style="color:white;">
+                    <tr>
+                        <th>Start Location</th>
+                        <th>End Location</th>
+                        <th>Empty Seats</th>
+                        <th>Date of Department</th>
+                        <th>Price per Person</th>
+                        <th>Empty seats</th>
+                        <th>Addition option</th>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <div class="d-flex align-items-center">
+                                <div th:text="${travel.startingLocation}"></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div th:text="${travel.endLocation}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${travel.emptySeats}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${travel.dateOfDeparture}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${travel.pricePerPerson}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${travel.emptySeats}"></div>
+                        </td>
+                        <td>
+                            <div th:each="option : ${travel.additionalOptions}">
+                                <span th:text="${option.additionalOptions}"></span>
+                            </div>
+                        </td>
+                        <td>
+                            <button th:if="${session.username.equals(travel.getDriverId().username)}"
+                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                <a href="#" th:href="@{/travel/candidate/{travelId}(travelId=${travel.id})}">Choice
+                                    passenger</a>
+                            </button>
+
+                            <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
+                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                <a href="#" th:href="@{/travel/update/{id}(id=${travel.getId()})}">Update</a>
+                            </button>
+                            <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
+                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                <a href="#" th:href="@{/travel/delete/{id}(id=${travel.getId()})}">Delete</a>
+                            </button>
+                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                <a href="#" th:href="@{/travel/{id}(id=${travel.getId()})}">Information</a>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
         </div>
@@ -135,14 +140,6 @@
 
 </section>
 
-<script>
-    function redirectToPage(select) {
-        var selectedOption = select.options[select.selectedIndex].value;
-        if (selectedOption) {
-            window.location.href = selectedOption;
-        }
-    }
-</script>
 
 <th:block th:include="~{/fragments/scrips_footer}"></th:block>
 
