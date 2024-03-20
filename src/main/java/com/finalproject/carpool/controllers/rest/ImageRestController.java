@@ -28,7 +28,7 @@ public class ImageRestController {
     public ResponseEntity<String> uploadImage(@PathVariable int id, @RequestParam("file") MultipartFile file) {
         try {
             User user = userService.getById(id);
-            String fileName = imageService.uploadImage(file, user);
+            String fileName = imageService.uploadImage(file, user, file.getOriginalFilename());
             return ResponseEntity.ok("File '" + fileName + "' uploaded successfully.");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

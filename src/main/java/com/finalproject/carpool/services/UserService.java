@@ -17,6 +17,7 @@ public interface UserService {
     User create(User user);
 
     User update(User user, int id, int loggedUserId);
+    User update(User user);
 
     void banUser(User user, int adminId);
 

@@ -54,7 +54,7 @@
                     </div>
                     <div id="myNav" class="overlay">
                         <div class="overlay-content">
-                            <a href="index.html">Home</a>
+                            <a th:href="@{/home}">Home</a>
                             <a th:href="@{/home/about}">About</a>
                             <a th:href="@{/feedback/new/createFeedbackView}">Feedback for Users</a>
                         </div>
@@ -75,7 +75,7 @@
             <div th:if="${message}" style="color: green;">[[${message}]]</div>
             <div th:if="${error}" style="color: red;">[[${error}]]</div>
 
-            <form th:action="@{/images/{id}/upload(id=${user.id})}" action="#" method="post" enctype="multipart/form-data">
+            <form th:action="@{__${requestURI}__}" action="#" method="post" enctype="multipart/form-data">
                 <input type="file" name="file" accept="image/*" required>
                 <button type="submit">Upload</button>
             </form>
@@ -89,13 +89,13 @@
                     <th>File Path</th>
                 </tr>
                 </thead>
-<!--                <tbody>-->
+                <tbody>
 <!--                <tr th:each="image : ${images}">-->
 <!--                    <td th:text="${image.id}">Image ID</td>-->
 <!--                    <td th:text="${image.fileName}">File Name</td>-->
 <!--                    <td th:text="${image.filePath}">File Path</td>-->
 <!--                </tr>-->
-<!--                </tbody>-->
+                </tbody>
             </table>
         </div>
         <div class="contact_items">

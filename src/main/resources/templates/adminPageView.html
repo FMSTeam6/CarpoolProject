@@ -25,21 +25,12 @@
                     <h4 th:text="'Admin - ' + ${session.username}"></h4>
                     <div class="user_option">
                         <!-- Dropdown menu -->
-                        <select onchange="redirectToPage(this)">
-                            <option value="">Travel</option>
-                            <option value="/travel">All Travels</option>
-                            <option value="/travel/new">Create Travel</option>
-                            <option value="/travel/user">View Travel driver</option>
-                        </select>
+
                     </div>
                     <br/>
                     <div class="user_option">
                         <!-- Dropdown menu -->
-                        <select onchange="redirectToPage(this)">
-                            <option value="FeedBack">FeedBack</option>
-                            <option value="banana">Create Travel</option>
-                            <option value="orange">All Travels</option>
-                        </select>
+
                     </div>
                 </div>
                 <div class="custom_menu-btn">
@@ -53,9 +44,10 @@
                     <div class="overlay-content">
                         <a href="index.html">Home</a>
                         <a th:href="@{/home/about}">About</a>
-                        <a th:href="@{/feedback/new/createFeedbackView}">Feedback for Users</a>
                         <a th:href="@{/user/update}">Update</a>
                         <a th:href="@{/user}">All users</a>
+                        <a th:href="@{/travel}"> Active Travels</a>
+                        <a th:href="@{/additional-options}">Additional Options</a>
                         <a th:href="@{/auth/logout}">Logout</a>
                     </div>
                 </div>
@@ -70,7 +62,8 @@
 <section class="contact_section layout_padding">
     <div class="container">
         <div class="heading_container">
-
+            <img  src="../static/img/carousel-1.jpg"
+                  th:src="@{/images/635948fd-54d5-4cb5-a0f5-d31e5c35f60b.jpg}" class="img-fluid" alt="Image" width="">
         </div>
     </div>
 

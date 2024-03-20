@@ -29,11 +29,13 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.getAllImages();
     }
     @Override
-    public String uploadImage(MultipartFile file, User user) {
+    public String uploadImage(MultipartFile file, User user, String path) {
         Image image = new Image();
         image.setFileName(file.getOriginalFilename());
+        image.setFilePath(path);
         imageRepository.save(image);
         user.setImageId(image);
+        userService.update(user);
         return file.getOriginalFilename();
     }
 

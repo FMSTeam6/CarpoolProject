@@ -13,7 +13,7 @@ public interface TravelRepository {
     Travel getTravelById(int id);
 
     int getDriverId(int travelId);//return driverId
-
+    List<Travel> getAllTravels();
     List<Travel> completeALLTravel();
 
     List<Travel> cancelALlTravel();

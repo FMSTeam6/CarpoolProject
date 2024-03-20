@@ -61,6 +61,14 @@ public class TravelRepositoryImpl implements TravelRepository {
             return query.list();
         }
     }
+
+    public List<Travel> getAllTravels(){
+        try (Session session = sessionFactory.openSession()) {
+            Query<Travel> query = session.createQuery("from Travel", Travel.class);
+            return query.list();
+        }
+    }
+
     @Override
     public Travel getTravelById(int id) {
         try (Session session = sessionFactory.openSession()) {

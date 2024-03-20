@@ -6,6 +6,7 @@ import com.finalproject.carpool.exceptions.EntityDuplicateException;
 import com.finalproject.carpool.exceptions.PasswordValidationException;
 import com.finalproject.carpool.mappers.UserMapper;
 import com.finalproject.carpool.models.User;
+import com.finalproject.carpool.models.filters.SearchUser;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
 import com.finalproject.carpool.models.requests.LoginRequest;
 import com.finalproject.carpool.models.requests.user.RegisterRequest;
@@ -116,6 +117,7 @@ public class AuthenticationMvcController {
     public String userViewPage(Model model) {
         model.addAttribute("user", new UserRequest());
         model.addAttribute("travels", travelService.getAll(new TravelFilterOptions()));
+        model.addAttribute("users", userService.getAll(new SearchUser()));
         return "userPageView";
     }
 }

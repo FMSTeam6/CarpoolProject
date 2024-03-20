@@ -83,7 +83,6 @@
                         <th>Empty Seats</th>
                         <th>Date of Department</th>
                         <th>Price per Person</th>
-                        <th>Empty seats</th>
                         <th>Addition option</th>
                     </tr>
                     <tr>
@@ -104,9 +103,7 @@
                         <td>
                             <div th:text="${travel.pricePerPerson}"></div>
                         </td>
-                        <td>
-                            <div th:text="${travel.emptySeats}"></div>
-                        </td>
+
                         <td>
                             <div th:each="option : ${travel.additionalOptions}">
                                 <span th:text="${option.additionalOptions}"></span>

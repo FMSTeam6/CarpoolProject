@@ -67,18 +67,20 @@ public class FeedbackMvcController {
         model.addAttribute("feedbacks", feedbackService.getAllFeedbacksByRecipient(recipientId));
         return "feedbackView";
     }
-    @GetMapping("/create")
-    public String showFeedbackForm(Model model) {
+    @GetMapping("/create/{travelId}")
+    public String showFeedbackForm(@PathVariable int travelId, Model model) {
         model.addAttribute("users", userService.getAll(new SearchUser()));
         model.addAttribute("feedback", new FeedbackRequest());
+        model.addAttribute("travel", travelService.completeALLTravel());
         return "createFeedbackView";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/create/{travelId}")
     public String submitFeedback(@Valid @ModelAttribute("feedback") FeedbackRequest request,
                                  BindingResult errors,
                                  Model model,
-                                 HttpSession session) {
+                                 HttpSession session,
+                                 @PathVariable int travelId) {
         User user;
         try {
             user = authenticationHelper.tryGetUserFromSession(session);
@@ -89,10 +91,10 @@ public class FeedbackMvcController {
             return "createFeedbackView";
         }
         try {
-//            Travel travel = travelService.
-//            Feedback feedback = feedbackMapper.fromRequest(request);
-//            feedbackService.create(feedback, user, travel);
-            return "redirect:/thank-you";
+            Travel travel = travelService.getById(travelId);
+            Feedback feedback = feedbackMapper.fromRequest(request);
+            feedbackService.create(feedback, user, travel);
+            return "thank-you";
         } catch (UnauthorizedOperationException e) {
             model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
             model.addAttribute("error", e.getMessage());

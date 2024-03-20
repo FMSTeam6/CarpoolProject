@@ -22,23 +22,23 @@
 
                 </a>
                 <div class="user_option" style="color:white;">
+
                     <h4 th:text="${session.username}"></h4>
                     <div class="user_option">
                         <!-- Dropdown menu -->
                         <select onchange="redirectToPage(this)">
                             <option value="">Travel</option>
-                            <option value="/travel">All Travels</option>
+                            <option value="/travel"> Active Travels</option>
                             <option value="/travel/new">Create Travel</option>
-                            <option value="/travel/userCreateTravel">View Travel driver</option>
+                            <option value="/travel/userCreateTravel">My Travels</option>
                         </select>
                     </div>
                     <br/>
                     <div class="user_option">
                         <!-- Dropdown menu -->
                         <select onchange="redirectToPage(this)">
-                            <option value="FeedBack">FeedBack</option>
-                            <option value="/feedback/create">Create Feedback</option>
-                            <option value="/feedback/update">Update Feedback</option>
+                            <option value="">FeedBack</option>
+                            <option value="/travel/all">Add Feedback</option>
                         </select>
                     </div>
 
@@ -54,8 +54,7 @@
                     <div class="overlay-content">
                         <a th:href="@{/home}">Home</a>
                         <a th:href="@{/home/about}">About</a>
-                        <a th:href="@{/feedback/new/createFeedbackView}">Feedback for Users</a>
-                        <a th:href="@{/user/update}">Update</a>
+                        <a th:href="@{/user/update}">My profile</a>
                         <a th:href="@{/auth/logout}">Logout</a>
                     </div>
                 </div>
@@ -63,6 +62,15 @@
         </div>
     </header>
     <!-- end header section -->
+
+
+
+
+
+
+
+
+
 </div>
 
 <!-- contact section -->
@@ -70,69 +78,69 @@
 <section class="contact_section layout_padding">
     <div class="container">
         <div class="heading_container">
-                <div th:each="travel : ${travels}" >
-                    <div th:if="${session.username.equals(travel.getDriverId().username)}">
-                        <table class="table" style="color:white;">
-                            <tr>
-                                <th>Start Location</th>
-                                <th>End Location</th>
-                                <th>Empty Seats</th>
-                                <th>Date of Department</th>
-                                <th>Price per Person</th>
-                                <th>Status</th>
-                                <th>Addition option</th>
-                            </tr>
-                            <tr>
-                                <td scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <div th:text="${travel.startingLocation}"></div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div th:text="${travel.endLocation}"></div>
-                                </td>
-                                <td>
-                                    <div th:text="${travel.emptySeats}"></div>
-                                </td>
-                                <td>
-                                    <div th:text="${travel.dateOfDeparture}"></div>
-                                </td>
-                                <td>
-                                    <div th:text="${travel.pricePerPerson}"></div>
-                                </td>
-                                <td>
-                                    <div th:if="${!travel.isCanceled()}" >
-                                        <div th:text="Active"></div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div th:each="option : ${travel.additionalOptions}">
-                                        <span th:text="${option.additionalOptions}"></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button th:if="${session.username.equals(travel.getDriverId().username)}"
-                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
-                                        <a href="#" th:href="@{/travel/candidate/{travelId}(travelId=${travel.id})}">Choice
-                                            passenger</a>
-                                    </button>
+            <div th:each="travel : ${travels}">
+                <div th:if="${session.username.equals(travel.getDriverId().username)}">
+                    <table class="table" style="color:white;">
+                        <tr>
+                            <th>Start Location</th>
+                            <th>End Location</th>
+                            <th>Empty Seats</th>
+                            <th>Date of Department</th>
+                            <th>Price per Person</th>
+                            <th>Status</th>
+                            <th>Addition option</th>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <div class="d-flex align-items-center">
+                                    <div th:text="${travel.startingLocation}"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div th:text="${travel.endLocation}"></div>
+                            </td>
+                            <td>
+                                <div th:text="${travel.emptySeats}"></div>
+                            </td>
+                            <td>
+                                <div th:text="${travel.dateOfDeparture}"></div>
+                            </td>
+                            <td>
+                                <div th:text="${travel.pricePerPerson}"></div>
+                            </td>
+                            <td>
+                                <div th:if="${!travel.isCanceled()}">
+                                    <div th:text="Active"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div th:each="option : ${travel.additionalOptions}">
+                                    <span th:text="${option.additionalOptions}"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <button th:if="${session.username.equals(travel.getDriverId().username)}"
+                                        class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                    <a href="#" th:href="@{/travel/candidate/{travelId}(travelId=${travel.id})}">Choice
+                                        passenger</a>
+                                </button>
 
-                                    <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
-                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
-                                        <a href="#" th:href="@{/travel/update/{id}(id=${travel.getId()})}">Update</a>
-                                    </button>
-                                    <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
-                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
-                                        <a href="#" th:href="@{/travel/delete/{id}(id=${travel.getId()})}">Delete</a>
-                                    </button>
-                                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
-                                        <a href="#" th:href="@{/travel/{id}(id=${travel.getId()})}">Information</a>
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                                <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
+                                        class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                    <a href="#" th:href="@{/travel/update/{id}(id=${travel.getId()})}">Update</a>
+                                </button>
+                                <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
+                                        class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                    <a href="#" th:href="@{/travel/delete/{id}(id=${travel.getId()})}">Delete</a>
+                                </button>
+                                <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                    <a href="#" th:href="@{/travel/{id}(id=${travel.getId()})}">Information</a>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
+            </div>
         </div>
     </div>
 

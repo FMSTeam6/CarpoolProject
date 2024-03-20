@@ -76,6 +76,13 @@ public class TravelMvcController {
         return "allTravelView";
     }
 
+    @GetMapping("/all")
+    public String showAllTravels( Model model) {
+
+        model.addAttribute("travels", travelService.getAllTravels());
+        return "allTravelsView";
+    }
+
     /*
     Get All Travel from User
      */
@@ -376,7 +383,7 @@ public class TravelMvcController {
             model.addAttribute("travel", travelService.getById(travelId));
             travelService.getCandidateTravel(travelId);
             return "candidateTravelView";
-        } catch (UnsupportedOperationException e) {
+        } catch (UserPassengerAndCandidateException e) {
 //            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
             return "ErrorView";
@@ -395,7 +402,7 @@ public class TravelMvcController {
             model.addAttribute("user", user);
             travelService.addPassengerToTravel(user, travel);
 
-            return "redirect:/travel/candidate/{travelId}";
+            return "redirect:/travel";
         }catch (TravelNotEmptySeats e){
             model.addAttribute("statusCode", HttpStatus.GONE.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
