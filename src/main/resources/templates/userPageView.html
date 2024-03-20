@@ -29,7 +29,7 @@
                             <option value="">Travel</option>
                             <option value="/travel">All Travels</option>
                             <option value="/travel/new">Create Travel</option>
-                            <option value="/travel/user">View Travel driver</option>
+                            <option value="/travel/userCreateTravel">View Travel driver</option>
                         </select>
                     </div>
                     <br/>
@@ -39,6 +39,15 @@
                             <option value="FeedBack">FeedBack</option>
                             <option value="banana">Create Travel</option>
                             <option value="orange">All Travels</option>
+                        </select>
+                    </div>
+                    <br/>
+                    <div class="user_option">
+                        <!-- Dropdown menu -->
+                        <select onchange="redirectToPage(this)">
+                            <option value="FeedBack">User</option>
+                            <option value="banana">View trips applied</option>
+                            <option value="orange">View trips approved</option>
                         </select>
                     </div>
                 </div>

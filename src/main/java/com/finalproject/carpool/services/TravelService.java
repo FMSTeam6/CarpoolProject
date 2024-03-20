@@ -31,8 +31,10 @@ public interface TravelService {
 
     void canceledUserTravel(User user, Travel travel);
     Travel candidateTravel(User user, Travel travel);
+    void checkUserAlreadyPassenger(User user, Travel travel);
 
-    void choiceDriverUser(User user, Travel travel);
+
+        void choiceDriverUser(User user, Travel travel);
 
     void checkUserAlreadyCandidatePassenger(User user, Travel travel);
     Travel addPassengerToTravel(User user, Travel travel);

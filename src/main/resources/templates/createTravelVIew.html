@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{/fragments/head_meta}"></th:block>
+
+    <title>Carpool just 4 You</title>
+
+    <th:block th:include="~{/fragments/head_script}"></th:block>
+</head>
+
+<body class="sub_page">
+<div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <h6 class="navbar-brand" href="index.html">
+            <span>
+              Carpool just 4 You
+            </span>
+                </h6>
+                <div class="user_option" style="color:white;">
+                    <h4 th:text="${session.username}"></h4>
+                </div>
+                <div class="custom_menu-btn">
+                    <button onclick="openNav()">
+                        <span class="s-1"> </span>
+                        <span class="s-2"> </span>
+                        <span class="s-3"> </span>
+                    </button>
+                </div>
+                <div id="myNav" class="overlay">
+                    <div class="overlay-content">
+                        <a th:href="@{/travel}">Back</a>
+                        <a th:href="@{/auth/logout}">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+</div>
+<section class="contact_section layout_padding">
+    <div class="heading_container">
+
+        <div class="container">
+            <form th:action="@{/travel/new}" th:object="${travel}" action="#" method="post">
+                <label th:text="#{travel.label.create}">Create new Travel</label>
+                <br/><br/>
+                <label th:text="#{travel.label.startingLocation}">Starting Location</label>
+                <br/>
+                <input type="text" th:field="*{startingLocation}"/>
+                <label class="form-error" th:errors="*{startingLocation}">Starting location error placeholder</label>
+                <br/>
+                <label th:text="#{travel.label.endLocation}">End Location</label>
+                <br/>
+                <input type="text" th:field="*{endLocation}"/>
+                <label class="form-error" th:errors="*{pricePerPerson}">End location error placeholder</label>
+                <br/>
+                <label th:text="#{travel.label.emptySeats}">Empty seats</label>
+                <br/>
+                <input type="number" min="1" th:field="*{emptySeats}"/>
+                <label class="form-error" th:errors="*{emptySeats}">Empty seats location error placeholder</label>
+                <br/>
+                <label th:text="#{travel.label.dateOfDeparture}">Date of departure</label>
+                <br/>
+                <input type="datetime-local" th:field="*{dateOfDeparture}"/>
+                <label class="form-error" th:errors="*{dateOfDeparture}">Date of departure error placeholder</label>
+                <br/>
+                <label th:text="#{travel.label.pricePerPerson}">Price per Person</label>
+                <label class="form-error" th:errors="*{pricePerPerson}">Price per person error placeholder</label>
+                <br/>
+                <input min="0" type="number" step="0.1" th:field="*{pricePerPerson}"/>
+                <br/><br/>
+                <label th:text="#{travel.label.additionalOptions}">Additional Options</label>
+                <br/>
+                <select id="option" multiple th:field="*{additionalOptions}">
+                    <option th:each="additionalOptions : ${additionalOptions}"
+                            th:value="${additionalOptions.optionsId}"
+                            th:text="${additionalOptions.additionalOptions}"
+                            placeholder="Addition options"
+                            Additional Options>
+                    </option>
+                </select>
+                <label class="form-error" th:errors="*{additionalOptions}">Addition options error placeholder</label>
+                <br/><br/>
+                <input type="submit" value="Save"/>
+            </form>
+        </div>
+    </div>
+
+</section>
+<script>
+    function redirectToPage(select) {
+        var selectedOption = select.options[select.selectedIndex].value;
+        if (selectedOption) {
+            window.location.href = selectedOption;
+        }
+    }
+</script>
+
+<th:block th:include="~{/fragments/scrips_footer}"></th:block>
+</body>
+<footer th:include="~{/fragments/footer}"></footer>
+</html>

@@ -1,6 +1,8 @@
 package com.finalproject.carpool.services.impl;
 
 import com.finalproject.carpool.exceptions.LocationNotFoundException;
+import com.finalproject.carpool.exceptions.TravelNotEmptySeats;
+import com.finalproject.carpool.exceptions.UserPassengerAndCandidateException;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
@@ -8,6 +10,7 @@ import com.finalproject.carpool.repositories.TravelRepository;
 import com.finalproject.carpool.repositories.UserRepository;
 import com.finalproject.carpool.services.TravelService;
 import com.finalproject.carpool.services.UserService;
+import org.hibernate.jdbc.TooManyRowsAffectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,6 @@ import java.util.stream.Collectors;
 public class TravelServiceImpl implements TravelService {
 
     private static final String BLOCKED_USER = "Your account is blocked!";
-    private static final String USER_ALREADY_CANDIDATE_PASSENGER = "User already candidate passenger.";
     private static final String CANCELED_TRAVEL = "Travel already canceled.";
     private static final String COMPLETED_TRAVEL = "Travel already finish.";
     private final TravelRepository travelRepository;
@@ -133,10 +135,12 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Travel addPassengerToTravel(User user, Travel travel) {
-        checkUserAlreadyCandidatePassenger(user, travel);
+        checkUserAlreadyPassenger(user, travel);
         checkCanceledTravel(travel);
         checkCompletedTravel(travel);
+        choiceDriverUser(user,travel);
         travel.getPassengers().add(user);
+        travel.getCandidatesPool().remove(user);
         travelRepository.addPassengerTravel(travel);
         return travel;
     }
@@ -149,6 +153,8 @@ public class TravelServiceImpl implements TravelService {
 
             int seat = travel.getEmptySeats() - 1;
             travel.setEmptySeats(seat);
+        }else {
+            throw new TravelNotEmptySeats();
         }
     }
 
@@ -156,8 +162,13 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public void checkUserAlreadyCandidatePassenger(User user, Travel travel) {
         if (travel.getCandidatesPool().contains(user)) {
-            throw new UnsupportedOperationException(USER_ALREADY_CANDIDATE_PASSENGER);
+                throw new UserPassengerAndCandidateException("User","candidate");
         }
+    }
+    @Override
+    public void checkUserAlreadyPassenger(User user, Travel travel) {
+        if (travel.getPassengers().contains(user)) {
+            throw new UserPassengerAndCandidateException("User","passenger");        }
     }
 
 
@@ -233,10 +244,14 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private Travel getTravelKilometers(Travel travel) {
-        String[] tokens = bingMapService.calculateDistance(travel.getStartingLocation(),travel.getEndLocation()).split(" ");
-        travel.setKilometers(tokens[0]);
-        travel.setTimeTravel(tokens[1]);
-        return travel ;
+        String[] tokens = bingMapService.calculateDistance(travel.getStartingLocation(), travel.getEndLocation()).split(" ");
+        StringBuilder kilometers = new StringBuilder();
+        kilometers.append(tokens[0]).append(" km");
+        travel.setKilometers(kilometers.toString());
+        StringBuilder time = new StringBuilder();
+        time.append(tokens[1]);
+        travel.setTimeTravel(time.toString());
+        return travel;
     }
     private void addTravelByPassengers(Travel travel) {
         for (int i = 0; i < travel.getPassengers().size(); i++) {

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Travel</title>
+    <link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+
+<body class="sub_page">
+<div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <a class="navbar-brand" href="index.html">
+            <span>
+              Carpool just 4 You
+            </span>
+
+                </a>
+                <div class="user_option" style="color:white;">
+                    <h4 th:text="${session.username}"></h4>
+                </div>
+                <div class="custom_menu-btn">
+                    <button onclick="openNav()">
+                        <span class="s-1"> </span>
+                        <span class="s-2"> </span>
+                        <span class="s-3"> </span>
+                    </button>
+                </div>
+                <div id="myNav" class="overlay">
+                    <div class="overlay-content">
+                        <a th:href="@{/travel/new}">Create Travel</a>
+                        <a th:href="@{/travel/canceled}">Canceled Travel</a>
+                        <a th:href="@{/travel/completed}">Completed Travel</a>
+                        <a th:href="@{/auth/page}">Back</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+</div>
+<section class="contact_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <center>
+                <form th:object="${travelOptionDto}" th:action="@{/travel}" action="#" method="get">
+                    <label th:text="#{travel.label.filter}">Travel Option</label>
+                    <br/>
+                    <input th:field="*{startingLocation}" th:placeholder="#{travel.label.startingLocation}"
+                           size="12">
+                    <input th:field="*{endLocation}" th:placeholder="#{travel.label.endLocation}" size="10">
+                    <input type="number" min="0.0" step="0.1" th:field="*{pricePerPerson}"
+                           th:placeholder="#{travel.label.pricePerPerson}" size="5">
+                    <select th:field="*{sortBy}">
+                        <option value="starting_location">Star Location</option>
+                        <option value="end_location">End Location</option>
+                        <option value="price_per_person">Price per person</option>
+                    </select>
+                    <select th:field="*{orderBy}">
+                        <option value="">Sort Order</option>
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                    <input class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="submit"
+                           value="Search">
+                </form>
+            </center>
+            <br/>
+            <div th:each="travel : ${travels}">
+                    <div th:if="${travels.isEmpty() and travel.driverId.username.equals(session.username)}">
+                        <h2 th:text="#{travels.title.emptyDriver}">No Travel by Driver</h2>
+                    </div>
+                    <div th:unless="${travels.isEmpty() and travel.driverId.equals(session.username)}">
+                        <h2 th:text="#{travels.title.notEmptyDriver}">All Travel by Driver</h2>
+                    </div>
+                </div>
+            <div th:each="travel : ${travels}">
+                <div th:unless="${!travel.driverId.username.equals(session.username)}">
+                    <div class="container-fluid">
+                        <table class="table detail-box item layout_padding2-top" style="color:white;">
+                            <thead>
+                            <tr>
+                                <th>Starting Location</th>
+                                <th>End Location</th>
+                                <th>Empty Seats</th>
+                                <th>Date of Department</th>
+                                <th>Price per Person</th>
+                                <th>Addition option</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">
+
+                                    <div class="d-flex align-items-center">
+                                        <div th:text="${travel.startingLocation}"></div>
+                                    </div>
+                                </th>
+                                <td>
+                                    <div th:text="${travel.endLocation}"></div>
+                                </td>
+                                <td>
+                                    <div th:text="${travel.emptySeats}"></div>
+                                </td>
+                                <td>
+                                    <div th:text="${travel.dateOfDeparture}"></div>
+                                </td>
+                                <td>
+                                    <div th:text="${travel.pricePerPerson}"></div>
+                                </td>
+                                <td>
+                                    <div th:each="option : ${travel.additionalOptions}">
+                                        <span th:text="${option.additionalOptions}"></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button th:if="${session.username.equals(travel.getDriverId().username)}"
+                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary"
+                                            type="button">
+                                        <a href="#" th:href="@{/travel/candidate/{travelId}(travelId=${travel.id})}">Choice
+                                            passenger</a>
+                                    </button>
+
+                                    <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
+                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary"
+                                            type="button">
+                                        <a href="#" th:href="@{/travel/update/{id}(id=${travel.getId()})}">Update</a>
+                                    </button>
+                                    <button th:if="${session.isAdmin or travel.getDriverId().username.equals(session.username)}"
+                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary"
+                                            type="button">
+                                        <a href="#" th:href="@{/travel/delete/{id}(id=${travel.getId()})}">Delete</a>
+                                    </button>
+                                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary"
+                                            type="button">
+                                        <a href="#" th:href="@{/travel/{id}(id=${travel.getId()})}">Information</a>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    function redirectToPage(select) {
+        var selectedOption = select.options[select.selectedIndex].value;
+        if (selectedOption) {
+            window.location.href = selectedOption;
+        }
+    }
+</script>
+
+<th:block th:include="~{/fragments/scrips_footer}"></th:block>
+
+</body>
+
+<th:block th:include="~{/fragments/footer}"></th:block>
+
+</html>

@@ -1,6 +1,7 @@
 package com.finalproject.carpool.repositories.impl;
 
 import com.finalproject.carpool.exceptions.EntityNotFoundException;
+import com.finalproject.carpool.exceptions.TravelStatusException;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
@@ -121,7 +122,7 @@ public class TravelRepositoryImpl implements TravelRepository {
             query.setParameter("is_completed", true);
             List<Travel> result = query.list();
             if (result.isEmpty()) {
-                throw new UnsupportedOperationException("There are no completed trips!");
+                throw new TravelStatusException("completed");
             }
             return result;
         }
@@ -134,7 +135,7 @@ public class TravelRepositoryImpl implements TravelRepository {
             query.setParameter("is_canceled", true);
             List<Travel> result = query.list();
             if (result.isEmpty()) {
-                throw new UnsupportedOperationException("There are no canceled trips!");
+                throw new TravelStatusException("canceled");
             }
             return result;
         }
