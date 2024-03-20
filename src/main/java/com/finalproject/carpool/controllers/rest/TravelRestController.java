@@ -47,14 +47,12 @@ public class TravelRestController {
     @GetMapping
     public List<Travel> getAll(@RequestParam(required = false) String startLocation,
                                @RequestParam(required = false) String endLocation,
-                               @RequestParam(required = false) LocalDateTime dateOfDeparture,
                                @RequestParam(required = false) Double pricePerPerson,
-                               @RequestParam(required = false) Integer driver,
                                @RequestParam(required = false) String sortBy,
                                @RequestParam(required = false) String orderBy
     ) {
-        TravelFilterOptions travelFilterOptions = new TravelFilterOptions(startLocation, endLocation, dateOfDeparture,
-                pricePerPerson, driver, sortBy, orderBy);
+        TravelFilterOptions travelFilterOptions = new TravelFilterOptions(startLocation, endLocation,
+                pricePerPerson, sortBy, orderBy);
         return travelService.getAll(travelFilterOptions);
     }
     /*
