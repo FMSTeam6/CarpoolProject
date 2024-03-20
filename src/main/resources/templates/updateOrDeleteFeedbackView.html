@@ -77,7 +77,7 @@
         <div class="heading_container">
             <div class="body-content-telerik">
                 <h2>Update or Delete a Feedback</h2>
-                <form action="/submit-feedback" method="post" th:object="${feedback}">
+                <form th:action="@{__${requestURI}__}" th:object="${feedback}" action="#" method="post">
                     <input type="hidden" name="_method" value="PUT">
                     <label for="text">Feedback:</label><br>
                     <textarea id="text" name="text" rows="4" cols="50" required></textarea><br>

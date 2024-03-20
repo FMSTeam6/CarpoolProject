@@ -69,11 +69,12 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Feedback update(Feedback feedback, User user) {
+    public Feedback update(Feedback feedback, User user, Travel travel) {
         checkIfBlocked(user);
         checkValidRating(feedback);
         checkUpdatePermissions(feedback, user);
-//        feedback.setAuthorId(user);
+        feedback.setAuthorId(user);
+        feedback.setTravelId(travel);
         return feedbackRepository.updateFeedback(feedback);
     }
 

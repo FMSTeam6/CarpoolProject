@@ -9,6 +9,7 @@ import com.finalproject.carpool.mappers.FeedbackMapper;
 import com.finalproject.carpool.models.Feedback;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
+import com.finalproject.carpool.models.filters.SearchUser;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
 import com.finalproject.carpool.models.requests.FeedbackRequest;
 import com.finalproject.carpool.services.FeedbackService;
@@ -25,6 +26,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/feedback")
@@ -55,24 +57,28 @@ public class FeedbackMvcController {
     public String requestURI(final HttpServletRequest request) {
         return request.getRequestURI();
     }
+    @GetMapping("/showAll")
+    public String showAllFeedbacks(Model model) {
+        model.addAttribute("feedbacks", feedbackService.getAllFeedbacks());
+        return "feedbackView";
+    }
     @GetMapping("/user-feedbacks/{recipientId}")
     public String showAllFeedbacks(@PathVariable int recipientId, Model model) {
         model.addAttribute("feedbacks", feedbackService.getAllFeedbacksByRecipient(recipientId));
         return "feedbackView";
     }
-    @GetMapping("/create/{travelId}")
-    public String showFeedbackForm(Model model, @PathVariable int travelId) {
-        model.addAttribute("travel", travelService.getById(travelId));
-        model.addAttribute("travels", travelService.completeALLTravel());
+    @GetMapping("/create")
+    public String showFeedbackForm(Model model) {
+        model.addAttribute("users", userService.getAll(new SearchUser()));
+        model.addAttribute("feedback", new FeedbackRequest());
         return "createFeedbackView";
     }
 
-    @PostMapping("/create/{travelId}")
+    @PostMapping("/create")
     public String submitFeedback(@Valid @ModelAttribute("feedback") FeedbackRequest request,
                                  BindingResult errors,
                                  Model model,
-                                 HttpSession session,
-                                 @PathVariable int travelId) {
+                                 HttpSession session) {
         User user;
         try {
             user = authenticationHelper.tryGetUserFromSession(session);
@@ -83,9 +89,9 @@ public class FeedbackMvcController {
             return "createFeedbackView";
         }
         try {
-            Travel travel = travelService.getById(travelId);
-            Feedback feedback = feedbackMapper.fromRequest(request);
-            feedbackService.create(feedback, user, travel);
+//            Travel travel = travelService.
+//            Feedback feedback = feedbackMapper.fromRequest(request);
+//            feedbackService.create(feedback, user, travel);
             return "redirect:/thank-you";
         } catch (UnauthorizedOperationException e) {
             model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
@@ -136,8 +142,9 @@ public class FeedbackMvcController {
         }
         try {
             Feedback feedback = feedbackMapper.fromRequest(feedbackId, request);
-            feedbackService.update(feedback,user);
-            return "redirect:/FeedbackView";
+            Travel travel = travelService.getById(1);
+            feedbackService.update(feedback,user, travel);
+            return "redirect:/feedback/feedbackView";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());

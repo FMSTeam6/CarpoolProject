@@ -117,13 +117,14 @@ public class FeedbackRestController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized operation")
             })
     @SecurityRequirement(name = "Authorization")
-    @PutMapping("/{feedbackId}")
-    public ResponseEntity<Feedback> updateFeedback(@RequestHeader HttpHeaders headers, @PathVariable int feedbackId,
+    @PutMapping("/{feedbackId}/{travelId}")
+    public ResponseEntity<Feedback> updateFeedback(@RequestHeader HttpHeaders headers, @PathVariable int feedbackId, @PathVariable int travelId,
                                                    @Valid @RequestBody FeedbackRequest request) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             Feedback feedback = feedbackMapper.fromRequest(feedbackId, request);
-            return new ResponseEntity<>(feedbackService.update(feedback, user), HttpStatus.CREATED);
+            Travel travel = travelService.getById(travelId);
+            return new ResponseEntity<>(feedbackService.update(feedback, user, travel), HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {

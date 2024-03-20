@@ -10,7 +10,6 @@ public class FeedbackRequest {
     @NotNull(message = "Rating can't be empty")
     private int rating;
 
-
     public FeedbackRequest() {
     }
 
