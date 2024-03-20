@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{/fragments/head_meta}"></th:block>
+
+    <title>Carpool just 4 You</title>
+
+    <th:block th:include="~{/fragments/head_script}"></th:block>
+</head>
+
+<body class="sub_page">
+<div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <h6 class="navbar-brand" href="index.html">
+            <span>
+              Carpool just 4 You
+            </span>
+                </h6>
+                <div class="user_option" style="color:white;">
+                    <h4 th:text="${session.username}"></h4>
+                </div>
+                <div class="custom_menu-btn">
+                    <button onclick="openNav()">
+                        <span class="s-1"> </span>
+                        <span class="s-2"> </span>
+                        <span class="s-3"> </span>
+                    </button>
+                </div>
+                <div id="myNav" class="overlay">
+                    <div class="overlay-content">
+                        <a th:href="@{/additional-options}">Back</a>
+                        <a th:href="@{/auth/logout}">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+</div>
+<section class="contact_section layout_padding">
+    <div class="heading_container">
+
+        <div class="container">
+            <form th:action="@{/additional-options/new}" th:object="${additionalOption}" action="#" method="post">
+                <label th:text="#{additionaloptions.label.create}">Create new additional option</label>
+                <br/><br/>
+                <label th:text="#{additionaloptions.label.content}">Content</label>
+                <br/>
+                <input type="text" th:field="*{additionalOptions}"/>
+                <br/>
+                <input type="submit" value="Save"/>
+            </form>
+        </div>
+    </div>
+
+</section>
+<script>
+    function redirectToPage(select) {
+        var selectedOption = select.options[select.selectedIndex].value;
+        if (selectedOption) {
+            window.location.href = selectedOption;
+        }
+    }
+</script>
+
+<th:block th:include="~{/fragments/scrips_footer}"></th:block>
+</body>
+<footer th:include="~{/fragments/footer}"></footer>
+</html>

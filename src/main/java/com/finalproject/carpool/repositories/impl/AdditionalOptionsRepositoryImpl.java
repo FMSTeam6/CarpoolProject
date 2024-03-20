@@ -62,9 +62,10 @@ public class AdditionalOptionsRepositoryImpl implements AdditionalOptionsReposit
 
     @Override
     public void delete(int id) {
+        AdditionalOptions additionalOptions = get(id);
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.remove(id);
+            session.remove(additionalOptions);
             session.getTransaction().commit();
         }
     }

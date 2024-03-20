@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class AdditionalOptionMapper {
     private final AdditionalOptionsService additionalOptionsService;
 
+
     @Autowired
     public AdditionalOptionMapper(AdditionalOptionsService additionalOptionsService) {
         this.additionalOptionsService = additionalOptionsService;
@@ -25,5 +26,11 @@ public class AdditionalOptionMapper {
         AdditionalOptions additionalOptions = new AdditionalOptions();
         additionalOptions.setAdditionalOptions(request.getAdditionalOptions());
         return additionalOptions;
+    }
+
+    public AdditionalOptionRequest fromRequest(AdditionalOptions additionalOptions) {
+        AdditionalOptionRequest additionalOptionsRequest = new AdditionalOptionRequest();
+        additionalOptionsRequest.setAdditionalOptions(additionalOptions.getAdditionalOptions());
+        return additionalOptionsRequest;
     }
 }
