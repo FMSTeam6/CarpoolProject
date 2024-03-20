@@ -3,6 +3,7 @@ package com.finalproject.carpool.controllers.mvc;
 import com.finalproject.carpool.controllers.AuthenticationHelper;
 import com.finalproject.carpool.exceptions.AuthenticationFailureException;
 import com.finalproject.carpool.exceptions.EntityDuplicateException;
+import com.finalproject.carpool.exceptions.PasswordValidationException;
 import com.finalproject.carpool.mappers.UserMapper;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.filters.TravelFilterOptions;
@@ -105,8 +106,10 @@ public class AuthenticationMvcController {
         } catch (EntityDuplicateException e) {
             bindingResult.rejectValue("username", "username_error", e.getMessage());
             return "registerView";
+        }catch (PasswordValidationException e){
+            bindingResult.rejectValue("password", "password_error", e.getMessage());
+            return "registerView";
         }
-
     }
 
     @GetMapping("/page")

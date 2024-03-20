@@ -1,5 +1,6 @@
 package com.finalproject.carpool.controllers.mvc;
 
+import com.finalproject.carpool.exceptions.PasswordValidationException;
 import com.finalproject.carpool.mappers.UserMapper;
 import com.finalproject.carpool.models.User;
 import com.finalproject.carpool.models.requests.user.UserRequest;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping()
 public class RegistrationMvcController {
 
     private final UserMapper userMapper;
@@ -29,11 +30,11 @@ public class RegistrationMvcController {
     @PostMapping("/register")
     public ModelAndView registerUser(@ModelAttribute("user") UserRequest userRequest,
                                      HttpServletRequest request) {
-        User registeredUser = userMapper.fromRequest(userRequest);
-        String siteUrl = request.getRequestURL().toString().replace(request.getRequestURI(), "");
-        emailVerificationService.sendVerificationEmail(registeredUser, siteUrl);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("registration-success");
-        return (modelAndView);
+            User registeredUser = userMapper.fromRequest(userRequest);
+            String siteUrl = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+            emailVerificationService.sendVerificationEmail(registeredUser, siteUrl);
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("registration-success");
+            return (modelAndView);
     }
 }

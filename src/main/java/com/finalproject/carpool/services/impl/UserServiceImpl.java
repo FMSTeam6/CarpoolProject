@@ -60,10 +60,10 @@ public class UserServiceImpl implements UserService {
         boolean duplicateExists = true;
         try {
             userRepository.getByUsername(user.getUsername());
-            PasswordValidator.isValidPassword(user.getPassword());
         } catch (EntityNotFoundException e) {
             duplicateExists = false;
-        }catch (PasswordValidationException e){
+        }
+        if (!PasswordValidator.isValidPassword(user.getPassword())){
             throw new PasswordValidationException("Password must contain numbers, letters and symbols");
         }
         if (duplicateExists) {
