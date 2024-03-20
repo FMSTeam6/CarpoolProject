@@ -9,6 +9,7 @@ import com.finalproject.carpool.mappers.FeedbackMapper;
 import com.finalproject.carpool.models.Feedback;
 import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.User;
+import com.finalproject.carpool.models.filters.TravelFilterOptions;
 import com.finalproject.carpool.models.requests.FeedbackRequest;
 import com.finalproject.carpool.services.FeedbackService;
 import com.finalproject.carpool.services.TravelService;
@@ -59,14 +60,15 @@ public class FeedbackMvcController {
         model.addAttribute("feedbacks", feedbackService.getAllFeedbacksByRecipient(recipientId));
         return "feedbackView";
     }
-    @GetMapping("/new")
+    @GetMapping("/create")
     public String showFeedbackForm(Model model) {
+        model.addAttribute("travels", travelService.completeALLTravel());
         model.addAttribute("feedback", new FeedbackRequest());
         return "createFeedbackView";
     }
 
-    @PostMapping("/new/{travelId}")
-    public String submitFeedback(@PathVariable int travelId, @Valid @ModelAttribute("feedback") FeedbackRequest request,
+    @PostMapping("/create")
+    public String submitFeedback(@Valid @ModelAttribute("feedback") FeedbackRequest request,
                                  BindingResult errors,
                                  Model model,
                                  HttpSession session) {
@@ -80,8 +82,8 @@ public class FeedbackMvcController {
             return "createFeedbackView";
         }
         try {
-            Travel travel = travelService.getById(travelId);
-            Feedback feedback = feedbackMapper.fromRequest(request);
+            Travel travel = travelService.getById(request.getTravelId());
+            Feedback feedback = feedbackMapper.fromMvcRequest(request, travel);
             feedbackService.create(feedback, user, travel);
             return "redirect:/thank-you";
         } catch (UnauthorizedOperationException e) {

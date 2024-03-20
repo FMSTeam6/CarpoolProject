@@ -95,17 +95,20 @@
                                         <form th:action="@{/auth/login}" th:object="${login}" th:method="POST">
                                             <div class="input__item">
                                                 <input type="text" th:field="*{username}" placeholder="username">
-                                                <label class="label-error-telerik" th:errors="*{username}">Content error placeholder</label>
+                                                <label class="label-error-telerik" th:errors="*{username}">Content error
+                                                    placeholder</label>
                                                 <span class="icon_mail"></span>
                                             </div>
                                             <div class="input__item">
                                                 <input type="password" th:field="*{password}" placeholder="Password">
-                                                <label class="label-error-telerik" th:errors="*{password}">Content error placeholder</label>
+                                                <label class="label-error-telerik" th:errors="*{password}">Content error
+                                                    placeholder</label>
                                                 <span class="icon_lock"></span>
                                             </div>
                                             <button type="submit" class="site-btn">Login Now</button>
                                         </form>
-                                        <a th:href="@{https://www.google.com/}" class="forget_pass">Forgot Your Password?</a>
+                                        <a th:href="@{https://www.google.com/}" class="forget_pass">Forgot Your
+                                            Password?</a>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -116,63 +119,70 @@
                                 </div>
                             </div>
                             <div class="login__social">
-                </div>
-        <div class="contact_items">
-            <a href="">
-                <div class="img-box">
-                    <img src="/images/location.png" alt="">
-                </div>
-                <h6>
-                    We will be happy to receive your request through our email for contacts
-                </h6>
-            </a>
-            <a href="">
-                <div class="img-box">
-                    <img src="/images/call.png" alt="">
-                </div>
-                <h6>
-                    (+359 891 222 444)
-                </h6>
-            </a>
-            <a href="">
-                <div class="img-box">
-                    <img src="/images/mail.png" alt="">
-                </div>
-                <h6>
-                    carpooljust4you@gmail.com
-                </h6>
-            </a>
+                            </div>
+                            <div class="contact_items">
+                                <a href="">
+                                    <div class="img-box">
+                                        <img src="/images/location.png" alt="">
+                                    </div>
+                                    <h6>
+                                        We will be happy to receive your request through our email for contacts
+                                    </h6>
+                                </a>
+                                <a href="">
+                                    <div class="img-box">
+                                        <img src="/images/call.png" alt="">
+                                    </div>
+                                    <h6>
+                                        (+359 891 222 444)
+                                    </h6>
+                                </a>
+                                <a href="">
+                                    <div class="img-box">
+                                        <img src="/images/mail.png" alt="">
+                                    </div>
+                                    <h6>
+                                        carpooljust4you@gmail.com
+                                    </h6>
+                                </a>
 
-        </div>
-        <div class="social_container">
-            <div class="social-box">
-                <div>
-                    <a href="">
-                        <img src="/images/fb.png" alt="">
-                    </a>
-                </div>
-                <div>
-                    <a href="">
-                        <img src="/images/twitter.png" alt="">
-                    </a>
-                </div>
-                <div>
-                    <a href="">
-                        <img src="/images/linkedin.png" alt="">
-                    </a>
-                </div>
-                <div>
-                    <a href="">
-                        <img src="/images/insta.png" alt="">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+                            </div>
+                            <div class="social_container">
+                                <div class="social-box">
+                                    <div>
+                                        <a href="">
+                                            <img src="/images/fb.png" alt="">
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a href="">
+                                            <img src="/images/twitter.png" alt="">
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a href="">
+                                            <img src="/images/linkedin.png" alt="">
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a href="">
+                                            <img src="/images/insta.png" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-<!-- end contact section -->
+                    <!-- end contact section -->
 
+
+                    <script src="/js/jquery-3.4.1.min.js"></script>
+                    <script src="/js/bootstrap.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+                    </script>
+                    <script src="/js/custom.js"></script>
+</body>
 <!-- footer section -->
 <footer class="container-fluid footer_section">
     <p>
@@ -180,12 +190,4 @@
     </p>
 </footer>
 <!-- footer section -->
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-<script src="/js/bootstrap.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
-</script>
-<script src="/js/custom.js"></script>
-</body>
-
 </html>

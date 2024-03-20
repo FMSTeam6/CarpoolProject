@@ -26,7 +26,7 @@ public class TravelFilterOptions {
         this.startingLocation = Optional.empty();
         this.endLocation = Optional.empty();
         this.pricePerPerson = Optional.empty();
-        this.orderBy = Optional.empty();
+        this.sortBy = Optional.empty();
         this.orderBy = Optional.empty();
     }
 

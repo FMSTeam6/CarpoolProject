@@ -10,6 +10,9 @@ public class FeedbackRequest {
     @NotNull(message = "Rating can't be empty")
     private int rating;
 
+    @NotNull(message = "Travel ID is required")
+    private Integer travelId;
+
     public FeedbackRequest() {
     }
 
@@ -27,5 +30,13 @@ public class FeedbackRequest {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public Integer getTravelId() {
+        return travelId;
+    }
+
+    public void setTravelId(Integer travelId) {
+        this.travelId = travelId;
     }
 }

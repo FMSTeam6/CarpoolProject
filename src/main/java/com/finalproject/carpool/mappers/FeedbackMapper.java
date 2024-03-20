@@ -1,6 +1,7 @@
 package com.finalproject.carpool.mappers;
 
 import com.finalproject.carpool.models.Feedback;
+import com.finalproject.carpool.models.Travel;
 import com.finalproject.carpool.models.requests.FeedbackRequest;
 import com.finalproject.carpool.services.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,12 @@ public class FeedbackMapper {
         feedbackRequest.setText(feedback.getText());
         feedbackRequest.setRating(feedback.getRating());
         return feedbackRequest;
+    }
+    public Feedback fromMvcRequest(FeedbackRequest request, Travel travel){
+        Feedback feedback = new Feedback();
+        feedback.setText(request.getText());
+        feedback.setRating(request.getRating());
+        feedback.setTravelId(travel);
+        return feedback;
     }
 }

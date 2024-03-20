@@ -293,6 +293,28 @@ a:focus {
         width: 100%;
       }
     }
+    .info-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      background-color: #fff;
+    }
+
+    .info-item {
+      display: flex;
+      margin-bottom: 5px;
+    }
+
+    .label {
+      font-weight: bold;
+      width: 120px; /* Adjust as needed */
+    }
+
+    .value {
+      flex-grow: 1;
+      margin-left: 10px;
+    }
 
     .detail_container {
       position: relative;
