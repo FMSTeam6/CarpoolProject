@@ -21,6 +21,4 @@ public interface FeedbackRepository {
 
     void deleteFeedback(int id);
 
-    void rate(int id, int rate);
-
 }

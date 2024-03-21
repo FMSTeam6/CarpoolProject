@@ -109,18 +109,4 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
             session.getTransaction().commit();
         }
     }
-
-    @Override
-    public void rate(int id, int rate) {
-        try (Session session = sessionFactory.openSession()) {
-            Feedback feedback = session.get(Feedback.class, id);
-            if (feedback == null) {
-                throw new EntityNotFoundException("Feedback", id);
-            }
-            session.beginTransaction();
-            session.merge(rate);
-            session.getTransaction().commit();
-        }
-    }
-
 }

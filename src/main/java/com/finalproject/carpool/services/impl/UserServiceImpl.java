@@ -150,7 +150,6 @@ public class UserServiceImpl implements UserService {
         travel.getPassengers().remove(user);
     }
 
-    //TODO needs to be tested
     @Override
     public double averageRating(int id) {
         User user = userRepository.getById(id);

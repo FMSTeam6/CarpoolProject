@@ -84,12 +84,6 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackRepository.deleteFeedback(id);
     }
 
-    @Override
-    public void rate(Feedback feedback, int rate, User user) {
-        checkIfBlocked(user);
-        feedbackRepository.rate(feedback.getId(), rate);
-    }
-
     private void checkIfBlocked(User user) {
         if (user.isBanned()) {
             throw new UnauthorizedOperationException(BLOCKED_USER);
