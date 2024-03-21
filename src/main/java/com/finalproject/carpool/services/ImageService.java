@@ -9,7 +9,7 @@ import java.util.List;
 public interface ImageService {
     public List<Image> getAllImages();
 
-    public String uploadImage(MultipartFile file, User user);
+    public String uploadImage(MultipartFile file, User user, String path);
 
     public Image getImageById(int id);
 

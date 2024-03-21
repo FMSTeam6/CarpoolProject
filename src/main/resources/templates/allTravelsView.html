@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Travel</title>
+    <link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+
+<body class="sub_page">
+<div class="hero_area">
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <h2 class="navbar-brand" href="index.html">
+            <span>
+              Carpool just 4 You
+            </span>
+                </h2>
+                <div class="user_option" style="color:white;">
+                    <div class="user_option">
+                        <h4 th:text="${session.username}"></h4>
+                    </div>
+                </div>
+                <div class="custom_menu-btn">
+                    <button onclick="openNav()">
+                        <span class="s-1"> </span>
+                        <span class="s-2"> </span>
+                        <span class="s-3"> </span>
+                    </button>
+                </div>
+                <div id="myNav" class="overlay">
+                    <div class="overlay-content">
+                        <a th:href="@{/auth/page}">Back</a>
+                        <a th:href="@{/travel/new}">Create Travel</a>
+                        <a th:href="@{/auth/logout}">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+</div>
+<section class="contact_section layout_paddig">
+    <div class="container">
+        <div>
+            <center>
+                <div th:if="${travels.isEmpty()}">
+                    <h2 th:text="#{travels.title.empty}">No Travels</h2>
+                </div>
+                <div th:unless="${travels.isEmpty()}">
+                    <h2 th:text="#{travels.title.notEmpty}">All Travels</h2>
+                </div>
+            </center>
+            <div th:each="travel : ${travels}">
+                <div th:if="${!travel.getDriverId().username.equals(session.username)}">
+                    <table class="table" style="color:white;">
+                        <tr>
+                            <th>Start Location</th>
+                            <th>End Location</th>
+                            <th>Empty Seats</th>
+                            <th>Date of Department</th>
+                            <th>Price per Person</th>
+                            <th>Status</th>
+                            <th>Feedback</th>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <div class="d-flex align-items-center">
+                                    <div th:text="${travel.startingLocation}"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div th:text="${travel.endLocation}"></div>
+                            </td>
+                            <td>
+                                <div th:text="${travel.emptySeats}"></div>
+                            </td>
+                            <td>
+                                <div th:text="${travel.dateOfDeparture}"></div>
+                            </td>
+                            <td>
+                                <div th:text="${travel.pricePerPerson}"></div>
+                            </td>
+                            <td>
+                                <div th:if="${!travel.isCanceled()}">
+                                    <div th:text="Active"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div th:if="${travel.getFeedbacks().isEmpty()}">
+                                    <h2 th:text="#{travel.label.dosNotExist}"></h2>
+                                </div>
+                                <div th:unless="${travel.getFeedbacks().isEmpty()}">
+                                    <div th:each="feedback : ${travel.getFeedbacks()}">
+                                        <span th:text="${feedback.text}"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                    <a href="#" th:href="@{/feedback/create/{id}(id=${travel.getId()})}">Feedback</a>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+<th:block th:include="~{/fragments/scrips_footer}"></th:block>
+
+</body>
+
+<th:block th:include="~{/fragments/footer}"></th:block>
+
+</html>

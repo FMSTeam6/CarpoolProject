@@ -43,6 +43,11 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
+    public List<Travel> getAllTravels() {
+        return travelRepository.getAllTravels();
+    }
+
+    @Override
     public Travel getById(int id) {
         return travelRepository.getTravelById(id);
     }

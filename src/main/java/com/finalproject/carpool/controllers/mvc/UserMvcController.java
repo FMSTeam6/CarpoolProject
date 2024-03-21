@@ -12,6 +12,7 @@ import com.finalproject.carpool.models.requests.user.SearchUserRequest;
 import com.finalproject.carpool.models.requests.user.UserRequest;
 import com.finalproject.carpool.services.TravelService;
 import com.finalproject.carpool.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,11 @@ public class UserMvcController {
         this.userService = userService;
         this.userMapper = userMapper;
         this.travelService = travelService;
+    }
+
+    @ModelAttribute("requestURI")
+    public String requestURI(final HttpServletRequest request) {
+        return request.getRequestURI();
     }
 
     @GetMapping

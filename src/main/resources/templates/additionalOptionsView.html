@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Additional options</title>
+    <link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+
+<body class="sub_page">
+<div class="hero_area">
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container">
+                <h2 class="navbar-brand" href="index.html">
+            <span>
+              Carpool just 4 You
+            </span>
+                </h2>
+                <div class="user_option" style="color:white;">
+                    <div class="user_option">
+                        <h4 th:text="${session.username}"></h4>
+                    </div>
+                </div>
+                <div class="custom_menu-btn">
+                    <button onclick="openNav()">
+                        <span class="s-1"> </span>
+                        <span class="s-2"> </span>
+                        <span class="s-3"> </span>
+                    </button>
+                </div>
+                <div id="myNav" class="overlay">
+                    <div class="overlay-content">
+                        <a th:href="@{/admin}">Back</a>
+                        <a th:href="@{/auth/logout}">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+</div>
+<section class="contact_section layout_paddig">
+    <div class="container">
+        <div>
+
+            <div th:each="addOption : ${additionalOptions}">
+                <table class="table" style="color:white;">
+                    <tr>
+                        <th>Content</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div th:text="${addOption.additionalOptions}"></div>
+                        </td>
+
+                        <td>
+
+                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                <a href="#" th:href="@{/additional-options/update/{id}(id = ${addOption.optionsId})}">Update</a>
+                            </button>
+                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                                <a href="#" th:href="@{/additional-options/delete/{id}(id = ${addOption.optionsId})}">Delete</a>
+                            </button>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">
+                <a href="#" th:href="@{/additional-options/new}">Create</a>
+            </button>
+        </div>
+    </div>
+
+</section>
+
+
+<th:block th:include="~{/fragments/scrips_footer}"></th:block>
+
+</body>
+
+<th:block th:include="~{/fragments/footer}"></th:block>
+
+</html>

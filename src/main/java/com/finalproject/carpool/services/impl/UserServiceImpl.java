@@ -86,6 +86,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User update(User user) {
+        userRepository.update(user);
+        return userRepository.getById(user.getId());
+    }
+
+    @Override
     public void deleteUser(int id, int adminId) {
         if (!userRepository.getById(adminId).isAdmin()){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, ONLY_ADMINS_CAN_DELETE_USERS);

@@ -11,6 +11,7 @@ public interface TravelService {
 
     List<Travel> getAll(TravelFilterOptions travelFilterOptions);
 
+    List<Travel> getAllTravels();
     Travel getById(int id);
     int getDriverId(int travelId);//return driverId
 

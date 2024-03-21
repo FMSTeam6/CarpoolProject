@@ -3,15 +3,15 @@ use carpool;
 -- data additional_options
 
 INSERT INTO additional_options(options_id, additional_options)
-VALUES (1, 'smoking');
+VALUES (1, 'Can smoke in the car');
 INSERT INTO additional_options(options_id, additional_options)
-VALUES (2, 'air conditioner');
+VALUES (2, 'Have air conditioner');
 INSERT INTO additional_options(options_id, additional_options)
-VALUES (3, 'luggage');
+VALUES (3, 'Have space for luggage');
 INSERT INTO additional_options(options_id, additional_options)
-VALUES (4, 'small pets allowed');
+VALUES (4, 'Small pets are allowed');
 INSERT INTO additional_options(options_id, additional_options)
-VALUES (5, 'power outlet');
+VALUES (5, 'The car have power outlets');
 
 
 INSERT INTO images(image_id, file_name,file_path,file_size)

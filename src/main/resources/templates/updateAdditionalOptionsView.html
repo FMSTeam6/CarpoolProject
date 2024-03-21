@@ -15,23 +15,13 @@
     <header class="header_section">
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg custom_nav-container">
-                <a class="navbar-brand" href="index.html">
+                <h6 class="navbar-brand" href="index.html">
             <span>
               Carpool just 4 You
             </span>
-
-                </a>
+                </h6>
                 <div class="user_option" style="color:white;">
-                    <h4 th:text="'Admin - ' + ${session.username}"></h4>
-                    <div class="user_option">
-                        <!-- Dropdown menu -->
-
-                    </div>
-                    <br/>
-                    <div class="user_option">
-                        <!-- Dropdown menu -->
-
-                    </div>
+                    <h4 th:text="${session.username}"></h4>
                 </div>
                 <div class="custom_menu-btn">
                     <button onclick="openNav()">
@@ -42,12 +32,7 @@
                 </div>
                 <div id="myNav" class="overlay">
                     <div class="overlay-content">
-                        <a href="index.html">Home</a>
-                        <a th:href="@{/home/about}">About</a>
-                        <a th:href="@{/user/update}">Update</a>
-                        <a th:href="@{/user}">All users</a>
-                        <a th:href="@{/travel}"> Active Travels</a>
-                        <a th:href="@{/additional-options}">Additional Options</a>
+                        <a th:href="@{/additional-options}">Back</a>
                         <a th:href="@{/auth/logout}">Logout</a>
                     </div>
                 </div>
@@ -56,14 +41,19 @@
     </header>
     <!-- end header section -->
 </div>
-
-<!-- contact section -->
-
 <section class="contact_section layout_padding">
-    <div class="container">
-        <div class="heading_container">
-            <img  src="../static/img/carousel-1.jpg"
-                  th:src="@{/images/635948fd-54d5-4cb5-a0f5-d31e5c35f60b.jpg}" class="img-fluid" alt="Image" width="">
+    <div class="heading_container">
+
+        <div class="container">
+            <form th:action="@{__${requestURI}__}" th:object="${additionalOption}" action="#" method="post">
+                <label th:text="#{additionaloptions.label.update}">Update additional option</label>
+                <br/><br/>
+                <label th:text="#{additionaloptions.label.content}">Content</label>
+                <br/>
+                <input type="text" th:field="*{additionalOptions}"/>
+                <br/>
+                <input type="submit" value="Update"/>
+            </form>
         </div>
     </div>
 
@@ -77,11 +67,7 @@
     }
 </script>
 
-
 <th:block th:include="~{/fragments/scrips_footer}"></th:block>
-
 </body>
-
-<th:block th:include="~{/fragments/footer}"></th:block>
-
+<footer th:include="~{/fragments/footer}"></footer>
 </html>
