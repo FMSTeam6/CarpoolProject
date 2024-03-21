@@ -19,6 +19,7 @@ import org.mockito.quality.Strictness;
 import java.util.List;
 
 import static com.finalproject.carpool.TestHelpers.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -115,13 +116,12 @@ public class FeedbackServiceImplsTests {
         // Arrange
         Feedback mockFeedback = createMockFeedback();
         User mockUserCreator = mockFeedback.getAuthorId();
-        Travel mockTravel = createMockTravel();
 
         Mockito.when(mockFeedbackRepository.get(Mockito.anyInt()))
                 .thenReturn(mockFeedback);
 
         // Act
-        feedbackService.delete(1, mockUserCreator, mockTravel);
+        feedbackService.delete(1, mockUserCreator);
 
         // Assert
         Mockito.verify(mockFeedbackRepository, Mockito.times(1))
@@ -134,14 +134,13 @@ public class FeedbackServiceImplsTests {
         User mockUserAdmin = createMockAdmin();
         Feedback mockFeedback = createMockFeedback();
         mockFeedback.setId(1);
-        Travel mockTravel = createMockTravel();
-        mockTravel.getFeedbacks().add(mockFeedback);
+
 
         Mockito.when(mockFeedbackRepository.get(1))
                 .thenReturn(mockFeedback);
 
         // Act
-        feedbackService.delete(1, mockUserAdmin, mockTravel);
+        feedbackService.delete(1, mockUserAdmin);
 
         // Assert
         Mockito.verify(mockFeedbackRepository, Mockito.times(1))
@@ -162,6 +161,6 @@ public class FeedbackServiceImplsTests {
         // Act, Assert
         Assertions.assertThrows(
                 UnauthorizedOperationException.class,
-                () -> feedbackService.delete(1, mockUser, mockTravel));
+                () -> feedbackService.delete(1, mockUser));
     }
 }
